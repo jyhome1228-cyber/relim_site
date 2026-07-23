@@ -37,7 +37,8 @@ export function Footer() {
       <strong>CONTACT</strong>
       <p><span>대표 문의</span><a href="tel:010-3043-8822">010-3043-8822</a></p>
       <p><span>고객센터</span><a href="tel:010-5794-8823">010-5794-8823</a></p>
-      <p className="footer-note">예약 및 공간 이용은 사전 문의 후 방문해 주세요.</p>
+      <p><span>운영시간</span><b>09:00–14:00 / 16:00–21:00</b></p>
+      <p className="footer-note">일반 예약은 고객센터, 모임·촬영·대관은 대표 문의로 연락해 주세요.</p>
     </div>
     <div className="footer-info">
       <strong>LOCATION</strong>
@@ -45,7 +46,7 @@ export function Footer() {
       <p className="footer-note">현장 주차 가능 · 방문 전 예약 확인</p>
     </div>
     <div className="footer-bottom">
-      <p>RE:LIM · NATURE &amp; REST</p>
+      <p>사업자등록번호 220-86-50466</p>
       <p>© 2026 RE:LIM. ALL RIGHTS RESERVED.</p>
     </div>
   </footer>;
