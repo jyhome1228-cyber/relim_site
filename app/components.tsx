@@ -16,14 +16,15 @@ export function Header() {
     <input id="menu" className="menu-toggle" type="checkbox" aria-label="메뉴 열기" />
     <label htmlFor="menu" className="menu-button"><span /><span /></label>
     <nav>{nav.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}</nav>
-    <a className="header-cta" href="/reservation">RESERVATION</a>
+    <Link className="header-cta" href="/reservation">RESERVATION</Link>
   </header>;
 }
 
 export function Footer() {
-  return <footer>
-    <div><div className="logo footer-logo"><strong>RE:LIM</strong><span>NATURE &amp; REST</span></div><p>자연 속에서 다시 만나는 온전한 하루</p></div>
-    <div className="footer-info"><p>예약 및 이용 문의 · 연락처 최종 확인 후 공개</p><p>© 2026 RE:LIM. ALL RIGHTS RESERVED.</p></div>
+  return <footer className="site-footer">
+    <div className="footer-brand"><div className="logo footer-logo"><strong>RE:LIM</strong><span>NATURE &amp; REST</span></div><p>자연 속에서 다시 만나는 온전한 하루</p></div>
+    <div className="footer-nav"><Link href="/about">ABOUT</Link><Link href="/space">SPACE</Link><Link href="/guide">GUIDE</Link><Link href="/faq">FAQ</Link></div>
+    <div className="footer-info"><p>예약 및 이용 문의</p><p>연락처 최종 확인 후 공개</p><p>Yongin, Gyeonggi-do</p><p>© 2026 RE:LIM</p></div>
   </footer>;
 }
 
@@ -34,5 +35,5 @@ export function PageHero({ eyebrow, title, desc }: { eyebrow: string; title: str
 }
 
 export function PhotoBlock({ label, className = "" }: { label: string; className?: string }) {
-  return <div className={`photo-block ${className}`} role="img" aria-label={`${label} 사진 교체 영역`}><span>{label}</span><small>IMAGE AREA</small></div>;
+  return <div className={`photo-block ${className}`} aria-label={`${label} 이미지 삽입 예정 영역`}><span>{label}</span><small>PHOTO TO BE ADDED</small></div>;
 }
