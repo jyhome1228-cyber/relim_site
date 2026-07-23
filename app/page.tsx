@@ -12,13 +12,13 @@ const spaces = [
 export default function Home() {
   return <PageShell><main>
     <section className="home-hero">
-      <PhotoBlock label="RE:LIM MAIN VISUAL" className="hero-photo" />
       <div className="hero-copy"><p className="eyebrow">NATURE · REST · EXPERIENCE</p><h1>자연 속에서<br />다시 만나는 하루</h1><p>수영, 바비큐, 카페와 휴식이 하나의 흐름으로 이어지는 자연 속 복합 공간입니다.</p><div className="actions"><Link href="/space" className="button primary">공간 둘러보기</Link><Link href="/reservation" className="button text">예약 안내 <span>→</span></Link></div></div>
+      <div className="hero-summary"><span>RE:LIM</span><p>Pool · BBQ · Cafe · Nature</p><small>YONGIN, KOREA</small></div>
     </section>
 
     <section className="intro split"><p className="eyebrow">WELCOME TO RE:LIM</p><div><h2>머무는 시간 자체가<br />하나의 일정이 되는 곳</h2><p>복잡한 일상에서 잠시 벗어나 가볍게 쉬고, 즐기고, 다시 돌아갈 수 있도록 리림의 하루를 구성했습니다.</p><Link href="/about" className="line-link">브랜드 이야기 보기 <span>↗</span></Link></div></section>
 
-    <section className="space-preview"><div className="section-head"><div><p className="eyebrow">OUR SPACE</p><h2>리림에서 보내는 하루</h2></div><Link href="/space" className="line-link">전체 공간 보기 <span>↗</span></Link></div><div className="space-grid">{spaces.map(([n, name, desc], i) => <Link href="/space" className="space-card" key={name}><PhotoBlock label={name} className={`tone-${i+1}`} /><div><small>{n}</small><h3>{name}</h3><p>{desc}</p></div></Link>)}</div></section>
+    <section className="space-preview"><div className="section-head"><div><p className="eyebrow">OUR SPACE</p><h2>리림에서 보내는 하루</h2></div><Link href="/space" className="line-link">전체 공간 보기 <span>↗</span></Link></div><div className="space-grid text-only">{spaces.map(([n, name, desc]) => <Link href="/space" className="space-card" key={name}><div><small>{n}</small><h3>{name}</h3><p>{desc}</p><span className="card-arrow">↗</span></div></Link>)}</div></section>
 
     <section className="time-banner"><p className="eyebrow">OPERATING HOURS</p><div><span>오전 타임</span><strong>09:00 — 14:00</strong></div><div><span>오후 타임</span><strong>16:00 — 21:00</strong></div><Link href="/guide" className="button light">이용 안내 확인</Link></section>
 
