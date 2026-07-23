@@ -1,0 +1,3 @@
+import { PageHero, PageShell } from "../components";
+const faq=[["예약은 어떻게 하나요?","현재는 고객센터 전화 문의를 통해 예약을 안내드립니다."],["운영시간은 어떻게 되나요?","오전 09:00–14:00, 오후 16:00–21:00 두 타임으로 운영합니다."],["바비큐 이용이 가능한가요?","가능합니다. 예약 시 이용 여부와 인원을 함께 말씀해주세요."],["외부 음식 반입이 가능한가요?","품목별 기준이 달라질 수 있어 예약 전 고객센터로 문의해주세요."],["반려동물 동반이 가능한가요?","운영 기준 확인이 필요한 항목으로, 방문 전 고객센터로 문의해주세요."],["주차할 수 있나요?","현장 주차가 가능하며 방문 시 안내에 따라 이용해주세요."],["취소와 환불 기준은 어떻게 되나요?","예약 확정 시 적용되는 기준을 별도로 안내드립니다."]];
+export default function FAQ(){return <PageShell><main><PageHero eyebrow="FAQ" title="자주 묻는 질문" desc="리림 방문 전 궁금한 내용을 확인해보세요."/><section className="faq-list">{faq.map((x,i)=><details key={x[0]}><summary><span>0{i+1}</span><strong>{x[0]}</strong><i>＋</i></summary><p>{x[1]}</p></details>)}</section></main></PageShell>}
