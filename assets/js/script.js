@@ -29,3 +29,28 @@ document.querySelectorAll('.faq-question').forEach((button) => {
   });
 });
 
+const lightbox = document.querySelector('.lightbox');
+const lightboxImage = lightbox?.querySelector('img');
+const closeLightbox = () => {
+  lightbox?.classList.remove('is-open');
+  document.body.style.overflow = '';
+};
+
+document.querySelectorAll('.gallery-item').forEach((item) => {
+  item.addEventListener('click', () => {
+    const image = item.querySelector('img');
+    if (!lightbox || !lightboxImage || !image) return;
+    lightboxImage.src = image.src;
+    lightboxImage.alt = image.alt;
+    lightbox.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+lightbox?.querySelector('.lightbox-close')?.addEventListener('click', closeLightbox);
+lightbox?.addEventListener('click', (event) => {
+  if (event.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closeLightbox();
+});
