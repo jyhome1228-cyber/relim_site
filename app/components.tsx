@@ -57,6 +57,8 @@ export function PageHero({ eyebrow, title, desc }: { eyebrow: string; title: str
   return <section className="page-hero"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="hero-desc">{desc}</p></section>;
 }
 
-export function PhotoBlock({ label, className = "" }: { label: string; className?: string }) {
-  return <div className={`photo-block ${className}`} aria-label={`${label} 이미지 삽입 예정 영역`}><span>{label}</span><small>PHOTO TO BE ADDED</small></div>;
+export function PhotoBlock({ label, src, className = "", portrait = false }: { label: string; src: string; className?: string; portrait?: boolean }) {
+  return <figure className={`photo-block actual-photo ${portrait ? "portrait" : ""} ${className}`}>
+    <img src={src} alt={label} loading="lazy" />
+  </figure>;
 }

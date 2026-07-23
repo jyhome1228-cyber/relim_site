@@ -1,2 +1,20 @@
-import { PageHero, PageShell } from "../components";
-export default function About(){return <PageShell><main><PageHero eyebrow="ABOUT RE:LIM" title="다시, 숲으로" desc="RE:LIM은 ‘다시’를 뜻하는 RE와 숲을 뜻하는 林이 만나 만들어진 이름입니다. 자연 안에서 나의 리듬을 회복하고 새로운 하루로 돌아가는 경험을 담았습니다."/><section className="brand-statement"><span>RE</span><i>:</i><span>林</span><p>다시 찾은 자연에서<br/>나의 속도를 회복하는 곳</p></section><section className="content-grid"><p className="eyebrow">OUR STORY</p><div><h2>자연 속에서 일상의 속도를 내려놓는 시간</h2><p>리림은 잠깐 머물다 가는 장소가 아니라, 하루의 흐름을 온전히 경험하도록 만들어진 공간입니다. 물에서 보내는 시간, 함께 나누는 식사, 카페에서의 짧은 휴식과 프라이빗한 쉼이 자연스럽게 이어집니다.</p><p>어떤 활동을 서둘러 완수하기보다 풍경을 바라보고, 물에 몸을 맡기고, 한 끼를 천천히 나누는 과정 자체에 집중합니다. 복잡한 일상에서 한 걸음 물러나 가볍게 쉬고 즐긴 뒤 새로운 에너지를 가지고 돌아갈 수 있도록 리림만의 하루를 제안합니다.</p></div></section><section className="content-grid philosophy"><p className="eyebrow">OUR EXPERIENCE</p><div><h2>각기 다른 쉼이 하나의 경험으로</h2><p>Pool &amp; Water, Tent, BBQ &amp; Grill, Cafe, Party &amp; Rental은 따로 분리된 시설이 아니라 한 사람의 하루를 이루는 장면들입니다. 도착에서 휴식, 물놀이와 식사, 대화와 귀가까지 이동이 자연스럽게 이어지도록 공간과 이용 흐름을 구성합니다.</p></div></section><section className="values">{[["01","ESSENTIAL ELEGANCE","꾸밈을 덜어내고 자연과 공간 본연의 품격에 집중합니다."],["02","PURE NATURE’S HEALING","탁 트인 풍경과 여유로운 동선 속에서 순수한 쉼을 경험합니다."],["03","INTRINSIC VALUE","수영·식사·카페·휴식이 연결되는 리림만의 시간을 만듭니다."],["04","SUSTAINABLE GROWTH","자연과 조화를 이루며 오래 머물 수 있는 공간을 지향합니다."]].map(v=><article key={v[1]}><small>{v[0]}</small><h3>{v[1]}</h3><p>{v[2]}</p></article>)}</section></main></PageShell>}
+import { PageHero, PageShell, PhotoBlock } from "../components";
+
+const values = [
+  ["01", "ESSENTIAL ELEGANCE", "꾸밈을 덜어내고 자연과 공간 본연의 품격에 집중합니다."],
+  ["02", "PURE NATURE’S HEALING", "탁 트인 풍경과 여유로운 동선 속에서 순수한 쉼을 경험합니다."],
+  ["03", "INTRINSIC VALUE", "수영·식사·카페·휴식이 연결되는 리림만의 시간을 만듭니다."],
+  ["04", "SUSTAINABLE GROWTH", "자연과 조화를 이루며 오래 머물 수 있는 공간을 지향합니다."],
+];
+
+export default function About() {
+  return <PageShell><main>
+    <PageHero eyebrow="ABOUT RE:LIM" title="다시, 숲으로" desc="RE:LIM은 ‘다시’를 뜻하는 RE와 숲을 뜻하는 林이 만나 만들어진 이름입니다. 자연 안에서 나의 리듬을 회복하고 새로운 하루로 돌아가는 경험을 담았습니다." />
+    <section className="brand-statement"><span>RE</span><i>:</i><span>林</span><p>다시 찾은 자연에서<br />나의 속도를 회복하는 곳</p></section>
+    <section className="editorial-photo"><PhotoBlock label="리림의 자연과 시설 전경" src="/images/facility-wide.webp" /></section>
+    <section className="about-gallery"><PhotoBlock label="리림 메인동과 수로" src="/images/main-building.webp" portrait /><PhotoBlock label="수면에 비친 리림의 텐트와 나무" src="/images/tent-reflection.webp" portrait /></section>
+    <section className="content-grid"><p className="eyebrow">OUR STORY</p><div><h2>자연 속에서 일상의 속도를 내려놓는 시간</h2><p>리림은 잠깐 머물다 가는 장소가 아니라, 하루의 흐름을 온전히 경험하도록 만들어진 공간입니다. 물에서 보내는 시간, 함께 나누는 식사, 카페에서의 짧은 휴식과 프라이빗한 쉼이 자연스럽게 이어집니다.</p><p>어떤 활동을 서둘러 완수하기보다 풍경을 바라보고, 물에 몸을 맡기고, 한 끼를 천천히 나누는 과정 자체에 집중합니다. 복잡한 일상에서 한 걸음 물러나 가볍게 쉬고 즐긴 뒤 새로운 에너지를 가지고 돌아갈 수 있도록 리림만의 하루를 제안합니다.</p></div></section>
+    <section className="content-grid philosophy"><p className="eyebrow">OUR EXPERIENCE</p><div><h2>각기 다른 쉼이 하나의 경험으로</h2><p>Pool &amp; Water, Tent, BBQ &amp; Grill, Cafe, Party &amp; Rental은 따로 분리된 시설이 아니라 한 사람의 하루를 이루는 장면들입니다. 도착에서 휴식, 물놀이와 식사, 대화와 귀가까지 이동이 자연스럽게 이어지도록 공간과 이용 흐름을 구성합니다.</p></div></section>
+    <section className="values">{values.map((value) => <article key={value[1]}><small>{value[0]}</small><h3>{value[1]}</h3><p>{value[2]}</p></article>)}</section>
+  </main></PageShell>;
+}

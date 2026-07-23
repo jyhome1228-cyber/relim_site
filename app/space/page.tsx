@@ -1,3 +1,20 @@
-import Link from "next/link"; import { PageHero, PageShell } from "../components";
-const data=[["POOL & WATER","탁 트인 풍경 속에서 즐기는 물과 휴식","물놀이와 휴식을 자연스럽게 오갈 수 있도록 구성된 리림의 중심 공간입니다.","수영 · 물놀이 · 휴식"],["TENT","나만의 속도로 머무는 프라이빗한 자리","이용 시간 동안 각자의 하루를 편안히 보낼 수 있는 독립적인 휴식 거점입니다.","개별 공간 · 휴식 · 짐 보관"],["BBQ & GRILL","자연 속에서 함께 나누는 식사","물놀이와 휴식 사이, 가까운 사람들과 음식을 차리고 나누는 공간입니다.","바비큐 · 그릴 · 식사"],["CAFE","머무는 시간 사이의 여유","음료와 함께 풍경을 바라보며 잠시 쉬어갈 수 있는 카페 공간입니다.","음료 · 휴식 · 풍경"],["PARTY & RENTAL","특별한 날을 위한 새로운 장면","소규모 모임과 파티, 촬영을 위한 부분 또는 전체 대관을 상담해드립니다.","모임 · 촬영 · 대관"]];
-export default function Space(){return <PageShell><main><PageHero eyebrow="OUR SPACE" title="하루를 채우는 다섯 공간" desc="수영부터 식사와 휴식까지, 리림의 공간은 하나의 자연스러운 동선으로 이어집니다."/><section className="space-list no-image">{data.map((x,i)=><article key={x[0]}><div className="space-number">0{i+1}</div><div><h2>{x[0]}</h2><h3>{x[1]}</h3><p>{x[2]}</p><small>{x[3]}</small>{x[0]==="PARTY & RENTAL"&&<Link href="/reservation" className="line-link">대관 문의하기 <span>↗</span></Link>}</div></article>)}</section></main></PageShell>}
+import Link from "next/link";
+import { PageHero, PageShell, PhotoBlock } from "../components";
+
+const spaces = [
+  ["POOL & WATER", "탁 트인 풍경 속에서 즐기는 물과 휴식", "물놀이와 휴식을 자연스럽게 오갈 수 있도록 구성된 리림의 중심 공간입니다.", "수영 · 물놀이 · 휴식", "/images/facility-wide.webp"],
+  ["TENT", "나만의 속도로 머무는 프라이빗한 자리", "이용 시간 동안 각자의 하루를 편안히 보낼 수 있는 독립적인 휴식 거점입니다.", "개별 공간 · 휴식 · 짐 보관", "/images/tent-walkway.webp"],
+  ["BBQ & GRILL", "자연 속에서 함께 나누는 식사", "물놀이와 휴식 사이, 가까운 사람들과 음식을 차리고 나누는 공간입니다.", "바비큐 · 그릴 · 식사", "/images/pool-tents.webp"],
+  ["CAFE", "머무는 시간 사이의 여유", "음료와 함께 풍경을 바라보며 잠시 쉬어갈 수 있는 카페 공간입니다.", "음료 · 휴식 · 풍경", "/images/cafe-building.webp"],
+  ["PARTY & RENTAL", "특별한 날을 위한 새로운 장면", "소규모 모임과 파티, 촬영을 위한 부분 또는 전체 대관을 상담해드립니다.", "모임 · 촬영 · 대관", "/images/main-building.webp"],
+];
+
+export default function Space() {
+  return <PageShell><main>
+    <PageHero eyebrow="OUR SPACE" title="하루를 채우는 다섯 공간" desc="수영부터 식사와 휴식까지, 리림의 공간은 하나의 자연스러운 동선으로 이어집니다." />
+    <section className="space-list">{spaces.map((space, index) => <article key={space[0]}>
+      <PhotoBlock label={`${space[0]} 공간`} src={space[4]} portrait={space[0] === "CAFE" || space[0] === "PARTY & RENTAL"} />
+      <div><small>0{index + 1}</small><h2>{space[0]}</h2><h3>{space[1]}</h3><p>{space[2]}</p><small>{space[3]}</small>{space[0] === "PARTY & RENTAL" && <Link href="/reservation" className="line-link">대관 문의하기 <span>↗</span></Link>}</div>
+    </article>)}</section>
+  </main></PageShell>;
+}
