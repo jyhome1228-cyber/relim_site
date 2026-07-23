@@ -16,14 +16,14 @@ export function Header() {
     <input id="menu" className="menu-toggle" type="checkbox" aria-label="메뉴 열기" />
     <label htmlFor="menu" className="menu-button"><span /><span /></label>
     <nav>{nav.map(([label, href]) => <Link key={href} href={href}>{label}</Link>)}</nav>
-    <a className="header-cta" href="tel:01057948823">RESERVATION</a>
+    <a className="header-cta" href="/reservation">RESERVATION</a>
   </header>;
 }
 
 export function Footer() {
   return <footer>
     <div><div className="logo footer-logo"><strong>RE:LIM</strong><span>NATURE &amp; REST</span></div><p>자연 속에서 다시 만나는 온전한 하루</p></div>
-    <div className="footer-info"><p>대표 010-3043-8822 · 고객센터 010-5794-8823</p><p>사업자등록번호 220-86-50466</p><p>© 2026 RE:LIM. ALL RIGHTS RESERVED.</p></div>
+    <div className="footer-info"><p>예약 및 이용 문의 · 연락처 최종 확인 후 공개</p><p>© 2026 RE:LIM. ALL RIGHTS RESERVED.</p></div>
   </footer>;
 }
 
