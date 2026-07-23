@@ -54,3 +54,9 @@ lightbox?.addEventListener('click', (event) => {
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') closeLightbox();
 });
+
+
+const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+document.querySelectorAll('.nav a').forEach((link) => {
+  if (link.getAttribute('href') === currentPage) link.setAttribute('aria-current', 'page');
+});
