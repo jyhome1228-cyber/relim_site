@@ -190,7 +190,11 @@ function initRelimFaq() {
 
   const updateSummary = (count) => {
     const queryLabel = currentQuery ? `‘${currentQuery}’ 검색 결과` : activeCategory;
-    resultSummary.innerHTML = `<span>${queryLabel}</span> <strong>${count}</strong>개`;
+    const label = document.createElement('span');
+    const total = document.createElement('strong');
+    label.textContent = queryLabel;
+    total.textContent = String(count);
+    resultSummary.replaceChildren(label, document.createTextNode(' '), total, document.createTextNode('개'));
   };
 
   const render = () => {
@@ -235,7 +239,7 @@ function initRelimFaq() {
     const button = document.createElement('button');
     button.className = 'faq-category';
     button.type = 'button';
-    button.role = 'tab';
+    button.setAttribute('role', 'tab');
     button.dataset.category = categoryName;
     button.textContent = categoryName;
     button.addEventListener('click', () => selectCategory(categoryName));
