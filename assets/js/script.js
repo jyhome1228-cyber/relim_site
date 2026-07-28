@@ -23,6 +23,65 @@ if (slides.length) {
   setInterval(() => showSlide((currentSlide + 1) % slides.length), 5200);
 }
 
+function initSiteMap() {
+  const map = document.querySelector('[data-site-map]');
+  if (!map) return;
+
+  const hotspots = [...map.querySelectorAll('.site-hotspot')];
+  const numberElement = map.querySelector('[data-site-number]');
+  const titleElement = map.querySelector('[data-site-title]');
+  const descriptionElement = map.querySelector('[data-site-description]');
+  const rangeButtons = [...document.querySelectorAll('[data-site-range]')];
+
+  const getArea = (site) => {
+    const number = Number(site);
+    if (number <= 9) {
+      return '하단 진입부와 가까운 개별 이용 사이트입니다. 예약 시 배정된 번호를 지도에서 확인해 주세요.';
+    }
+    if (number <= 14) {
+      return '수영장 왼쪽 동선을 따라 배치된 개별 이용 사이트입니다. 현장 이동 전 위치를 확인해 주세요.';
+    }
+    return '수영장 위쪽 산책 동선을 따라 배치된 개별 이용 사이트입니다. 예약 안내에 표기된 번호와 대조해 주세요.';
+  };
+
+  const selectSite = (site, focus = false) => {
+    hotspots.forEach((hotspot) => {
+      const active = hotspot.dataset.site === site;
+      hotspot.classList.toggle('is-active', active);
+      hotspot.setAttribute('aria-pressed', String(active));
+      if (active && focus) hotspot.focus({ preventScroll: true });
+    });
+
+    if (numberElement) numberElement.textContent = site;
+    if (titleElement) titleElement.textContent = `리림 사이트 ${site}`;
+    if (descriptionElement) descriptionElement.textContent = getArea(site);
+
+    const number = Number(site);
+    rangeButtons.forEach((button) => {
+      const [start, end] = button.dataset.siteRange.split('-').map(Number);
+      button.classList.toggle('is-active', number >= start && number <= end);
+    });
+  };
+
+  hotspots.forEach((hotspot) => {
+    hotspot.setAttribute('aria-pressed', 'false');
+    hotspot.addEventListener('mouseenter', () => selectSite(hotspot.dataset.site));
+    hotspot.addEventListener('focus', () => selectSite(hotspot.dataset.site));
+    hotspot.addEventListener('click', () => selectSite(hotspot.dataset.site));
+  });
+
+  rangeButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const firstSite = button.dataset.siteRange.split('-')[0];
+      selectSite(firstSite, true);
+    });
+  });
+
+  selectSite('01');
+}
+
+initSiteMap();
+
 function bindStaticFaqAccordion() {
   document.querySelectorAll('.faq-question').forEach((button) => {
     button.addEventListener('click', () => {
