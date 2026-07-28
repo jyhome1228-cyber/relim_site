@@ -359,7 +359,7 @@ h3 {
 .map-section-head>div{min-width:240px}
 .map-section-head>p{max-width:520px;color:var(--muted);font-size:15px;line-height:1.75}
 .map-section{padding-top:clamp(42px,5vw,72px)}
-.site-map{border-top:1px solid var(--green);padding-top:clamp(42px,5vw,72px)}
+.site-map{padding-top:clamp(42px,5vw,72px)}
 .site-map-canvas{position:relative;width:100%;overflow:hidden;background:#fff}
 .site-map-canvas>img{display:block;width:100%;height:auto}
 .site-map-hotspots{position:absolute;inset:0}
