@@ -522,6 +522,44 @@
   .faq-cta-links .button {
     width: 100%;
   }
+
+  .faq-section {
+    padding-top: 34px;
+  }
+
+  .faq-search-panel {
+    padding: 20px 16px;
+  }
+
+  #faqSearch {
+    height: 52px;
+  }
+
+  .faq-keywords {
+    margin-top: 14px;
+  }
+
+  .faq-category-wrap {
+    margin-top: 34px;
+  }
+
+  .faq-result-head {
+    margin-top: 28px;
+  }
+
+  .faq-list .faq-question {
+    gap: 8px;
+    padding: 18px 0;
+  }
+
+  .faq-question-title {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .faq-list .faq-answer.is-open {
+    padding-bottom: 22px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
