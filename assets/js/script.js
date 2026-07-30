@@ -35,13 +35,13 @@ function initSiteMap() {
 
   const getArea = (site) => {
     const number = Number(site);
-    if (number <= 9) {
-      return '하단 진입부와 가까운 개별 이용 쉘터입니다. 예약 시 배정된 번호를 지도에서 확인해 주세요.';
+    if (number <= 7 || number >= 22) {
+      return '수영장 위쪽 산책 동선을 따라 배치된 개별 이용 쉘터입니다. 예약 안내에 표기된 번호와 대조해 주세요.';
     }
-    if (number <= 14) {
+    if (number <= 12) {
       return '수영장 왼쪽 동선을 따라 배치된 개별 이용 쉘터입니다. 현장 이동 전 위치를 확인해 주세요.';
     }
-    return '수영장 위쪽 산책 동선을 따라 배치된 개별 이용 쉘터입니다. 예약 안내에 표기된 번호와 대조해 주세요.';
+    return '하단 진입부와 가까운 개별 이용 쉘터입니다. 예약 시 배정된 번호를 지도에서 확인해 주세요.';
   };
 
   const selectSite = (site, focus = false) => {
