@@ -9,6 +9,44 @@
   --gutter: clamp(20px, 4vw, 64px);
 }
 
+/* Space page — simplified map and shared shelter guide */
+.space-guide{display:grid;grid-template-columns:minmax(280px,.9fr) minmax(420px,1.1fr);gap:clamp(50px,8vw,120px);margin-top:clamp(42px,6vw,82px);padding-top:clamp(34px,5vw,62px);border-top:1px solid var(--green)}
+.space-guide-copy h3{margin:10px 0 20px;font-size:clamp(28px,3vw,42px);line-height:1.2}
+.space-guide-copy>p:last-child{max-width:520px;color:var(--muted);font-size:15px;line-height:1.85}
+.space-guide-list{margin:0}
+.space-guide-list>div{display:grid;grid-template-columns:54px 1fr;gap:18px;padding:20px 0;border-bottom:1px solid var(--line)}
+.space-guide-list dt{color:var(--green-soft);font-size:12px;font-weight:700;letter-spacing:.08em}
+.space-guide-list dd{display:flex;margin:0;justify-content:space-between;gap:24px}
+.space-guide-list strong{font-size:16px}
+.space-guide-list span{max-width:280px;color:var(--muted);font-size:13px;text-align:right}
+.space-actions{display:flex;gap:10px;margin-top:38px;justify-content:flex-end}
+.space-detail-button{background:#fff;cursor:pointer}
+.space-photo-section{background:var(--paper)}
+.space-photo-head{display:grid;grid-template-columns:1fr 1fr;gap:clamp(50px,10vw,150px);align-items:end;margin-bottom:38px}
+.space-photo-head h2{margin:10px 0 0;font-size:clamp(32px,4vw,52px);line-height:1.15}
+.space-photo-head>p{max-width:520px;margin:0;color:var(--muted);font-size:15px;line-height:1.85}
+.space-photo-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.space-photo-gallery figure{margin:0;background:#fff}
+.space-photo-gallery img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.space-photo-gallery .space-photo-wide img{aspect-ratio:16/8.5}
+.space-photo-wide{grid-column:1/-1}
+.space-photo-gallery figcaption{display:flex;gap:14px;padding:13px 2px 20px;color:var(--muted);font-size:13px}
+.space-photo-gallery figcaption span{color:var(--green);font-size:11px;font-weight:700}
+.room-modal-footer{gap:10px}
+
+@media(max-width:620px){
+  .space-guide{grid-template-columns:1fr;gap:28px}
+  .space-guide-list dd{display:block}
+  .space-guide-list span{display:block;margin-top:5px;text-align:left}
+  .space-actions{flex-direction:column}
+  .space-actions .button{width:100%}
+  .space-photo-head{grid-template-columns:1fr;gap:20px}
+  .space-photo-gallery{grid-template-columns:1fr;gap:8px}
+  .space-photo-wide{grid-column:auto}
+  .space-photo-gallery .space-photo-wide img,.space-photo-gallery img{aspect-ratio:4/3}
+  .room-modal-footer{flex-direction:column}
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
