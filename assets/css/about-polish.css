@@ -27,3 +27,15 @@
   .brand-journey-list li{padding:26px 0}
   .journey-copy p{font-size:14px}
 }
+
+
+/* Official RE:LIM wordmark */
+.journey-name-logo img{display:block;width:min(154px,100%);height:auto;margin-top:10px}
+.name-wordmark-logo{display:block;width:clamp(176px,18vw,254px);height:auto;margin:20px 0 28px}
+.about-philosophy .about-section-intro>div>p{max-width:780px;margin-top:18px}
+.philosophy-grid article p{max-width:340px;line-height:1.78}
+.about-experience-grid article p{line-height:1.75}
+@media(max-width:620px){
+  .journey-name-logo img{width:132px}
+  .name-wordmark-logo{width:180px;margin:18px 0 24px}
+}
