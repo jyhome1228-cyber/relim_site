@@ -83,7 +83,7 @@ function initSiteMap() {
 initSiteMap();
 
 function initRoomGuide() {
-  const grid = document.querySelector('[data-room-grid]');
+  const grid = document.querySelector('[data-room-hotspots]');
   const modal = document.querySelector('[data-room-modal]');
   const title = modal?.querySelector('[data-room-title]');
   const closeButtons = modal ? [...modal.querySelectorAll('[data-room-close]')] : [];
@@ -109,9 +109,11 @@ function initRoomGuide() {
 
   for (let room = 1; room <= 23; room += 1) {
     const button = document.createElement('button');
-    button.className = 'room-button';
+    button.className = 'room-map-hotspot';
     button.type = 'button';
-    button.innerHTML = `<span>${String(room).padStart(2, '0')}</span><strong>${room}호실</strong><small>자세히 보기</small>`;
+    button.dataset.room = room;
+    button.setAttribute('aria-label', `${room}호실 상세 안내 열기`);
+    button.title = `${room}호실`;
     button.addEventListener('click', () => openModal(room, button));
     grid.append(button);
   }
