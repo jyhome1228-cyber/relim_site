@@ -82,6 +82,48 @@ function initSiteMap() {
 
 initSiteMap();
 
+function initRoomGuide() {
+  const grid = document.querySelector('[data-room-grid]');
+  const modal = document.querySelector('[data-room-modal]');
+  const title = modal?.querySelector('[data-room-title]');
+  const closeButtons = modal ? [...modal.querySelectorAll('[data-room-close]')] : [];
+  let lastTrigger = null;
+
+  if (!grid || !modal || !title) return;
+
+  const closeModal = () => {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    lastTrigger?.focus();
+  };
+
+  const openModal = (room, trigger) => {
+    lastTrigger = trigger;
+    title.textContent = `${room}호실`;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    modal.querySelector('.room-modal-close')?.focus();
+  };
+
+  for (let room = 1; room <= 23; room += 1) {
+    const button = document.createElement('button');
+    button.className = 'room-button';
+    button.type = 'button';
+    button.innerHTML = `<span>${String(room).padStart(2, '0')}</span><strong>${room}호실</strong><small>자세히 보기</small>`;
+    button.addEventListener('click', () => openModal(room, button));
+    grid.append(button);
+  }
+
+  closeButtons.forEach((button) => button.addEventListener('click', closeModal));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+}
+
+initRoomGuide();
+
 function bindStaticFaqAccordion() {
   document.querySelectorAll('.faq-question').forEach((button) => {
     button.addEventListener('click', () => {

@@ -1,13 +1,48 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Space — RE:LIM</title><link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg"><meta property="og:type" content="website"><meta property="og:site_name" content="RE:LIM"><meta property="og:title" content="RE:LIM — 리림"><meta property="og:description" content="물과 숲, 텐트와 바비큐가 함께하는 용인 프라이빗 아웃도어 공간"><meta property="og:image" content="https://jyhome1228-cyber.github.io/relim_site/assets/images/og-relim.png"><meta property="og:image:secure_url" content="https://jyhome1228-cyber.github.io/relim_site/assets/images/og-relim.png"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:url" content="https://jyhome1228-cyber.github.io/relim_site/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://jyhome1228-cyber.github.io/relim_site/assets/images/og-relim.png"><link rel="stylesheet" href="assets/css/style.css"></head><body>
 <header class="site-header"><div class="container header-inner"><a class="brand brand-logo" href="index.html" aria-label="리림 홈"><img src="assets/images/relim-logo.svg" alt="RE:LIM"></a><button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav"><a href="about.html">리림 소개</a><a href="space.html">공간 안내</a><a href="gallery.html">갤러리</a><a href="guide.html">이용 안내</a><a href="reservation.html">예약 안내</a><a href="location.html">오시는 길</a><a href="faq.html">자주 묻는 질문</a></nav><a class="header-book" href="https://camfit.co.kr/camp/601ab483a31528001e2e4c0b?keyword=%EB%82%98%EC%9D%B8%ED%9E%90%EC%8A%A4&adultCnt=2" target="_blank" rel="noopener">예약하기</a></div></header>
-<main class="page"><section class="page-hero"><div class="container"><h1>공간 안내</h1><p class="lead">예약 전 이용하실 쉘터의 위치를 확인해 주세요.</p></div></section>
-<section class="section map-section">
+<main class="page"><section class="page-hero"><div class="container"><h1>쉘터 안내</h1><p class="lead">호실을 선택하면 쉘터 내부와 이용 안내를 확인할 수 있습니다.</p></div></section>
+<section class="section room-section">
   <div class="container">
-    <div class="site-map">
-      <div class="site-map-canvas">
-        <img src="assets/images/relim-site-map-final.svg?v=20260731" alt="1번부터 23번까지의 쉘터, 수영장과 공사 중인 화장실 위치를 표시한 리림 시설 안내도" width="2306" height="1272">
+    <div class="room-section-head">
+      <p class="eyebrow">RE:LIM SHELTER</p>
+      <h2>이용하실 호실을 선택해 주세요.</h2>
+      <p>모든 쉘터는 동일한 기본 시설로 구성되며, 위치와 현장 상황에 따라 세부 모습은 달라질 수 있습니다.</p>
+    </div>
+    <div class="room-grid" data-room-grid aria-label="쉘터 호실 선택"></div>
+  </div>
+</section>
+
+<div class="room-modal" data-room-modal aria-hidden="true">
+  <div class="room-modal-backdrop" data-room-close></div>
+  <div class="room-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="roomModalTitle">
+    <button class="room-modal-close" type="button" data-room-close aria-label="팝업 닫기">×</button>
+    <div class="room-modal-header">
+      <p class="eyebrow">RE:LIM SHELTER</p>
+      <h2 id="roomModalTitle" data-room-title>1호실</h2>
+      <p>자연 속에서 식사와 휴식을 함께 즐길 수 있는 개별 쉘터입니다.</p>
+    </div>
+    <div class="room-modal-info">
+      <div>
+        <h3>쉘터 이용수칙</h3>
+        <ul>
+          <li>예약 시 지정된 호실을 이용해 주세요.</li>
+          <li>쉘터 내부는 금연이며, 화기 사용 시 안전에 유의해 주세요.</li>
+          <li>시설과 비품은 깨끗하게 사용하고 퇴실 전 정리해 주세요.</li>
+          <li>안전한 이용을 위해 현장 안내와 운영 수칙을 지켜 주세요.</li>
+        </ul>
       </div>
+      <p class="room-image-note">※ 아래 이미지는 이해를 돕기 위한 연출 이미지로, 실제 쉘터의 구조·가구·비품과 다를 수 있습니다.</p>
+    </div>
+    <div class="room-gallery">
+      <figure><img src="assets/images/shelter/shelter-exterior.webp" alt="리림 쉘터 외부 연출 이미지"><figcaption>Exterior</figcaption></figure>
+      <figure><img src="assets/images/shelter/shelter-loft-view.webp" alt="리림 쉘터 2층에서 바라본 내부 연출 이미지"><figcaption>Loft View</figcaption></figure>
+      <figure><img src="assets/images/shelter/shelter-bedroom.webp" alt="리림 쉘터 2층 침실 연출 이미지"><figcaption>Bedroom</figcaption></figure>
+      <figure><img src="assets/images/shelter/shelter-lounge.webp" alt="리림 쉘터 1층 라운지 연출 이미지"><figcaption>Lounge</figcaption></figure>
+    </div>
+    <div class="room-modal-footer">
+      <button class="button" type="button" data-room-close>확인</button>
     </div>
   </div>
-</section></main>
+</div>
+</main>
 <footer class="site-footer"><div class="container footer-main"><div class="footer-identity"><img class="footer-logo" src="assets/images/relim-logo.svg" alt="RE:LIM"><p>수영장·수로·개별 텐트·바비큐 공간과 카페를 함께 이용하는 용인 야외 공간입니다.</p></div><div><h3>메뉴</h3><div class="footer-links"><a href="about.html">리림 소개</a><a href="space.html">공간 안내</a><a href="gallery.html">갤러리</a><a href="guide.html">이용 안내</a><a href="reservation.html">예약 안내</a></div></div><div><h3>문의</h3><div class="footer-links"><a href="tel:01057948823">고객센터 010-5794-8823</a><a href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener">@RELIMOFFICIAL ↗</a></div></div><div><h3>주소</h3><p>경기도 용인시 처인구 원삼면<br>보개원삼로1372번길 45</p><div class="footer-links"><a href="http://map.naver.com/p/entry/place/30821021?lng=127.3131001&lat=37.1184942&placePath=%2Fhome&entry=plt&searchType=place" target="_blank" rel="noopener">지도 보기 ↗</a><a href="location.html">오시는 길</a></div></div></div><div class="container footer-bottom"><span>© 2026 RE:LIM. All rights reserved.</span><span>사업자등록번호 220-86-50466</span></div></footer><script src="assets/js/script.js"></script></body></html>

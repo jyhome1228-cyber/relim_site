@@ -519,3 +519,65 @@ h3 {
   .footer-links{gap:5px}
   .footer-bottom{gap:7px;padding:15px 0 20px}
 }
+
+/* Shelter room guide */
+.room-section{padding-top:clamp(54px,6vw,88px)}
+.room-section-head{display:grid;grid-template-columns:minmax(180px,.48fr) minmax(300px,.8fr) minmax(300px,1fr);gap:clamp(28px,5vw,80px);align-items:start;margin-bottom:42px;padding-bottom:24px;border-bottom:1px solid var(--green)}
+.room-section-head .eyebrow{margin-top:7px}
+.room-section-head h2,.room-section-head>p:last-child{margin:0}
+.room-section-head>p:last-child{max-width:580px;color:var(--muted);font-size:15px;line-height:1.75}
+.room-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.room-button{display:flex;min-height:148px;padding:18px;border:1px solid var(--line);background:#fff;flex-direction:column;align-items:flex-start;text-align:left;cursor:pointer;transition:border-color .2s ease,background-color .2s ease,color .2s ease,transform .2s ease}
+.room-button:hover,.room-button:focus-visible{border-color:var(--green);background:var(--green);color:#fff;transform:translateY(-2px);outline:none}
+.room-button span{margin-bottom:26px;color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.1em;transition:color .2s ease}
+.room-button strong{font-size:18px;font-weight:650}
+.room-button small{margin-top:auto;font-size:11px;opacity:.65}
+.room-button:hover span,.room-button:focus-visible span{color:rgba(255,255,255,.7)}
+.modal-open{overflow:hidden}
+.room-modal{position:fixed;z-index:200;inset:0;display:none;align-items:center;justify-content:center;padding:clamp(14px,3vw,44px)}
+.room-modal.is-open{display:flex}
+.room-modal-backdrop{position:absolute;inset:0;background:rgba(6,18,13,.78);backdrop-filter:blur(7px)}
+.room-modal-dialog{position:relative;width:min(1120px,100%);max-height:calc(100dvh - clamp(28px,6vw,88px));padding:clamp(28px,4vw,58px);overflow-y:auto;background:#fff;box-shadow:0 24px 80px rgba(0,0,0,.26)}
+.room-modal-close{position:absolute;z-index:2;top:18px;right:18px;width:44px;height:44px;padding:0;border:1px solid var(--line);border-radius:50%;background:#fff;font-size:26px;font-weight:300;line-height:1;cursor:pointer}
+.room-modal-close:hover{border-color:var(--green);background:var(--green);color:#fff}
+.room-modal-header{padding-right:60px}
+.room-modal-header h2{margin-bottom:10px;font-size:clamp(31px,3vw,44px)}
+.room-modal-header>p:last-child{color:var(--green-soft);font-size:16px}
+.room-modal-info{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,72px);margin:34px 0;padding:28px 0;border-top:1px solid var(--green);border-bottom:1px solid var(--line)}
+.room-modal-info h3{font-size:17px}
+.room-modal-info ul{margin:0;padding-left:20px;color:var(--muted);font-size:14px;line-height:1.9}
+.room-image-note{align-self:end;margin:0;padding:18px;background:var(--paper);color:var(--muted);font-size:13px;line-height:1.7}
+.room-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.room-gallery figure{position:relative;margin:0;overflow:hidden;background:#e8ebe7}
+.room-gallery img{aspect-ratio:1/1;object-fit:cover}
+.room-gallery figcaption{position:absolute;right:12px;bottom:10px;padding:5px 8px;background:rgba(255,255,255,.86);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.room-modal-footer{display:flex;justify-content:flex-end;margin-top:28px}
+.room-modal-footer .button{min-width:120px;background:#fff;cursor:pointer}
+
+@media(max-width:1000px){
+  .room-section-head{grid-template-columns:1fr 1.5fr}
+  .room-section-head .eyebrow{grid-column:1/-1;margin-bottom:-12px}
+  .room-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media(max-width:620px){
+  .room-section{padding-top:36px}
+  .room-section-head{grid-template-columns:1fr;gap:10px;margin-bottom:24px;padding-bottom:18px}
+  .room-section-head .eyebrow{grid-column:auto;margin:0 0 4px}
+  .room-section-head>p:last-child{font-size:14px}
+  .room-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+  .room-button{min-height:112px;padding:13px}
+  .room-button span{margin-bottom:13px}
+  .room-button strong{font-size:16px}
+  .room-button small{font-size:10px}
+  .room-modal{padding:0;align-items:flex-end}
+  .room-modal-dialog{width:100%;max-height:92dvh;padding:28px 18px 24px}
+  .room-modal-close{top:14px;right:14px;width:40px;height:40px}
+  .room-modal-header{padding-right:48px}
+  .room-modal-header h2{font-size:30px}
+  .room-modal-header>p:last-child{font-size:14px}
+  .room-modal-info{grid-template-columns:1fr;gap:18px;margin:24px 0;padding:22px 0}
+  .room-gallery{gap:7px}
+  .room-gallery figcaption{right:7px;bottom:6px}
+  .room-modal-footer{margin-top:20px}
+  .room-modal-footer .button{width:100%}
+}
