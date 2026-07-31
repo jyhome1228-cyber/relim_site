@@ -83,13 +83,12 @@ function initSiteMap() {
 initSiteMap();
 
 function initRoomGuide() {
-  const grid = document.querySelector('[data-room-hotspots]');
   const modal = document.querySelector('[data-room-modal]');
-  const title = modal?.querySelector('[data-room-title]');
+  const openButtons = [...document.querySelectorAll('[data-room-open]')];
   const closeButtons = modal ? [...modal.querySelectorAll('[data-room-close]')] : [];
   let lastTrigger = null;
 
-  if (!grid || !modal || !title) return;
+  if (!modal || !openButtons.length) return;
 
   const closeModal = () => {
     modal.classList.remove('is-open');
@@ -98,26 +97,15 @@ function initRoomGuide() {
     lastTrigger?.focus();
   };
 
-  const openModal = (room, trigger) => {
+  const openModal = (trigger) => {
     lastTrigger = trigger;
-    title.textContent = `${room}호실`;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
     modal.querySelector('.room-modal-close')?.focus();
   };
 
-  for (let room = 1; room <= 23; room += 1) {
-    const button = document.createElement('button');
-    button.className = 'room-map-hotspot';
-    button.type = 'button';
-    button.dataset.room = room;
-    button.setAttribute('aria-label', `${room}호실 상세 안내 열기`);
-    button.title = `${room}호실`;
-    button.addEventListener('click', () => openModal(room, button));
-    grid.append(button);
-  }
-
+  openButtons.forEach((button) => button.addEventListener('click', () => openModal(button)));
   closeButtons.forEach((button) => button.addEventListener('click', closeModal));
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
