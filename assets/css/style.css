@@ -55,7 +55,7 @@ body {
   background: var(--paper);
   font-family: Pretendard, "Noto Sans KR", Arial, sans-serif;
   font-size: 18px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.65;
   word-break: keep-all;
 }
@@ -97,7 +97,7 @@ button { color: inherit; font: inherit; }
 .nav a {
   position: relative;
   padding: 27px 0 24px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
 }
 .nav a::after {
@@ -336,7 +336,7 @@ h3 {
 /* 2026-07 RE:LIM structure refinement */
 .brand-logo{display:flex;align-items:center;width:132px;flex:0 0 auto}
 .brand-logo img{width:100%;height:auto}
-.header-book{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 17px;border:1px solid var(--green);font-size:12px;font-weight:600;white-space:nowrap}
+.header-book{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:0 17px;border:1px solid var(--green);font-size:14px;font-weight:600;white-space:nowrap}
 .header-book:hover{background:var(--green);color:#fff}
 .page-hero{padding:clamp(72px,7vw,108px) 0 52px}
 .page-hero h1{margin-bottom:14px;font-size:clamp(30px,2.4vw,38px);letter-spacing:-.045em}
@@ -538,7 +538,7 @@ h3 {
   }
   .nav a{
     padding:13px 0 12px;
-    font-size:17px;
+    font-size:19px;
     line-height:1.35;
   }
   .section{padding:56px 0}
@@ -557,7 +557,7 @@ h3 {
   .menu-toggle{margin-right:-8px}
   .menu-toggle span{width:24px;margin:6px 0}
   .nav{top:64px}
-  .nav a{padding:11px 0;font-size:16px}
+  .nav a{padding:11px 0;font-size:18px}
 
   h1{font-size:30px}
   h2{margin-bottom:16px;font-size:23px}
