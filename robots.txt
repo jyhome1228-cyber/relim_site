@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://re-lim.com/sitemap.xml
+
