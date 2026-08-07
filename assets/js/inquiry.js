@@ -1,14 +1,15 @@
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
 import {
-  addDoc,
   collection,
+  deleteDoc,
   doc,
   getFirestore,
   onSnapshot,
   orderBy,
   query,
-  serverTimestamp,
+  setDoc,
+  Timestamp,
   updateDoc,
   where
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
@@ -34,6 +35,10 @@ const answerForm = detailModal?.querySelector('[data-inquiry-answer-form]');
 const answerStatus = detailModal?.querySelector('[data-inquiry-answer-status]');
 const editForm = editModal?.querySelector('[data-inquiry-edit-form]');
 const editStatus = editModal?.querySelector('[data-inquiry-edit-status]');
+const ownerActions = detailModal?.querySelector('[data-inquiry-owner-actions]');
+const editButton = detailModal?.querySelector('[data-inquiry-edit]');
+const deleteButton = detailModal?.querySelector('[data-inquiry-delete]');
+const deleteStatus = detailModal?.querySelector('[data-inquiry-delete-status]');
 
 let currentUser = null;
 let inquiryCache = new Map();
@@ -82,12 +87,13 @@ const closeModal = (modal) => {
 
 const stateLabel = (item) => item?.answer || item?.status === '답변완료' ? '답변완료' : '답변대기';
 
-const firebaseWriteError = (error) => {
+const firebaseErrorMessage = (error, action = '저장') => {
   const code = String(error?.code || '');
-  if (code.includes('permission-denied')) return '저장 권한이 막혀 있습니다. Firebase Firestore 규칙을 최신 상태로 게시해 주세요.';
+  if (code.includes('permission-denied')) return `${action} 권한이 막혀 있습니다. Firebase Firestore 규칙을 최신 상태로 게시해 주세요.`;
   if (code.includes('unauthenticated')) return '로그인 상태가 만료되었습니다. 다시 로그인해 주세요.';
+  if (code.includes('failed-precondition')) return 'Firestore 설정이 완료되지 않았습니다. 데이터베이스와 규칙을 확인해 주세요.';
   if (code.includes('unavailable')) return 'Firebase 연결이 원활하지 않습니다. 잠시 후 다시 시도해 주세요.';
-  return '저장 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
+  return `${action} 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요. (${code || 'unknown'})`;
 };
 
 function renderDetail(id, syncUrl = true) {
@@ -115,14 +121,18 @@ function renderDetail(id, syncUrl = true) {
   if (answerText) answerText.textContent = item.answer || '';
   if (answerDate) answerDate.textContent = item.answer ? `답변일 ${formatDate(item.answeredAt)}` : '';
 
-  const ownerActions = detailModal.querySelector('[data-inquiry-owner-actions]');
-  if (ownerActions) ownerActions.hidden = item.userId !== currentUser.uid;
+  const owner = item.userId === currentUser.uid;
+  const admin = isAdmin(currentUser);
+  if (ownerActions) ownerActions.hidden = !(owner || admin);
+  if (editButton) editButton.hidden = !owner;
+  if (deleteButton) deleteButton.hidden = !(owner || admin);
 
   const adminReply = detailModal.querySelector('[data-inquiry-admin-reply]');
-  if (adminReply) adminReply.hidden = !isAdmin(currentUser);
+  if (adminReply) adminReply.hidden = !admin;
   const answerInput = answerForm?.querySelector('[name="answer"]');
   if (answerInput) answerInput.value = item.answer || '';
   setStatus(answerStatus);
+  setStatus(deleteStatus);
 
   if (syncUrl) history.replaceState(null, '', `inquiry.html?id=${encodeURIComponent(id)}`);
   openModal(detailModal);
@@ -131,12 +141,7 @@ function renderDetail(id, syncUrl = true) {
 function renderBoard(snapshot, adminMode = false) {
   inquiryCache = new Map();
   list?.replaceChildren();
-
-  const docs = [...snapshot.docs].sort((a, b) => {
-    const aTime = a.data().createdAt?.toMillis?.() || 0;
-    const bTime = b.data().createdAt?.toMillis?.() || 0;
-    return bTime - aTime;
-  });
+  const docs = [...snapshot.docs].sort((a, b) => (b.data().createdAt?.toMillis?.() || 0) - (a.data().createdAt?.toMillis?.() || 0));
   const total = docs.length;
 
   docs.forEach((snapshotDoc, index) => {
@@ -146,27 +151,21 @@ function renderBoard(snapshot, adminMode = false) {
     const row = document.createElement('button');
     row.type = 'button';
     row.className = 'inquiry-board-row';
-
     const no = document.createElement('span');
     no.className = 'board-no';
     no.textContent = String(total - index).padStart(2, '0');
-
     const category = document.createElement('span');
     category.className = 'board-category';
     category.textContent = item.category || '문의';
-
     const title = document.createElement('span');
     title.className = 'board-title';
     title.textContent = `🔒 ${item.title || '비밀 문의'}`;
-
     const author = document.createElement('span');
     author.className = 'board-author';
     author.textContent = adminMode ? maskName(item.userName) : '나';
-
     const date = document.createElement('span');
     date.className = 'board-date';
     date.textContent = formatDate(item.createdAt);
-
     const statusWrap = document.createElement('span');
     statusWrap.className = 'board-status';
     const state = document.createElement('span');
@@ -222,9 +221,7 @@ function subscribeBoard(user) {
       console.error('[RE:LIM Q&A] 비밀문의 목록 불러오기 실패:', error);
       if (empty) {
         empty.hidden = false;
-        empty.textContent = String(error?.code || '').includes('permission-denied')
-          ? '비밀문의 열람 권한이 없습니다. Firestore Rules를 최신 상태로 게시해 주세요.'
-          : '문의 내역을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';
+        empty.textContent = firebaseErrorMessage(error, '조회');
       }
     }
   );
@@ -249,42 +246,47 @@ writeButtons.forEach((button) => button.addEventListener('click', () => {
 writeForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!currentUser) return goLogin();
+  if (!db) return setStatus(writeStatus, 'Firestore가 초기화되지 않았습니다.', true);
 
   const submit = writeForm.querySelector('[type="submit"]');
   const data = new FormData(writeForm);
   const category = String(data.get('category') || '이용 문의').trim();
   const title = String(data.get('title') || '').trim();
   const content = String(data.get('content') || '').trim();
-
   if (title.length < 2 || content.length < 5) return setStatus(writeStatus, '문의 제목과 내용을 조금 더 입력해 주세요.', true);
 
   submit.disabled = true;
   setStatus(writeStatus, '비밀 문의를 저장하고 있습니다.');
   try {
-    const newInquiry = await addDoc(collection(db, 'inquiries'), {
+    const inquiryRef = doc(collection(db, 'inquiries'));
+    const now = Timestamp.now();
+    const payload = {
       userId: currentUser.uid,
       userName: maskName(currentUser.displayName || '리림 회원'),
       category,
       title,
       content,
       status: '답변대기',
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp()
-    });
+      createdAt: now,
+      updatedAt: now
+    };
+    await setDoc(inquiryRef, payload);
+    inquiryCache.set(inquiryRef.id, { id: inquiryRef.id, ...payload });
     writeForm.reset();
-    setStatus(writeStatus, '비밀 문의가 등록되었습니다. 게시글로 이동합니다.');
+    setStatus(writeStatus, '비밀 문의가 정상적으로 등록되었습니다.');
     window.setTimeout(() => {
-      window.location.href = `inquiry.html?id=${encodeURIComponent(newInquiry.id)}`;
+      closeModal(writeModal);
+      window.location.href = `inquiry.html?id=${encodeURIComponent(inquiryRef.id)}`;
     }, 350);
   } catch (error) {
     console.error('[RE:LIM Q&A] 문의 저장 실패:', error);
-    setStatus(writeStatus, firebaseWriteError(error), true);
+    setStatus(writeStatus, firebaseErrorMessage(error, '저장'), true);
   } finally {
     submit.disabled = false;
   }
 });
 
-detailModal?.querySelector('[data-inquiry-edit]')?.addEventListener('click', () => {
+editButton?.addEventListener('click', () => {
   const item = inquiryCache.get(activeInquiryId);
   if (!item || !currentUser || item.userId !== currentUser.uid || !editForm) return;
   editForm.elements.category.value = item.category || '이용 문의';
@@ -299,7 +301,6 @@ editForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   const item = inquiryCache.get(activeInquiryId);
   if (!item || !currentUser || item.userId !== currentUser.uid) return;
-
   const submit = editForm.querySelector('[type="submit"]');
   const data = new FormData(editForm);
   const category = String(data.get('category') || '이용 문의').trim();
@@ -314,7 +315,7 @@ editForm?.addEventListener('submit', async (event) => {
       category,
       title,
       content,
-      updatedAt: serverTimestamp()
+      updatedAt: Timestamp.now()
     });
     setStatus(editStatus, '문의가 수정되었습니다.');
     window.setTimeout(() => {
@@ -323,16 +324,37 @@ editForm?.addEventListener('submit', async (event) => {
     }, 300);
   } catch (error) {
     console.error('[RE:LIM Q&A] 문의 수정 실패:', error);
-    setStatus(editStatus, firebaseWriteError(error), true);
+    setStatus(editStatus, firebaseErrorMessage(error, '수정'), true);
   } finally {
     submit.disabled = false;
+  }
+});
+
+deleteButton?.addEventListener('click', async () => {
+  const item = inquiryCache.get(activeInquiryId);
+  if (!item || !currentUser) return;
+  if (item.userId !== currentUser.uid && !isAdmin(currentUser)) return;
+  if (!window.confirm('이 문의를 삭제할까요? 관리자 답변도 함께 삭제되며 복구할 수 없습니다.')) return;
+
+  deleteButton.disabled = true;
+  setStatus(deleteStatus, '문의를 삭제하고 있습니다.');
+  try {
+    await deleteDoc(doc(db, 'inquiries', activeInquiryId));
+    inquiryCache.delete(activeInquiryId);
+    activeInquiryId = null;
+    closeModal(detailModal);
+    history.replaceState(null, '', 'inquiry.html');
+  } catch (error) {
+    console.error('[RE:LIM Q&A] 문의 삭제 실패:', error);
+    setStatus(deleteStatus, firebaseErrorMessage(error, '삭제'), true);
+  } finally {
+    deleteButton.disabled = false;
   }
 });
 
 answerForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
   if (!currentUser || !isAdmin(currentUser) || !activeInquiryId) return;
-
   const submit = answerForm.querySelector('[type="submit"]');
   const answer = String(new FormData(answerForm).get('answer') || '').trim();
   if (answer.length < 2) return setStatus(answerStatus, '답변 내용을 입력해 주세요.', true);
@@ -343,14 +365,14 @@ answerForm?.addEventListener('submit', async (event) => {
     await updateDoc(doc(db, 'inquiries', activeInquiryId), {
       answer,
       status: '답변완료',
-      answeredAt: serverTimestamp(),
+      answeredAt: Timestamp.now(),
       answeredBy: currentUser.email || 'RE:LIM',
-      updatedAt: serverTimestamp()
+      updatedAt: Timestamp.now()
     });
     setStatus(answerStatus, '관리자 답변이 등록되었습니다. 작성자에게만 표시됩니다.');
   } catch (error) {
     console.error('[RE:LIM Q&A] 관리자 답변 실패:', error);
-    setStatus(answerStatus, firebaseWriteError(error), true);
+    setStatus(answerStatus, firebaseErrorMessage(error, '답변 등록'), true);
   } finally {
     submit.disabled = false;
   }
