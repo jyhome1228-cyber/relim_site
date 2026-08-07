@@ -10,8 +10,31 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == userId;
     }
 
-    // 회원 본인 문서와 그 하위 데이터만 접근 가능
-    // 향후 문의/리뷰/이용기록은 users/{uid}/... 아래에 저장한다.
+    function validReviewCreate() {
+      return signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 2
+        && request.resource.data.title.size() <= 60
+        && request.resource.data.content is string
+        && request.resource.data.content.size() >= 5
+        && request.resource.data.content.size() <= 2000
+        && request.resource.data.imageDataUrl is string
+        && request.resource.data.imageDataUrl.size() <= 850000;
+    }
+
+    function validInquiryCreate() {
+      return signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 2
+        && request.resource.data.title.size() <= 80
+        && request.resource.data.content is string
+        && request.resource.data.content.size() >= 5
+        && request.resource.data.content.size() <= 3000
+        && request.resource.data.status == '접수';
+    }
+
     match /users/{userId} {
       allow create, read, update: if isOwner(userId);
       allow delete: if false;
@@ -21,7 +44,26 @@ service cloud.firestore {
       }
     }
 
-    // 그 외 모든 Firestore 데이터는 기본 차단
+    // 리뷰는 누구나 읽고, 로그인한 작성자만 등록/수정/삭제할 수 있다.
+    match /reviews/{reviewId} {
+      allow read: if true;
+      allow create: if validReviewCreate();
+      allow update: if signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+
+    // 문의는 작성자 본인만 읽고 관리할 수 있다. 공개 목록은 허용하지 않는다.
+    match /inquiries/{inquiryId} {
+      allow create: if validInquiryCreate();
+      allow read: if signedIn() && resource.data.userId == request.auth.uid;
+      allow update: if signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId;
+      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }
