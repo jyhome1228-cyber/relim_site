@@ -111,14 +111,9 @@ export function initAuthNavigation(memberLink) {
       return;
     }
 
-    const avatar = document.createElement('span');
-    avatar.className = 'member-nav-avatar';
-    avatar.textContent = userInitial(user);
-    const label = document.createElement('span');
-    label.textContent = user.displayName || '마이페이지';
-    memberLink.append(avatar, label);
+    memberLink.textContent = '마이페이지';
     memberLink.href = 'mypage.html';
-    memberLink.setAttribute('aria-label', `${user.displayName || '회원'} 마이페이지`);
+    memberLink.setAttribute('aria-label', '마이페이지');
     memberLink.dataset.authState = 'signed-in';
   });
 }
