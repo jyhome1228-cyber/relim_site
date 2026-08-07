@@ -48,22 +48,25 @@ service cloud.firestore {
         ]);
     }
 
-    function validInquiryCreate() {
-      return signedIn()
-        && request.resource.data.keys().hasOnly([
-          'userId', 'userName', 'category', 'title', 'content',
-          'status', 'createdAt', 'updatedAt'
-        ])
-        && request.resource.data.userId == request.auth.uid
-        && request.resource.data.userName is string
-        && request.resource.data.category is string
+    function validInquiryFields() {
+      return request.resource.data.category is string
+        && request.resource.data.category.size() >= 2
+        && request.resource.data.category.size() <= 30
         && request.resource.data.title is string
         && request.resource.data.title.size() >= 2
         && request.resource.data.title.size() <= 80
         && request.resource.data.content is string
         && request.resource.data.content.size() >= 5
-        && request.resource.data.content.size() <= 3000
-        && request.resource.data.status == '답변대기';
+        && request.resource.data.content.size() <= 3000;
+    }
+
+    function validInquiryCreate() {
+      return signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.userName is string
+        && request.resource.data.userName.size() >= 1
+        && request.resource.data.status == '답변대기'
+        && validInquiryFields();
     }
 
     function validInquiryOwnerUpdate() {
@@ -72,13 +75,8 @@ service cloud.firestore {
         && request.resource.data.userId == resource.data.userId
         && request.resource.data.userName == resource.data.userName
         && request.resource.data.createdAt == resource.data.createdAt
-        && request.resource.data.category is string
-        && request.resource.data.title is string
-        && request.resource.data.title.size() >= 2
-        && request.resource.data.title.size() <= 80
-        && request.resource.data.content is string
-        && request.resource.data.content.size() >= 5
-        && request.resource.data.content.size() <= 3000
+        && request.resource.data.status == resource.data.status
+        && validInquiryFields()
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
           'category', 'title', 'content', 'updatedAt'
         ]);
@@ -101,8 +99,9 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.userId == request.auth.uid;
     }
 
-    // 문의: 공개 게시판. 작성자는 문의 본문만 수정 가능하고,
-    // 답변과 상태 필드는 관리자 계정만 변경할 수 있다.
+    // 문의: 누구나 열람할 수 있는 Q&A 게시판.
+    // 로그인 회원은 새 문의를 작성할 수 있고 본인 글의 본문만 수정 가능.
+    // 답변/답변 상태 변경은 관리자만 가능.
     match /inquiries/{inquiryId} {
       allow read: if true;
       allow create: if validInquiryCreate();
