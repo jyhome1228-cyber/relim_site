@@ -1,6 +1,9 @@
 .post-owner-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
 .post-action-button,.mypage-edit{display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:0 11px;border:1px solid var(--green);background:#fff;color:var(--green);font-size:11px;font-weight:700;cursor:pointer}
 .post-action-button:hover,.mypage-edit:hover{background:var(--green);color:#fff}
+.post-action-button.is-danger{border-color:#9a5c52;color:#9a5c52}
+.post-action-button.is-danger:hover{background:#9a5c52;color:#fff}
+.post-action-button:disabled{cursor:wait;opacity:.55}
 .inquiry-detail-side{display:flex;min-width:96px;flex-direction:column;align-items:flex-end;gap:2px}
 .inquiry-detail-side .post-owner-actions{margin-top:9px}
 .mypage-row-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;white-space:nowrap}
