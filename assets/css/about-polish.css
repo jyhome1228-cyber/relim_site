@@ -1,32 +1,38 @@
-/* RE:LIM about page — forest-led editorial layout */
+/* RE:LIM about page — identity-led editorial layout */
 .about-page{background:#fff;color:var(--green)}
 .about-page .section{padding:clamp(76px,7.5vw,118px) 0}
 
-.about-forest-hero{position:relative;display:flex;min-height:calc(100svh - 82px);align-items:center;overflow:hidden;background:var(--green);color:#fff}
-.about-forest-hero-image,.about-forest-hero-shade{position:absolute;inset:0;width:100%;height:100%}
-.about-forest-hero-image{object-fit:cover;object-position:center 46%;transform:scale(1.002)}
-.about-forest-hero-shade{background:linear-gradient(90deg,rgba(32,40,26,.82) 0%,rgba(52,62,44,.62) 48%,rgba(32,40,26,.42) 100%)}
-.about-forest-hero-inner{position:relative;z-index:1;padding-top:clamp(78px,10vh,126px);padding-bottom:clamp(70px,9vh,112px)}
-.about-forest-hero .eyebrow{margin-bottom:clamp(34px,5vh,56px);color:rgba(255,255,255,.72)}
-.about-hero-logo{display:block;width:clamp(210px,26vw,390px);height:auto;margin-bottom:clamp(42px,6vh,70px)}
-.about-hero-logo-white{filter:brightness(0) invert(1)}
-.about-forest-hero h1{max-width:760px;margin:0 0 24px;color:#fff;font-size:clamp(34px,4vw,62px);font-weight:500;line-height:1.2;letter-spacing:-.045em}
-.about-forest-hero-inner>p:not(.eyebrow){max-width:650px;margin:0;color:rgba(255,255,255,.84);font-size:clamp(15px,1.2vw,18px);line-height:1.85}
-.about-scroll-cue{display:inline-flex;flex-direction:column;align-items:center;margin-top:clamp(48px,8vh,84px);color:rgba(255,255,255,.72);font-size:10px;font-weight:700;letter-spacing:.16em}
-.about-scroll-cue span{margin-top:10px;font-size:15px}
+.about-intro-hero{display:flex;min-height:clamp(610px,78vh,820px);align-items:center;background:#fff;text-align:center}
+.about-intro-inner{display:flex;flex-direction:column;align-items:center;padding-top:clamp(80px,10vh,126px);padding-bottom:clamp(72px,9vh,110px)}
+.about-intro-hero .eyebrow{margin-bottom:clamp(30px,4vh,46px);color:var(--green-soft)}
+.about-intro-logo{display:block;width:clamp(230px,28vw,410px);height:auto;margin-bottom:clamp(42px,6vh,68px)}
+.about-intro-hero h1{max-width:820px;margin:0 0 26px;font-size:clamp(36px,4vw,60px);font-weight:500;line-height:1.2;letter-spacing:-.05em}
+.about-intro-hero p:not(.eyebrow){max-width:650px;margin:0;color:var(--green-soft);font-size:clamp(15px,1.15vw,18px);line-height:1.85}
+.about-intro-scroll{display:inline-flex;gap:12px;align-items:center;margin-top:clamp(42px,6vh,68px);padding-bottom:8px;border-bottom:1px solid rgba(52,62,44,.35);color:var(--green);font-size:11px;font-weight:650;letter-spacing:.08em}
 
+.about-journey{border-top:1px solid rgba(52,62,44,.12)}
 .about-section-intro{display:grid;grid-template-columns:minmax(150px,.38fr) minmax(0,1.32fr);gap:clamp(52px,9vw,150px);align-items:start}
 .about-section-intro h2{max-width:760px;margin:0 0 26px;font-size:clamp(30px,3.25vw,50px);font-weight:500;line-height:1.24;letter-spacing:-.045em}
 .about-section-intro>div>p{max-width:860px;margin:0;color:var(--green-soft);font-size:15px;line-height:1.9}
-.brand-journey-list{margin:clamp(54px,7vw,92px) 0 0;padding:0;border-top:1px solid var(--green);list-style:none}
-.brand-journey-list li{position:relative;display:grid;grid-template-columns:64px minmax(190px,.55fr) minmax(0,1.25fr);gap:clamp(22px,4vw,62px);padding:34px 0;border-bottom:1px solid rgba(52,62,44,.2)}
-.journey-index{padding-top:3px;color:var(--green-soft);font-size:10px;font-weight:700;letter-spacing:.12em}
-.journey-name small{display:block;margin-bottom:10px;color:var(--green-soft);font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase}
-.journey-name strong{font-size:18px;letter-spacing:.02em}
-.journey-name-logo img{display:block;width:138px;height:auto}
-.journey-copy h3{margin:0 0 12px;font-size:clamp(19px,1.5vw,23px);font-weight:600;letter-spacing:-.025em}
-.journey-copy p{max-width:720px;margin:0;color:var(--green-soft);font-size:14px;line-height:1.8}
-.brand-journey-list .is-current::before{position:absolute;top:-1px;bottom:-1px;left:0;width:3px;background:var(--green);content:"";transform:translateX(-18px)}
+
+.brand-journey-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:clamp(52px,7vw,88px)}
+.journey-card{position:relative;min-height:390px;border:1px solid rgba(52,62,44,.2);background:#fff;overflow:hidden;transition:background-color .3s ease,color .3s ease,border-color .3s ease,transform .3s ease}
+.journey-card summary{position:relative;display:flex;min-height:390px;padding:30px;flex-direction:column;cursor:pointer;list-style:none}
+.journey-card summary::-webkit-details-marker{display:none}
+.journey-card .journey-index{color:var(--green-soft);font-size:10px;font-weight:700;letter-spacing:.12em}
+.journey-card .journey-kicker{margin-top:auto;margin-bottom:11px;color:var(--green-soft);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.journey-card summary strong{font-size:clamp(22px,2vw,30px);font-weight:600;letter-spacing:-.025em}
+.journey-card summary img{width:clamp(145px,15vw,205px);height:auto;margin-top:auto}
+.journey-toggle{position:absolute;top:25px;right:27px;font-size:22px;font-weight:300;transition:transform .3s ease}
+.journey-panel{padding:0 30px 30px;margin-top:-170px;opacity:0;transform:translateY(12px);transition:opacity .28s ease,transform .28s ease}
+.journey-panel h3{margin:0 0 13px;font-size:21px;font-weight:600;letter-spacing:-.025em}
+.journey-panel p{margin:0;color:inherit;font-size:14px;line-height:1.8;opacity:.8}
+.journey-card:hover,.journey-card:focus-within,.journey-card[open]{border-color:var(--green);background:var(--green);color:#fff;transform:translateY(-4px)}
+.journey-card:hover summary,.journey-card:focus-within summary,.journey-card[open] summary{min-height:218px}
+.journey-card:hover .journey-index,.journey-card:hover .journey-kicker,.journey-card:focus-within .journey-index,.journey-card:focus-within .journey-kicker,.journey-card[open] .journey-index,.journey-card[open] .journey-kicker{color:rgba(255,255,255,.68)}
+.journey-card:hover summary img,.journey-card:focus-within summary img,.journey-card[open] summary img{filter:brightness(0) invert(1)}
+.journey-card:hover .journey-panel,.journey-card:focus-within .journey-panel,.journey-card[open] .journey-panel{margin-top:0;opacity:1;transform:none}
+.journey-card:hover .journey-toggle,.journey-card:focus-within .journey-toggle,.journey-card[open] .journey-toggle{transform:rotate(45deg)}
 
 .about-brand-scenes{background:#fff;border-top:1px solid rgba(52,62,44,.12)}
 .about-scenes-intro{margin-bottom:clamp(42px,6vw,74px)}
@@ -51,25 +57,25 @@
   .about-section-intro,.about-name-grid{grid-template-columns:1fr}
   .about-section-intro{gap:24px}
   .about-name-grid{gap:42px}
-  .brand-journey-list li{grid-template-columns:46px 1fr}
-  .journey-copy{grid-column:2}
+  .brand-journey-cards{grid-template-columns:1fr}
+  .journey-card,.journey-card summary{min-height:0}
+  .journey-card summary{height:190px}
+  .journey-panel{margin-top:-100px}
   .about-scene-feature{grid-column:1/-1}
 }
 @media(max-width:620px){
   .about-page .section{padding:62px 0}
-  .about-forest-hero{min-height:calc(100svh - 70px)}
-  .about-forest-hero-image{object-position:58% center}
-  .about-forest-hero-shade{background:linear-gradient(180deg,rgba(38,47,31,.62),rgba(38,47,31,.82))}
-  .about-forest-hero-inner{padding-top:72px;padding-bottom:54px}
-  .about-hero-logo{width:min(67vw,270px);margin-bottom:42px}
-  .about-forest-hero h1{font-size:34px}
-  .about-forest-hero-inner>p:not(.eyebrow) br{display:none}
-  .about-scroll-cue{margin-top:48px}
+  .about-intro-hero{min-height:calc(100svh - 64px)}
+  .about-intro-inner{padding-top:68px;padding-bottom:58px}
+  .about-intro-logo{width:min(72vw,290px);margin-bottom:42px}
+  .about-intro-hero h1{font-size:34px}
+  .about-intro-hero p:not(.eyebrow) br{display:none}
   .about-section-intro h2{font-size:29px}
-  .brand-journey-list{margin-top:40px}
-  .brand-journey-list li{grid-template-columns:34px 1fr;gap:12px 14px;padding:28px 0}
-  .journey-copy{grid-column:2}
-  .brand-journey-list .is-current::before{transform:translateX(-9px)}
+  .brand-journey-cards{gap:10px;margin-top:40px}
+  .journey-card summary{height:174px;padding:23px}
+  .journey-panel{padding:0 23px 24px}
+  .journey-panel h3{font-size:19px}
+  .journey-card:hover{transform:none}
   .about-scenes-grid{grid-template-columns:1fr;gap:34px}
   .about-scene,.about-scene-feature{grid-column:auto}
   .about-scene figcaption{margin-top:10px;padding-top:9px}
