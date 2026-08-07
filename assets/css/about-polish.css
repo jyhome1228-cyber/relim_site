@@ -35,7 +35,22 @@
 .about-philosophy .about-section-intro>div>p{max-width:780px;margin-top:18px}
 .philosophy-grid article p{max-width:340px;line-height:1.78}
 .about-experience-grid article p{line-height:1.75}
+
+/* Brand image editorial */
+.about-brand-scenes{background:#f6f6f2}
+.about-scenes-intro{margin-bottom:clamp(40px,5vw,66px)}
+.about-scenes-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(28px,4vw,58px) clamp(16px,2vw,30px)}
+.about-scene{margin:0}
+.about-scene-wide{grid-column:1/-1}
+.about-scene img{width:100%;height:auto;background:#e7e8e2}
+.about-scene figcaption{display:grid;grid-template-columns:38px 1fr;gap:12px;margin-top:13px;padding-top:12px;border-top:1px solid rgba(52,62,44,.22);color:var(--green-soft);font-size:12px;line-height:1.4}
+.about-scene figcaption span{color:var(--green);font-size:10px;font-weight:700;letter-spacing:.1em}
+.about-scene figcaption p{margin:0}
 @media(max-width:620px){
   .journey-name-logo img{width:132px}
   .name-wordmark-logo{width:180px;margin:18px 0 24px}
+  .about-scenes-intro{margin-bottom:30px}
+  .about-scenes-grid{grid-template-columns:1fr;gap:30px}
+  .about-scene-wide{grid-column:auto}
+  .about-scene figcaption{margin-top:10px;padding-top:10px}
 }
