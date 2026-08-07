@@ -4,13 +4,13 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getFirestore,
   onSnapshot,
   query,
   serverTimestamp,
   updateDoc,
-  where,
-  writeBatch
+  where
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 import { firebaseConfig, firebaseReady } from './firebase-config.js';
 
@@ -21,7 +21,7 @@ const root = document.querySelector('[data-mypage]');
 
 const formatDate = (value) => {
   const date = value?.toDate?.() || (value ? new Date(value) : null);
-  if (!date || Number.isNaN(date.getTime())) return '방금 전';
+  if (!date || Number.isNaN(date.getTime())) return '-';
   return new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
 };
 
@@ -90,7 +90,7 @@ function init() {
   const ratingButtons = ratingPicker ? [...ratingPicker.querySelectorAll('[data-rating]')] : [];
 
   let currentUser = null;
-  let activeInquiry = null;
+  let activeQuestion = null;
   let activeReview = null;
 
   const setRating = (value) => {
@@ -119,33 +119,31 @@ function init() {
     return button;
   };
 
-  const renderRows = (target, docs, type) => {
-    if (!target) return;
-    target.replaceChildren();
+  const renderQuestions = (docs) => {
+    inquiryList.replaceChildren();
     const sorted = [...docs].sort((a, b) => (b.data().createdAt?.toMillis?.() || 0) - (a.data().createdAt?.toMillis?.() || 0));
     if (!sorted.length) {
       const empty = document.createElement('div');
       empty.className = 'community-empty';
-      empty.textContent = type === 'inquiry' ? '아직 등록한 문의가 없습니다.' : '아직 작성한 리뷰가 없습니다.';
-      target.append(empty);
+      empty.textContent = '아직 등록한 문의가 없습니다.';
+      inquiryList.append(empty);
       return;
     }
 
-    sorted.forEach((snapshotDoc) => {
-      const item = snapshotDoc.data();
-      const id = snapshotDoc.id;
+    sorted.forEach((snap) => {
+      const item = snap.data();
+      const id = snap.id;
       const row = document.createElement('div');
       row.className = 'mypage-row';
 
       const kind = document.createElement('span');
       kind.className = 'mypage-row-kind';
-      if (type === 'inquiry') kind.textContent = item.category || '문의';
-      else kind.textContent = item.rating ? `${item.rating}.0 / 5` : '리뷰';
+      kind.textContent = item.category || '문의';
 
-      const title = type === 'inquiry' ? document.createElement('a') : document.createElement('span');
-      title.className = `mypage-row-title${type === 'inquiry' ? ' is-link' : ''}`;
-      title.textContent = item.title || (type === 'inquiry' ? '문의' : '리뷰');
-      if (type === 'inquiry') title.href = `inquiry.html?id=${encodeURIComponent(id)}`;
+      const title = document.createElement('a');
+      title.className = 'mypage-row-title is-link';
+      title.textContent = item.title || '문의';
+      title.href = `inquiry.html?id=${encodeURIComponent(id)}`;
 
       const date = document.createElement('span');
       date.className = 'mypage-row-date';
@@ -153,77 +151,114 @@ function init() {
 
       const actions = document.createElement('div');
       actions.className = 'mypage-row-actions';
+      const state = document.createElement('span');
+      state.className = `mypage-status${item.status === '답변완료' ? ' is-complete' : ''}`;
+      state.textContent = item.status === '답변완료' ? '답변완료' : '답변대기';
+      actions.append(state);
 
-      if (type === 'inquiry') {
-        const state = document.createElement('span');
-        const completed = Boolean(item.answer) || item.status === '답변완료';
-        state.className = `mypage-status${completed ? ' is-complete' : ''}`;
-        state.textContent = completed ? '답변완료' : '답변대기';
-        actions.append(state);
-
-        actions.append(makeButton('수정', 'mypage-edit', () => {
-          activeInquiry = { id, ...item };
+      actions.append(makeButton('수정', 'mypage-edit', async () => {
+        try {
+          const bodySnap = await getDoc(doc(db, 'questions', id, 'private', 'body'));
+          if (!bodySnap.exists()) return;
+          activeQuestion = { id, ...item, ...bodySnap.data() };
           inquiryForm.elements.category.value = item.category || '이용 문의';
           inquiryForm.elements.title.value = item.title || '';
-          inquiryForm.elements.content.value = item.content || '';
+          inquiryForm.elements.content.value = bodySnap.data().content || '';
           setStatus(inquiryStatus);
           openModal(inquiryModal);
-        }));
-      } else {
-        actions.append(makeButton('수정', 'mypage-edit', () => {
-          activeReview = { id, ...item };
-          reviewForm.reset();
-          reviewForm.elements.title.value = item.title || '';
-          reviewForm.elements.content.value = item.content || '';
-          setRating(Number(item.rating) || 0);
-          setStatus(reviewStatus);
-          openModal(reviewModal);
-        }));
-      }
-
-      actions.append(makeButton('삭제', 'mypage-delete', async () => {
-        if (!window.confirm('이 글을 삭제할까요?')) return;
-        try {
-          if (type === 'inquiry') {
-            const batch = writeBatch(db);
-            batch.delete(doc(db, 'inquiries', id));
-            batch.delete(doc(db, 'inquiryIndex', id));
-            await batch.commit();
-          } else {
-            await deleteDoc(doc(db, 'reviews', id));
-          }
         } catch (error) {
           console.error(error);
-          window.alert('삭제 권한을 확인해 주세요.');
+          window.alert('문의 내용을 불러오지 못했습니다.');
+        }
+      }));
+
+      actions.append(makeButton('삭제', 'mypage-delete', async () => {
+        if (!confirm('이 문의를 삭제할까요?')) return;
+        try {
+          await deleteDoc(doc(db, 'questions', id, 'private', 'body'));
+          await deleteDoc(doc(db, 'questions', id));
+        } catch (error) {
+          console.error(error);
+          window.alert('문의 삭제에 실패했습니다.');
         }
       }));
 
       row.append(kind, title, date, actions);
-      target.append(row);
+      inquiryList.append(row);
+    });
+  };
+
+  const renderReviews = (docs) => {
+    reviewList.replaceChildren();
+    const sorted = [...docs].sort((a, b) => (b.data().createdAt?.toMillis?.() || 0) - (a.data().createdAt?.toMillis?.() || 0));
+    if (!sorted.length) {
+      const empty = document.createElement('div');
+      empty.className = 'community-empty';
+      empty.textContent = '아직 작성한 리뷰가 없습니다.';
+      reviewList.append(empty);
+      return;
+    }
+
+    sorted.forEach((snap) => {
+      const item = snap.data();
+      const id = snap.id;
+      const row = document.createElement('div');
+      row.className = 'mypage-row';
+
+      const kind = document.createElement('span');
+      kind.className = 'mypage-row-kind';
+      kind.textContent = item.rating ? `${item.rating}.0 / 5` : '리뷰';
+      const title = document.createElement('span');
+      title.className = 'mypage-row-title';
+      title.textContent = item.title || '리뷰';
+      const date = document.createElement('span');
+      date.className = 'mypage-row-date';
+      date.textContent = formatDate(item.updatedAt || item.createdAt);
+      const actions = document.createElement('div');
+      actions.className = 'mypage-row-actions';
+
+      actions.append(makeButton('수정', 'mypage-edit', () => {
+        activeReview = { id, ...item };
+        reviewForm.reset();
+        reviewForm.elements.title.value = item.title || '';
+        reviewForm.elements.content.value = item.content || '';
+        setRating(Number(item.rating) || 0);
+        setStatus(reviewStatus);
+        openModal(reviewModal);
+      }));
+
+      actions.append(makeButton('삭제', 'mypage-delete', async () => {
+        if (!confirm('이 리뷰를 삭제할까요?')) return;
+        try {
+          await deleteDoc(doc(db, 'reviews', id));
+        } catch (error) {
+          console.error(error);
+          window.alert('리뷰 삭제에 실패했습니다.');
+        }
+      }));
+
+      row.append(kind, title, date, actions);
+      reviewList.append(row);
     });
   };
 
   inquiryForm?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (!activeInquiry || !currentUser || activeInquiry.userId !== currentUser.uid) return;
+    if (!activeQuestion || !currentUser || activeQuestion.ownerUid !== currentUser.uid) return;
     const submit = inquiryForm.querySelector('[type="submit"]');
     const data = new FormData(inquiryForm);
-    const category = String(data.get('category') || '이용 문의');
+    const category = String(data.get('category') || '이용 문의').trim();
     const title = String(data.get('title') || '').trim();
     const content = String(data.get('content') || '').trim();
-    if (title.length < 2 || content.length < 5) return setStatus(inquiryStatus, '문의 제목과 내용을 조금 더 입력해 주세요.', true);
     submit.disabled = true;
-    setStatus(inquiryStatus, '문의를 수정하고 있습니다.');
     try {
-      const batch = writeBatch(db);
-      batch.update(doc(db, 'inquiries', activeInquiry.id), { category, title, content, updatedAt: serverTimestamp() });
-      batch.update(doc(db, 'inquiryIndex', activeInquiry.id), { category, title, updatedAt: serverTimestamp() });
-      await batch.commit();
+      await updateDoc(doc(db, 'questions', activeQuestion.id), { category, title, updatedAt: serverTimestamp() });
+      await updateDoc(doc(db, 'questions', activeQuestion.id, 'private', 'body'), { content, updatedAt: serverTimestamp() });
       setStatus(inquiryStatus, '문의가 수정되었습니다.');
-      window.setTimeout(() => closeModal(inquiryModal), 450);
+      window.setTimeout(() => closeModal(inquiryModal), 350);
     } catch (error) {
       console.error(error);
-      setStatus(inquiryStatus, '문의 수정 권한 또는 Firestore Rules를 확인해 주세요.', true);
+      setStatus(inquiryStatus, '문의 수정에 실패했습니다.', true);
     } finally {
       submit.disabled = false;
     }
@@ -241,16 +276,15 @@ function init() {
     if (!Number.isInteger(rating) || rating < 1 || rating > 5) return setStatus(reviewStatus, '별점을 선택해 주세요.', true);
     if (title.length < 2 || content.length < 5) return setStatus(reviewStatus, '제목과 리뷰 내용을 조금 더 입력해 주세요.', true);
     submit.disabled = true;
-    setStatus(reviewStatus, '리뷰를 수정하고 있습니다.');
     try {
       const changes = { rating, title, content, updatedAt: serverTimestamp() };
       if (imageFile?.size) changes.imageDataUrl = await compressImage(imageFile);
       await updateDoc(doc(db, 'reviews', activeReview.id), changes);
       setStatus(reviewStatus, '리뷰가 수정되었습니다.');
-      window.setTimeout(() => closeModal(reviewModal), 450);
+      window.setTimeout(() => closeModal(reviewModal), 350);
     } catch (error) {
       console.error(error);
-      setStatus(reviewStatus, error.message || '리뷰 수정 권한 또는 Firestore Rules를 확인해 주세요.', true);
+      setStatus(reviewStatus, error.message || '리뷰 수정에 실패했습니다.', true);
     } finally {
       submit.disabled = false;
     }
@@ -259,7 +293,7 @@ function init() {
   onAuthStateChanged(auth, (user) => {
     currentUser = user;
     if (!user) {
-      window.location.href = 'login.html?return=mypage.html';
+      location.href = 'login.html?return=mypage.html';
       return;
     }
     if (loading) loading.hidden = true;
@@ -268,23 +302,19 @@ function init() {
     if (email) email.textContent = user.email || '';
     if (avatar) avatar.textContent = (user.displayName || user.email || 'R').charAt(0).toUpperCase();
 
-    onSnapshot(query(collection(db, 'inquiries'), where('userId', '==', user.uid)), (snapshot) => {
+    onSnapshot(query(collection(db, 'questions'), where('ownerUid', '==', user.uid)), (snapshot) => {
       if (inquiryCount) inquiryCount.textContent = String(snapshot.size);
-      renderRows(inquiryList, snapshot.docs, 'inquiry');
+      renderQuestions(snapshot.docs);
     });
     onSnapshot(query(collection(db, 'reviews'), where('userId', '==', user.uid)), (snapshot) => {
       if (reviewCount) reviewCount.textContent = String(snapshot.size);
-      renderRows(reviewList, snapshot.docs, 'review');
+      renderReviews(snapshot.docs);
     });
   });
 
   logoutButton?.addEventListener('click', async () => {
     await signOut(auth);
-    window.location.href = 'index.html';
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape') document.querySelectorAll('.community-modal.is-open').forEach(closeModal);
+    location.href = 'index.html';
   });
 }
 
