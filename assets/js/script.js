@@ -475,3 +475,22 @@ function initBrandSlider() {
 }
 
 initBrandSlider();
+
+
+// Brand journey: desktop hover, touch tap fallback
+const journeyCards = [...document.querySelectorAll('.journey-card')];
+journeyCards.forEach((card) => {
+  card.addEventListener('click', () => {
+    if (window.matchMedia('(hover: none), (pointer: coarse)').matches) {
+      const nextState = !card.classList.contains('is-active');
+      journeyCards.forEach((item) => item.classList.remove('is-active'));
+      card.classList.toggle('is-active', nextState);
+    }
+  });
+  card.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      card.classList.toggle('is-active');
+    }
+  });
+});
