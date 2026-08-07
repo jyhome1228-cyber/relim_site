@@ -3,6 +3,7 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getFirestore,
   onSnapshot,
@@ -123,6 +124,8 @@ function initReviews() {
   const editStatus = document.getElementById('reviewEditStatus');
   const ownerActions = detailModal?.querySelector('[data-review-owner-actions]');
   const editButton = detailModal?.querySelector('[data-review-edit]');
+  const deleteButton = detailModal?.querySelector('[data-review-delete]');
+  const deleteStatus = detailModal?.querySelector('[data-review-delete-status]');
 
   const setCreateRating = bindRatingPicker(
     form?.querySelector('[data-rating-picker]'),
@@ -161,27 +164,24 @@ function initReviews() {
     });
   });
 
-  const renderDetail = (id) => {
+  function renderDetail(id) {
     const review = reviewCache.get(id);
     if (!review || !detailModal) return;
     activeReviewId = id;
-    const title = detailModal.querySelector('[data-review-detail-title]');
-    const meta = detailModal.querySelector('[data-review-detail-meta]');
-    const detailRating = detailModal.querySelector('[data-review-detail-rating]');
-    const content = detailModal.querySelector('[data-review-detail-content]');
+    detailModal.querySelector('[data-review-detail-title]').textContent = review.title || '리림 이용 리뷰';
+    detailModal.querySelector('[data-review-detail-meta]').textContent = `${review.userName || '리림 회원'} · ${formatDate(review.createdAt)}`;
+    detailModal.querySelector('[data-review-detail-rating]').textContent = review.rating ? renderStars(review.rating, true) : '별점 없음';
+    detailModal.querySelector('[data-review-detail-content]').textContent = review.content || '';
     const image = detailModal.querySelector('[data-review-detail-image]');
-    if (title) title.textContent = review.title || '리림 이용 리뷰';
-    if (meta) meta.textContent = `${review.userName || '리림 회원'} · ${formatDate(review.createdAt)}`;
-    if (detailRating) detailRating.textContent = review.rating ? renderStars(review.rating, true) : '별점 없음';
-    if (content) content.textContent = review.content || '';
     if (image) {
       image.hidden = !review.imageDataUrl;
       image.src = review.imageDataUrl || '';
       image.alt = review.title || '리림 리뷰 사진';
     }
     if (ownerActions) ownerActions.hidden = !currentUser || review.userId !== currentUser.uid;
+    setStatus(deleteStatus);
     openModal(detailModal);
-  };
+  }
 
   editButton?.addEventListener('click', () => {
     const review = reviewCache.get(activeReviewId);
@@ -193,6 +193,28 @@ function initReviews() {
     setStatus(editStatus);
     closeModal(detailModal);
     openModal(editModal);
+  });
+
+  deleteButton?.addEventListener('click', async () => {
+    const review = reviewCache.get(activeReviewId);
+    if (!review || !currentUser || review.userId !== currentUser.uid) return;
+    if (!window.confirm('이 리뷰를 삭제할까요? 삭제한 글은 복구할 수 없습니다.')) return;
+
+    deleteButton.disabled = true;
+    setStatus(deleteStatus, '리뷰를 삭제하고 있습니다.');
+    try {
+      await deleteDoc(doc(db, 'reviews', activeReviewId));
+      reviewCache.delete(activeReviewId);
+      activeReviewId = null;
+      closeModal(detailModal);
+    } catch (error) {
+      console.error('[RE:LIM REVIEW] 삭제 실패:', error);
+      setStatus(deleteStatus, String(error?.code || '').includes('permission-denied')
+        ? '삭제 권한이 없습니다. Firestore Rules를 확인해 주세요.'
+        : '리뷰 삭제 중 오류가 발생했습니다.', true);
+    } finally {
+      deleteButton.disabled = false;
+    }
   });
 
   onSnapshot(query(collection(db, 'reviews'), orderBy('createdAt', 'desc')), (snapshot) => {
@@ -260,7 +282,10 @@ function initReviews() {
     if (average) average.textContent = ratingCount ? (ratingTotal / ratingCount).toFixed(1) : '0.0';
     if (empty) empty.hidden = snapshot.size > 0;
 
-    if (activeReviewId && detailModal?.classList.contains('is-open') && reviewCache.has(activeReviewId)) renderDetail(activeReviewId);
+    if (activeReviewId && detailModal?.classList.contains('is-open')) {
+      if (reviewCache.has(activeReviewId)) renderDetail(activeReviewId);
+      else closeModal(detailModal);
+    }
   }, (error) => {
     console.error(error);
     if (empty) {
@@ -299,7 +324,7 @@ function initReviews() {
       form.reset();
       setCreateRating(0);
       setStatus(formStatus, '리뷰가 등록되었습니다.');
-      window.setTimeout(() => closeModal(writeModal), 650);
+      window.setTimeout(() => closeModal(writeModal), 450);
     } catch (error) {
       console.error(error);
       setStatus(formStatus, error.message || '리뷰 등록 중 오류가 발생했습니다.', true);
@@ -333,7 +358,7 @@ function initReviews() {
       window.setTimeout(() => {
         closeModal(editModal);
         if (reviewCache.has(activeReviewId)) renderDetail(activeReviewId);
-      }, 500);
+      }, 350);
     } catch (error) {
       console.error(error);
       setStatus(editStatus, error.message || '리뷰 수정 중 오류가 발생했습니다.', true);
