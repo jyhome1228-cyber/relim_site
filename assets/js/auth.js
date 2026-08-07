@@ -44,7 +44,57 @@ function userInitial(user) {
   return (user.displayName || user.email || 'R').trim().charAt(0).toUpperCase();
 }
 
+function ensureCommunityNavigation() {
+  const nav = document.querySelector('.nav');
+  if (!nav) return;
+
+  const links = [
+    ['reviews.html', '리뷰'],
+    ['inquiry.html', '문의하기']
+  ];
+
+  links.forEach(([href, label]) => {
+    if (nav.querySelector(`a[href="${href}"]`)) return;
+    const link = document.createElement('a');
+    link.href = href;
+    link.textContent = label;
+    nav.append(link);
+  });
+
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  nav.querySelectorAll('a').forEach((link) => {
+    if (link.getAttribute('href') === currentPage) link.setAttribute('aria-current', 'page');
+  });
+
+  if (!document.getElementById('relim-member-header-fix')) {
+    const style = document.createElement('style');
+    style.id = 'relim-member-header-fix';
+    style.textContent = `
+      .header-inner{gap:18px}
+      .brand-logo{flex:0 0 auto}
+      .nav{flex:1 1 auto;min-width:0;justify-content:center;gap:clamp(12px,1.45vw,24px)}
+      .nav a{flex:0 0 auto;white-space:nowrap;font-size:14px}
+      .member-nav-link.header-book{margin-left:0;flex:0 0 auto}
+      .header-book{flex:0 0 auto}
+      @media(max-width:1180px) and (min-width:901px){
+        .nav{gap:11px}
+        .nav a{font-size:12px;letter-spacing:-.035em}
+        .header-book,.member-nav-link.header-book{padding-left:12px;padding-right:12px;font-size:12px}
+        .brand-logo{width:118px}
+      }
+      @media(max-width:900px){
+        .header-inner{gap:10px}
+        .nav{justify-content:flex-start;gap:0}
+        .nav a{font-size:16px}
+        .member-nav-link.header-book{margin-left:auto}
+      }
+    `;
+    document.head.append(style);
+  }
+}
+
 export function initAuthNavigation(memberLink) {
+  ensureCommunityNavigation();
   const relimAuth = getRelimAuth();
   if (!relimAuth) {
     memberLink.dataset.authState = 'setup';
@@ -65,10 +115,10 @@ export function initAuthNavigation(memberLink) {
     avatar.className = 'member-nav-avatar';
     avatar.textContent = userInitial(user);
     const label = document.createElement('span');
-    label.textContent = user.displayName || '내 계정';
+    label.textContent = user.displayName || '마이페이지';
     memberLink.append(avatar, label);
-    memberLink.href = 'login.html';
-    memberLink.setAttribute('aria-label', `${user.displayName || '회원'} 계정`);
+    memberLink.href = 'mypage.html';
+    memberLink.setAttribute('aria-label', `${user.displayName || '회원'} 마이페이지`);
     memberLink.dataset.authState = 'signed-in';
   });
 }
@@ -92,6 +142,7 @@ export function initLoginPage() {
   const relimAuth = getRelimAuth();
 
   const setStatus = (message = '', isError = false) => {
+    if (!status) return;
     status.textContent = message;
     status.classList.toggle('is-error', isError);
     status.hidden = !message;
@@ -113,22 +164,22 @@ export function initLoginPage() {
   };
 
   if (!relimAuth) {
-    setup.hidden = false;
-    guest.hidden = true;
-    account.hidden = true;
+    if (setup) setup.hidden = false;
+    if (guest) guest.hidden = true;
+    if (account) account.hidden = true;
     return;
   }
 
   onAuthStateChanged(relimAuth, (user) => {
-    setup.hidden = true;
-    guest.hidden = Boolean(user);
-    account.hidden = !user;
+    if (setup) setup.hidden = true;
+    if (guest) guest.hidden = Boolean(user);
+    if (account) account.hidden = !user;
     setStatus();
 
     if (user) {
-      name.textContent = user.displayName || '리림 회원';
-      email.textContent = user.email || '';
-      avatar.textContent = userInitial(user);
+      if (name) name.textContent = user.displayName || '리림 회원';
+      if (email) email.textContent = user.email || '';
+      if (avatar) avatar.textContent = userInitial(user);
     }
   });
 
