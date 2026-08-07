@@ -48,8 +48,10 @@ service cloud.firestore {
         ]);
     }
 
+    // 회원 프로필: 본인은 자기 정보만 저장/수정, 관리자는 전체 가입자 목록 열람 가능.
     match /users/{userId} {
-      allow create, read, update: if isOwner(userId);
+      allow read: if isAdmin() || isOwner(userId);
+      allow create, update: if isOwner(userId);
       allow delete: if false;
 
       match /{document=**} {
@@ -68,11 +70,9 @@ service cloud.firestore {
     match /inquiryIndex/{inquiryId} {
       allow read: if true;
 
-      // 로그인 회원은 자기 UID로만 목록 항목을 만들 수 있다.
       allow create: if signedIn()
         && request.resource.data.ownerUid == request.auth.uid;
 
-      // 작성자는 제목/구분만 수정, 관리자는 답변상태 갱신 가능.
       allow update: if isAdmin()
         || (signedIn()
           && resource.data.ownerUid == request.auth.uid
@@ -90,11 +90,9 @@ service cloud.firestore {
       allow read: if isAdmin()
         || (signedIn() && resource.data.userId == request.auth.uid);
 
-      // 등록 시 본인 UID로만 작성 가능.
       allow create: if signedIn()
         && request.resource.data.userId == request.auth.uid;
 
-      // 작성자는 문의 본문 관련 필드만 수정 가능. 답변/상태는 관리자만 수정.
       allow update: if isAdmin()
         || (signedIn()
           && resource.data.userId == request.auth.uid
