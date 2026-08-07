@@ -1,3 +1,5 @@
+import('./nav.js').catch((error) => console.error('[RE:LIM NAV]', error));
+
 const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.nav');
 
