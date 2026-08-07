@@ -3,11 +3,13 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
 import {
   addDoc,
   collection,
+  doc,
   getFirestore,
   onSnapshot,
   orderBy,
   query,
-  serverTimestamp
+  serverTimestamp,
+  updateDoc
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 import { firebaseConfig, firebaseReady } from './firebase-config.js';
 
@@ -49,7 +51,7 @@ const openModal = (modal) => {
 const closeModal = (modal) => {
   if (!modal) return;
   modal.classList.remove('is-open');
-  document.body.style.overflow = '';
+  if (!document.querySelector('.community-modal.is-open')) document.body.style.overflow = '';
 };
 
 const renderStars = (rating, withNumber = false) => {
@@ -85,6 +87,24 @@ async function compressReviewImage(file) {
   return dataUrl;
 }
 
+function bindRatingPicker(container, valueInput, label, initial = 0) {
+  if (!container || !valueInput) return () => {};
+  const buttons = [...container.querySelectorAll('[data-rating]')];
+  const setRating = (value) => {
+    const rating = Number(value) || 0;
+    valueInput.value = rating ? String(rating) : '';
+    buttons.forEach((button) => {
+      const buttonValue = Number(button.dataset.rating);
+      button.classList.toggle('is-active', buttonValue <= rating);
+      button.setAttribute('aria-pressed', String(buttonValue === rating));
+    });
+    if (label) label.textContent = rating ? `${rating}.0 / 5.0` : '별점을 선택해 주세요';
+  };
+  buttons.forEach((button) => button.addEventListener('click', () => setRating(button.dataset.rating)));
+  setRating(initial);
+  return setRating;
+}
+
 function initReviews() {
   const root = document.querySelector('[data-reviews-page]');
   if (!root || !db || !auth) return;
@@ -96,34 +116,39 @@ function initReviews() {
   const writeButton = root.querySelector('[data-review-write]');
   const writeModal = document.getElementById('reviewWriteModal');
   const detailModal = document.getElementById('reviewDetailModal');
+  const editModal = document.getElementById('reviewEditModal');
   const form = document.getElementById('reviewForm');
+  const editForm = document.getElementById('reviewEditForm');
   const formStatus = document.getElementById('reviewFormStatus');
-  const ratingPicker = form?.querySelector('[data-rating-picker]');
-  const ratingValue = form?.querySelector('[data-rating-value]');
-  const ratingLabel = form?.querySelector('[data-rating-label]');
-  const ratingButtons = ratingPicker ? [...ratingPicker.querySelectorAll('[data-rating]')] : [];
+  const editStatus = document.getElementById('reviewEditStatus');
+  const ownerActions = detailModal?.querySelector('[data-review-owner-actions]');
+  const editButton = detailModal?.querySelector('[data-review-edit]');
+
+  const setCreateRating = bindRatingPicker(
+    form?.querySelector('[data-rating-picker]'),
+    form?.querySelector('[data-rating-value]'),
+    form?.querySelector('[data-rating-label]')
+  );
+  const setEditRating = bindRatingPicker(
+    editForm?.querySelector('[data-edit-rating-picker]'),
+    editForm?.querySelector('[data-edit-rating-value]'),
+    editForm?.querySelector('[data-edit-rating-label]')
+  );
+
   let currentUser = null;
+  let activeReviewId = null;
   let reviewCache = new Map();
 
-  const setRating = (value) => {
-    const rating = Number(value) || 0;
-    if (ratingValue) ratingValue.value = rating ? String(rating) : '';
-    ratingButtons.forEach((button) => {
-      const active = Number(button.dataset.rating) <= rating;
-      button.classList.toggle('is-active', active);
-      button.setAttribute('aria-pressed', String(Number(button.dataset.rating) === rating));
-    });
-    if (ratingLabel) ratingLabel.textContent = rating ? `${rating}.0 / 5.0` : '별점을 선택해 주세요';
-  };
-
-  ratingButtons.forEach((button) => button.addEventListener('click', () => setRating(button.dataset.rating)));
-
-  onAuthStateChanged(auth, (user) => { currentUser = user; });
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    if (activeReviewId && detailModal?.classList.contains('is-open')) renderDetail(activeReviewId);
+  });
 
   writeButton?.addEventListener('click', () => {
     if (!currentUser) return goLogin();
+    form?.reset();
+    setCreateRating(0);
     setStatus(formStatus);
-    setRating(0);
     openModal(writeModal);
   });
 
@@ -139,6 +164,7 @@ function initReviews() {
   const renderDetail = (id) => {
     const review = reviewCache.get(id);
     if (!review || !detailModal) return;
+    activeReviewId = id;
     const title = detailModal.querySelector('[data-review-detail-title]');
     const meta = detailModal.querySelector('[data-review-detail-meta]');
     const detailRating = detailModal.querySelector('[data-review-detail-rating]');
@@ -153,8 +179,21 @@ function initReviews() {
       image.src = review.imageDataUrl || '';
       image.alt = review.title || '리림 리뷰 사진';
     }
+    if (ownerActions) ownerActions.hidden = !currentUser || review.userId !== currentUser.uid;
     openModal(detailModal);
   };
+
+  editButton?.addEventListener('click', () => {
+    const review = reviewCache.get(activeReviewId);
+    if (!review || !currentUser || review.userId !== currentUser.uid || !editForm) return;
+    editForm.reset();
+    editForm.elements.title.value = review.title || '';
+    editForm.elements.content.value = review.content || '';
+    setEditRating(Number(review.rating) || 0);
+    setStatus(editStatus);
+    closeModal(detailModal);
+    openModal(editModal);
+  });
 
   onSnapshot(query(collection(db, 'reviews'), orderBy('createdAt', 'desc')), (snapshot) => {
     reviewCache = new Map();
@@ -220,6 +259,8 @@ function initReviews() {
     if (count) count.textContent = String(snapshot.size);
     if (average) average.textContent = ratingCount ? (ratingTotal / ratingCount).toFixed(1) : '0.0';
     if (empty) empty.hidden = snapshot.size > 0;
+
+    if (activeReviewId && detailModal?.classList.contains('is-open') && reviewCache.has(activeReviewId)) renderDetail(activeReviewId);
   }, (error) => {
     console.error(error);
     if (empty) {
@@ -256,12 +297,46 @@ function initReviews() {
         updatedAt: serverTimestamp()
       });
       form.reset();
-      setRating(0);
+      setCreateRating(0);
       setStatus(formStatus, '리뷰가 등록되었습니다.');
       window.setTimeout(() => closeModal(writeModal), 650);
     } catch (error) {
       console.error(error);
       setStatus(formStatus, error.message || '리뷰 등록 중 오류가 발생했습니다.', true);
+    } finally {
+      submit.disabled = false;
+    }
+  });
+
+  editForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const review = reviewCache.get(activeReviewId);
+    if (!review || !currentUser || review.userId !== currentUser.uid) return;
+
+    const submit = editForm.querySelector('[type="submit"]');
+    const data = new FormData(editForm);
+    const title = String(data.get('title') || '').trim();
+    const content = String(data.get('content') || '').trim();
+    const rating = Number(data.get('rating'));
+    const imageFile = data.get('image');
+
+    if (!Number.isInteger(rating) || rating < 1 || rating > 5) return setStatus(editStatus, '별점을 선택해 주세요.', true);
+    if (title.length < 2 || content.length < 5) return setStatus(editStatus, '제목과 리뷰 내용을 조금 더 입력해 주세요.', true);
+
+    submit.disabled = true;
+    setStatus(editStatus, '리뷰를 수정하고 있습니다.');
+    try {
+      const changes = { rating, title, content, updatedAt: serverTimestamp() };
+      if (imageFile?.size) changes.imageDataUrl = await compressReviewImage(imageFile);
+      await updateDoc(doc(db, 'reviews', activeReviewId), changes);
+      setStatus(editStatus, '리뷰가 수정되었습니다.');
+      window.setTimeout(() => {
+        closeModal(editModal);
+        if (reviewCache.has(activeReviewId)) renderDetail(activeReviewId);
+      }, 500);
+    } catch (error) {
+      console.error(error);
+      setStatus(editStatus, error.message || '리뷰 수정 중 오류가 발생했습니다.', true);
     } finally {
       submit.disabled = false;
     }
