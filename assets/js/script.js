@@ -1,6 +1,28 @@
 const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.nav');
 
+function initMemberNavigation() {
+  const header = document.querySelector('.header-inner');
+  const navigation = header?.querySelector('.nav');
+  if (!header || !navigation || header.querySelector('[data-auth-nav]')) return;
+
+  const memberLink = document.createElement('a');
+  memberLink.className = 'member-nav-link';
+  memberLink.href = 'login.html';
+  memberLink.dataset.authNav = '';
+  memberLink.textContent = '로그인';
+  memberLink.setAttribute('aria-label', '로그인 및 회원가입');
+  navigation.append(memberLink);
+
+  import('./auth.js')
+    .then(({ initAuthNavigation }) => initAuthNavigation(memberLink))
+    .catch(() => {
+      memberLink.textContent = '로그인';
+    });
+}
+
+initMemberNavigation();
+
 if (menuButton && nav) {
   menuButton.addEventListener('click', () => {
     const open = nav.classList.toggle('is-open');
