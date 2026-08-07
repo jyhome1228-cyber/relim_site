@@ -120,7 +120,7 @@ service cloud.firestore {
       }
     }
 
-    // 리뷰: 누구나 열람. 작성자는 본인 리뷰만 수정/삭제 가능.
+    // 리뷰: 누구나 열람, 로그인 회원 작성, 작성자 본인만 수정/삭제.
     match /reviews/{reviewId} {
       allow read: if true;
       allow create: if validReviewCreate();
@@ -128,8 +128,8 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.userId == request.auth.uid;
     }
 
-    // 문의 게시판 목록용 공개 메타데이터.
-    // 본문/답변은 절대 저장하지 않는다.
+    // 문의 게시판에 노출되는 공개 목록 데이터.
+    // 제목/구분/마스킹된 작성자/작성일/답변상태만 담고 본문과 답변은 저장하지 않는다.
     match /inquiryIndex/{inquiryId} {
       allow read: if true;
       allow create: if validInquiryIndexCreate();
@@ -137,7 +137,8 @@ service cloud.firestore {
       allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
     }
 
-    // 문의 본문과 관리자 답변은 작성자와 관리자만 읽을 수 있다.
+    // 실제 문의 본문과 관리자 답변.
+    // 작성자 본인과 관리자만 읽을 수 있어 다른 회원에게 내용/답변이 노출되지 않는다.
     match /inquiries/{inquiryId} {
       allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
       allow create: if validInquiryCreate();
