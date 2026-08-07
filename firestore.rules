@@ -63,8 +63,6 @@ service cloud.firestore {
     function validInquiryCreate() {
       return signedIn()
         && request.resource.data.userId == request.auth.uid
-        && request.resource.data.userName is string
-        && request.resource.data.userName.size() >= 1
         && request.resource.data.status == '답변대기'
         && validInquiryFields();
     }
@@ -73,9 +71,6 @@ service cloud.firestore {
       return signedIn()
         && resource.data.userId == request.auth.uid
         && request.resource.data.userId == resource.data.userId
-        && request.resource.data.userName == resource.data.userName
-        && request.resource.data.createdAt == resource.data.createdAt
-        && request.resource.data.status == resource.data.status
         && validInquiryFields()
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
           'category', 'title', 'content', 'updatedAt'
@@ -91,7 +86,7 @@ service cloud.firestore {
       }
     }
 
-    // 리뷰: 누구나 열람. 작성자는 별점/제목/내용/사진만 수정 가능.
+    // 리뷰: 누구나 열람. 작성자는 본인 리뷰만 수정/삭제 가능.
     match /reviews/{reviewId} {
       allow read: if true;
       allow create: if validReviewCreate();
@@ -100,8 +95,8 @@ service cloud.firestore {
     }
 
     // 문의: 전부 비밀글.
-    // 글과 관리자 답변은 작성자 본인과 관리자만 읽을 수 있다.
-    // 작성자는 문의 본문만 수정할 수 있고 답변/상태 변경은 관리자만 가능하다.
+    // 작성자 본인과 관리자만 읽을 수 있다.
+    // 작성자는 본문 수정/삭제, 관리자는 답변/상태 변경 및 삭제 가능.
     match /inquiries/{inquiryId} {
       allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
       allow create: if validInquiryCreate();
