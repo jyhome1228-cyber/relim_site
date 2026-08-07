@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>문의하기 | 리림 RE:LIM</title>
-  <meta name="description" content="리림 이용, 예약, 시설 관련 문의를 남겨주세요. 문의 제목은 게시판에 표시되며 내용과 답변은 작성자와 관리자만 확인할 수 있습니다.">
+  <meta name="description" content="리림 이용, 예약, 시설 관련 문의를 남겨주세요.">
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/community.css">
@@ -19,7 +19,7 @@
   </div>
 </header>
 
-<main class="community-page" data-inquiry-page>
+<main class="community-page" data-question-page>
   <section class="community-hero">
     <div class="container community-hero-grid">
       <div>
@@ -29,7 +29,7 @@
       </div>
       <div class="community-actions">
         <a class="community-button" href="faq.html">FAQ 확인</a>
-        <button class="community-button primary" type="button" data-inquiry-write>글쓰기</button>
+        <button class="community-button primary" type="button" data-question-write>글쓰기</button>
       </div>
     </div>
   </section>
@@ -37,72 +37,86 @@
   <section class="community-section">
     <div class="container">
       <div class="community-toolbar inquiry-toolbar">
-        <div><strong>Q&A</strong><span class="inquiry-count">총 <b data-inquiry-count>0</b>개의 문의</span></div>
+        <div><strong>Q&A</strong><span class="inquiry-count">총 <b data-question-count>0</b>개의 문의</span></div>
         <a class="community-button" href="mypage.html">마이페이지</a>
       </div>
-      <div class="inquiry-board-head" aria-hidden="true">
-        <span>No.</span><span>구분</span><span>제목</span><span>작성자</span><span>작성일</span><span>상태</span>
-      </div>
-      <div class="inquiry-board" data-inquiry-list></div>
-      <div class="community-empty" data-inquiry-empty>아직 등록된 문의가 없습니다.</div>
+      <div class="inquiry-board-head" aria-hidden="true"><span>No.</span><span>구분</span><span>제목</span><span>작성자</span><span>작성일</span><span>상태</span></div>
+      <div class="inquiry-board" data-question-list></div>
+      <div class="community-empty" data-question-empty>아직 등록된 문의가 없습니다.</div>
       <div class="inquiry-board-bottom"><p>빠른 문의는 <a href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener">인스타그램 DM</a> 또는 하단의 고객센터를 이용해 주세요.</p></div>
     </div>
   </section>
-
-  <!-- inquiry-board.js scopes the write form from [data-inquiry-page], so this modal must live inside main -->
-  <div class="community-modal" id="inquiryWriteModal" role="dialog" aria-modal="true" aria-label="문의 글쓰기">
-    <div class="community-modal-panel">
-      <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
-      <p class="eyebrow">WRITE A QUESTION</p>
-      <h2>문의 글쓰기</h2>
-      <p class="community-help inquiry-write-help">문의 제목은 게시판에 표시되며, 문의 내용과 관리자 답변은 본인과 관리자만 확인할 수 있습니다.</p>
-      <form class="community-form" data-inquiry-form>
-        <label class="community-field"><span>문의 유형</span><select name="category"><option>이용 문의</option><option>예약 문의</option><option>시설 문의</option><option>결제·환불 문의</option><option>기타 문의</option></select></label>
-        <label class="community-field"><span>제목</span><input type="text" name="title" maxlength="80" placeholder="문의 제목을 입력해 주세요" required></label>
-        <label class="community-field"><span>문의 내용</span><textarea name="content" maxlength="3000" placeholder="문의 내용을 자세히 남겨주세요." required></textarea></label>
-        <p class="community-status" data-inquiry-status hidden></p>
-        <div class="community-form-actions"><button class="community-button" type="button" data-community-close>취소</button><button class="community-button primary" type="submit">등록하기</button></div>
-      </form>
-    </div>
-  </div>
 </main>
 
-<div class="community-modal" id="inquiryPrivacyModal" role="dialog" aria-modal="true" aria-label="문의 열람 안내">
+<div class="community-modal" id="questionWriteModal" role="dialog" aria-modal="true" aria-label="문의 글쓰기">
+  <div class="community-modal-panel">
+    <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
+    <p class="eyebrow">WRITE A QUESTION</p>
+    <h2>문의 글쓰기</h2>
+    <p class="community-help inquiry-write-help">제목은 게시판에 표시되며 문의 내용과 관리자 답변은 작성자 본인과 관리자만 확인할 수 있습니다.</p>
+    <form class="community-form" data-question-form>
+      <label class="community-field"><span>문의 유형</span><select name="category"><option>이용 문의</option><option>예약 문의</option><option>시설 문의</option><option>결제·환불 문의</option><option>기타 문의</option></select></label>
+      <label class="community-field"><span>제목</span><input type="text" name="title" maxlength="80" placeholder="문의 제목을 입력해 주세요" required></label>
+      <label class="community-field"><span>문의 내용</span><textarea name="content" maxlength="3000" placeholder="문의 내용을 자세히 남겨주세요." required></textarea></label>
+      <p class="community-status" data-question-status hidden></p>
+      <div class="community-form-actions"><button class="community-button" type="button" data-community-close>취소</button><button class="community-button primary" type="submit">등록하기</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="community-modal" id="questionPrivacyModal" role="dialog" aria-modal="true" aria-label="문의 열람 안내">
   <div class="community-modal-panel privacy-notice-panel">
     <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
     <p class="eyebrow">Q&A NOTICE</p>
     <h2>작성자만 확인할 수 있습니다.</h2>
-    <p class="privacy-notice-copy" data-private-message>문의 내용은 작성자 본인만 확인할 수 있습니다.</p>
+    <p class="privacy-notice-copy" data-question-private-message>문의 내용은 작성자 본인만 확인할 수 있습니다.</p>
     <div class="community-form-actions"><button class="community-button primary" type="button" data-community-close>확인</button></div>
   </div>
 </div>
 
-<div class="community-modal" id="inquiryDetailModal" role="dialog" aria-modal="true" aria-label="문의 상세보기">
+<div class="community-modal" id="questionDetailModal" role="dialog" aria-modal="true" aria-label="문의 상세보기">
   <div class="community-modal-panel wide inquiry-detail-panel">
     <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
     <div class="inquiry-detail-head">
-      <div><p class="eyebrow" data-inquiry-detail-category>Q&A</p><h2 data-inquiry-detail-title>문의 제목</h2><p class="inquiry-detail-meta" data-inquiry-detail-meta></p></div>
-      <div class="inquiry-detail-side"><span class="inquiry-state" data-inquiry-detail-state>답변대기</span><div class="post-owner-actions" data-inquiry-owner-actions hidden><button class="post-action-button" type="button" data-inquiry-edit>수정</button><button class="post-action-button is-danger" type="button" data-inquiry-delete>삭제</button></div></div>
+      <div>
+        <p class="eyebrow" data-question-detail-category>Q&A</p>
+        <h2 data-question-detail-title>문의 제목</h2>
+        <p class="inquiry-detail-meta" data-question-detail-meta></p>
+      </div>
+      <div class="inquiry-detail-side">
+        <span class="inquiry-state" data-question-detail-state>답변대기</span>
+        <div class="post-owner-actions" data-question-owner-actions hidden>
+          <button class="post-action-button" type="button" data-question-edit>수정</button>
+          <button class="post-action-button is-danger" type="button" data-question-delete>삭제</button>
+        </div>
+      </div>
     </div>
-    <p class="community-status" data-inquiry-delete-status hidden></p>
-    <div class="inquiry-detail-body" data-inquiry-detail-content></div>
-    <section class="inquiry-answer" data-inquiry-answer-view hidden><p class="eyebrow">RE:LIM ANSWER</p><div data-inquiry-answer-text></div><p class="inquiry-answer-date" data-inquiry-answer-date></p></section>
-    <section class="inquiry-admin-reply" data-inquiry-admin-reply hidden>
+    <div class="inquiry-detail-body" data-question-detail-content></div>
+    <section class="inquiry-answer" data-question-answer-view hidden>
+      <p class="eyebrow">RE:LIM ANSWER</p>
+      <div data-question-answer-text></div>
+      <p class="inquiry-answer-date" data-question-answer-date></p>
+    </section>
+    <section class="inquiry-admin-reply" data-question-admin-reply hidden>
       <p class="eyebrow">ADMIN REPLY</p><h3>관리자 답변</h3>
-      <form data-inquiry-answer-form><label class="community-field"><span>답변 내용</span><textarea name="answer" maxlength="3000" placeholder="고객 문의에 대한 답변을 입력해 주세요." required></textarea></label><p class="community-status" data-inquiry-answer-status hidden></p><div class="community-form-actions"><button class="community-button primary" type="submit">답변 등록</button></div></form>
+      <form data-question-answer-form>
+        <label class="community-field"><span>답변 내용</span><textarea name="answer" maxlength="3000" placeholder="고객 문의에 대한 답변을 입력해 주세요." required></textarea></label>
+        <p class="community-status" data-question-answer-status hidden></p>
+        <div class="community-form-actions"><button class="community-button primary" type="submit">답변 등록</button></div>
+      </form>
     </section>
   </div>
 </div>
 
-<div class="community-modal" id="inquiryEditModal" role="dialog" aria-modal="true" aria-label="문의 수정">
+<div class="community-modal" id="questionEditModal" role="dialog" aria-modal="true" aria-label="문의 수정">
   <div class="community-modal-panel">
     <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
     <p class="eyebrow">EDIT MY QUESTION</p><h2>문의 수정</h2>
-    <form class="community-form" data-inquiry-edit-form>
+    <form class="community-form" data-question-edit-form>
       <label class="community-field"><span>문의 유형</span><select name="category"><option>이용 문의</option><option>예약 문의</option><option>시설 문의</option><option>결제·환불 문의</option><option>기타 문의</option></select></label>
       <label class="community-field"><span>제목</span><input type="text" name="title" maxlength="80" required></label>
       <label class="community-field"><span>문의 내용</span><textarea name="content" maxlength="3000" required></textarea></label>
-      <p class="community-status" data-inquiry-edit-status hidden></p>
+      <p class="community-status" data-question-edit-status hidden></p>
       <div class="community-form-actions"><button class="community-button" type="button" data-community-close>취소</button><button class="community-button primary" type="submit">수정 완료</button></div>
     </form>
   </div>
@@ -118,6 +132,6 @@
   <div class="container footer-bottom"><span>© 2026 RE:LIM. All rights reserved.</span><span>사업자등록번호 220-86-50466</span></div>
 </footer>
 <script src="assets/js/script.js"></script>
-<script type="module" src="assets/js/inquiry-board.js?v=20260808-0052"></script>
+<script type="module" src="assets/js/questions.js?v=20260808-0052"></script>
 </body>
 </html>
