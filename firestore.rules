@@ -16,10 +16,8 @@ service cloud.firestore {
         && request.auth.token.email == 'planus253@naver.com';
     }
 
-    function validReviewCreate() {
-      return signedIn()
-        && request.resource.data.userId == request.auth.uid
-        && request.resource.data.rating is int
+    function validReviewFields() {
+      return request.resource.data.rating is int
         && request.resource.data.rating >= 1
         && request.resource.data.rating <= 5
         && request.resource.data.title is string
@@ -30,6 +28,24 @@ service cloud.firestore {
         && request.resource.data.content.size() <= 2000
         && request.resource.data.imageDataUrl is string
         && request.resource.data.imageDataUrl.size() <= 850000;
+    }
+
+    function validReviewCreate() {
+      return signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && validReviewFields();
+    }
+
+    function validReviewOwnerUpdate() {
+      return signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.userName == resource.data.userName
+        && request.resource.data.createdAt == resource.data.createdAt
+        && validReviewFields()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'rating', 'title', 'content', 'imageDataUrl', 'updatedAt'
+        ]);
     }
 
     function validInquiryCreate() {
@@ -50,6 +66,24 @@ service cloud.firestore {
         && request.resource.data.status == '답변대기';
     }
 
+    function validInquiryOwnerUpdate() {
+      return signedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == resource.data.userId
+        && request.resource.data.userName == resource.data.userName
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.category is string
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 2
+        && request.resource.data.title.size() <= 80
+        && request.resource.data.content is string
+        && request.resource.data.content.size() >= 5
+        && request.resource.data.content.size() <= 3000
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'category', 'title', 'content', 'updatedAt'
+        ]);
+    }
+
     match /users/{userId} {
       allow create, read, update: if isOwner(userId);
       allow delete: if false;
@@ -59,22 +93,20 @@ service cloud.firestore {
       }
     }
 
-    // 리뷰: 누구나 열람, 로그인 회원 작성, 작성자 본인 수정/삭제.
+    // 리뷰: 누구나 열람. 작성자는 별점/제목/내용/사진만 수정 가능.
     match /reviews/{reviewId} {
       allow read: if true;
       allow create: if validReviewCreate();
-      allow update: if signedIn()
-        && resource.data.userId == request.auth.uid
-        && request.resource.data.userId == resource.data.userId;
+      allow update: if validReviewOwnerUpdate();
       allow delete: if signedIn() && resource.data.userId == request.auth.uid;
     }
 
-    // 문의: 커뮤니티형 공개 게시판.
-    // 회원만 글을 쓸 수 있고, 답변/상태 변경은 관리자 계정만 가능하다.
+    // 문의: 공개 게시판. 작성자는 문의 본문만 수정 가능하고,
+    // 답변과 상태 필드는 관리자 계정만 변경할 수 있다.
     match /inquiries/{inquiryId} {
       allow read: if true;
       allow create: if validInquiryCreate();
-      allow update: if isAdmin();
+      allow update: if isAdmin() || validInquiryOwnerUpdate();
       allow delete: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
     }
 
