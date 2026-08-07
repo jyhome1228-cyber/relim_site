@@ -1,3 +1,5 @@
+import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
+
 const NAV_STYLE_VERSION = '20260807-2305';
 
 function ensureNavStyles() {
