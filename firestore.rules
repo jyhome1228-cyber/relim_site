@@ -48,7 +48,6 @@ service cloud.firestore {
         ]);
     }
 
-    // 회원 프로필: 본인은 자기 정보만 저장/수정, 관리자는 전체 가입자 목록 열람 가능.
     match /users/{userId} {
       allow read: if isAdmin() || isOwner(userId);
       allow create, update: if isOwner(userId);
@@ -66,8 +65,8 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.userId == request.auth.uid;
     }
 
-    // 문의 게시판 공개 목록: 제목/구분/작성자/날짜/답변상태만 노출.
-    match /inquiryIndex/{inquiryId} {
+    // 새 문의게시판: 제목/구분/작성자/날짜/상태만 공개한다.
+    match /questions/{questionId} {
       allow read: if true;
 
       allow create: if signedIn()
@@ -83,26 +82,38 @@ service cloud.firestore {
 
       allow delete: if isAdmin()
         || (signedIn() && resource.data.ownerUid == request.auth.uid);
+
+      // 문의 본문과 관리자 답변은 작성자와 관리자만 열람한다.
+      match /private/{privateId} {
+        allow read: if isAdmin()
+          || (signedIn() && resource.data.ownerUid == request.auth.uid);
+
+        allow create: if signedIn()
+          && request.resource.data.ownerUid == request.auth.uid;
+
+        allow update: if isAdmin()
+          || (signedIn()
+            && resource.data.ownerUid == request.auth.uid
+            && request.resource.data.ownerUid == resource.data.ownerUid
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+              'content', 'updatedAt'
+            ]));
+
+        allow delete: if isAdmin()
+          || (signedIn() && resource.data.ownerUid == request.auth.uid);
+      }
     }
 
-    // 실제 문의 내용과 관리자 답변: 작성자 본인과 관리자만 열람.
+    // 이전 문의 구조는 마이그레이션 전 데이터 보호를 위해 비공개 유지.
+    match /inquiryIndex/{inquiryId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     match /inquiries/{inquiryId} {
       allow read: if isAdmin()
         || (signedIn() && resource.data.userId == request.auth.uid);
-
-      allow create: if signedIn()
-        && request.resource.data.userId == request.auth.uid;
-
-      allow update: if isAdmin()
-        || (signedIn()
-          && resource.data.userId == request.auth.uid
-          && request.resource.data.userId == resource.data.userId
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-            'category', 'title', 'content', 'updatedAt'
-          ]));
-
-      allow delete: if isAdmin()
-        || (signedIn() && resource.data.userId == request.auth.uid);
+      allow write: if false;
     }
 
     match /{document=**} {
