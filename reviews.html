@@ -15,13 +15,16 @@
 <main class="community-page" data-reviews-page>
   <section class="community-hero">
     <div class="container community-hero-grid">
-      <div><p class="eyebrow">RE:LIM REVIEW</p><h1>리뷰</h1><p>리림에서 보낸 시간을 사진과 함께 남겨주세요. 회원이 작성한 리뷰는 갤러리 형태로 공개됩니다.</p></div>
+      <div><p class="eyebrow">RE:LIM REVIEW</p><h1>리뷰</h1><p>리림에서 보낸 시간을 사진과 별점으로 남겨주세요. 회원이 작성한 리뷰는 갤러리 형태로 공개됩니다.</p></div>
       <div class="community-actions"><button class="community-button primary" type="button" data-review-write>리뷰 작성</button><a class="community-button" href="mypage.html">내 글 보기</a></div>
     </div>
   </section>
   <section class="community-section">
     <div class="container">
-      <div class="community-toolbar"><strong>PHOTO REVIEW</strong><p>등록된 리뷰 <span data-review-count>0</span>개</p></div>
+      <div class="community-toolbar review-toolbar">
+        <strong>PHOTO REVIEW</strong>
+        <div class="review-summary"><span>평균 <b data-review-average>0.0</b></span><span class="review-summary-star" aria-hidden="true">★</span><span>리뷰 <b data-review-count>0</b>개</span></div>
+      </div>
       <div class="review-grid" data-review-grid></div>
       <div class="community-empty" data-review-empty>아직 등록된 리뷰가 없습니다. 첫 리뷰를 남겨주세요.</div>
     </div>
@@ -33,6 +36,18 @@
     <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
     <p class="eyebrow">WRITE A REVIEW</p><h2>리뷰 작성</h2>
     <form class="community-form" id="reviewForm">
+      <div class="community-field review-rating-field">
+        <span>별점</span>
+        <div class="rating-picker" data-rating-picker role="group" aria-label="별점 선택">
+          <button type="button" data-rating="1" aria-label="1점">★</button>
+          <button type="button" data-rating="2" aria-label="2점">★</button>
+          <button type="button" data-rating="3" aria-label="3점">★</button>
+          <button type="button" data-rating="4" aria-label="4점">★</button>
+          <button type="button" data-rating="5" aria-label="5점">★</button>
+          <strong data-rating-label>별점을 선택해 주세요</strong>
+        </div>
+        <input type="hidden" name="rating" data-rating-value required>
+      </div>
       <label class="community-field"><span>제목</span><input type="text" name="title" maxlength="60" placeholder="리림에서의 시간을 한 문장으로 남겨주세요" required></label>
       <label class="community-field"><span>사진</span><input type="file" name="image" accept="image/*"></label>
       <p class="community-help">사진은 등록 시 웹용으로 자동 압축됩니다. 사진 없이 글만 작성해도 됩니다.</p>
@@ -47,6 +62,7 @@
   <div class="community-modal-panel wide">
     <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
     <p class="eyebrow">RE:LIM REVIEW</p><h2 data-review-detail-title></h2>
+    <div class="review-detail-rating" data-review-detail-rating></div>
     <div class="review-detail-meta" data-review-detail-meta></div>
     <img class="review-detail-image" data-review-detail-image src="" alt="" hidden>
     <p class="review-detail-content" data-review-detail-content></p>
@@ -55,6 +71,6 @@
 
 <footer class="site-footer"><div class="container footer-main"><div class="footer-identity"><img class="footer-logo" src="assets/images/relim-logo.svg" alt="RE:LIM"><p>수영장·수로·개별 텐트·바비큐 공간과 카페를 함께 이용하는 용인 야외 공간입니다.</p></div><div><h3>메뉴</h3><div class="footer-links"><a href="about.html">리림 소개</a><a href="space.html">공간 안내</a><a href="gallery.html">갤러리</a><a href="reviews.html">리뷰</a><a href="inquiry.html">문의하기</a></div></div><div><h3>문의</h3><div class="footer-links"><a href="tel:01057948823">고객센터 010-5794-8823</a><a href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener">@RELIMOFFICIAL ↗</a></div></div><div><h3>주소</h3><p>경기도 용인시 처인구 원삼면<br>보개원삼로1372번길 45</p><div class="footer-links"><a href="location.html">오시는 길</a></div></div></div><div class="container footer-bottom"><span>© 2026 RE:LIM. All rights reserved.</span><span>사업자등록번호 220-86-50466</span></div></footer>
 <script src="assets/js/script.js"></script>
-<script type="module" src="assets/js/community.js"></script>
+<script type="module" src="assets/js/reviews.js"></script>
 </body>
 </html>
