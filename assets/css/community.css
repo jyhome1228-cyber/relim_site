@@ -1,3 +1,4 @@
+@import url("./edit.css");
 .community-page{background:#fff;min-height:70vh}
 .community-hero{padding:72px 0 44px;border-bottom:1px solid var(--line);background:#fff}
 .community-hero-grid{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:end}
