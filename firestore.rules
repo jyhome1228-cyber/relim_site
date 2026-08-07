@@ -99,11 +99,11 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.userId == request.auth.uid;
     }
 
-    // 문의: 누구나 열람할 수 있는 Q&A 게시판.
-    // 로그인 회원은 새 문의를 작성할 수 있고 본인 글의 본문만 수정 가능.
-    // 답변/답변 상태 변경은 관리자만 가능.
+    // 문의: 전부 비밀글.
+    // 글과 관리자 답변은 작성자 본인과 관리자만 읽을 수 있다.
+    // 작성자는 문의 본문만 수정할 수 있고 답변/상태 변경은 관리자만 가능하다.
     match /inquiries/{inquiryId} {
-      allow read: if true;
+      allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
       allow create: if validInquiryCreate();
       allow update: if isAdmin() || validInquiryOwnerUpdate();
       allow delete: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
