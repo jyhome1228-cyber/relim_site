@@ -63,6 +63,7 @@ service cloud.firestore {
     function validInquiryCreate() {
       return signedIn()
         && request.resource.data.userId == request.auth.uid
+        && request.resource.data.userName is string
         && request.resource.data.status == '답변대기'
         && validInquiryFields();
     }
@@ -71,9 +72,42 @@ service cloud.firestore {
       return signedIn()
         && resource.data.userId == request.auth.uid
         && request.resource.data.userId == resource.data.userId
+        && request.resource.data.userName == resource.data.userName
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.status == resource.data.status
         && validInquiryFields()
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
           'category', 'title', 'content', 'updatedAt'
+        ]);
+    }
+
+    function validInquiryIndexCreate() {
+      return signedIn()
+        && request.resource.data.keys().hasOnly([
+          'ownerUid', 'userName', 'category', 'title', 'status', 'createdAt', 'updatedAt'
+        ])
+        && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.userName is string
+        && request.resource.data.category is string
+        && request.resource.data.category.size() >= 2
+        && request.resource.data.category.size() <= 30
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 2
+        && request.resource.data.title.size() <= 80
+        && request.resource.data.status == '답변대기';
+    }
+
+    function validInquiryIndexOwnerUpdate() {
+      return signedIn()
+        && resource.data.ownerUid == request.auth.uid
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.userName == resource.data.userName
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.status == resource.data.status
+        && request.resource.data.category is string
+        && request.resource.data.title is string
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          'category', 'title', 'updatedAt'
         ]);
     }
 
@@ -94,9 +128,16 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.userId == request.auth.uid;
     }
 
-    // 문의: 전부 비밀글.
-    // 작성자 본인과 관리자만 읽을 수 있다.
-    // 작성자는 본문 수정/삭제, 관리자는 답변/상태 변경 및 삭제 가능.
+    // 문의 게시판 목록용 공개 메타데이터.
+    // 본문/답변은 절대 저장하지 않는다.
+    match /inquiryIndex/{inquiryId} {
+      allow read: if true;
+      allow create: if validInquiryIndexCreate();
+      allow update: if isAdmin() || validInquiryIndexOwnerUpdate();
+      allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
+    }
+
+    // 문의 본문과 관리자 답변은 작성자와 관리자만 읽을 수 있다.
     match /inquiries/{inquiryId} {
       allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
       allow create: if validInquiryCreate();
