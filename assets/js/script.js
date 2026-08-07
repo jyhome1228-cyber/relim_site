@@ -423,3 +423,55 @@ const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 document.querySelectorAll('.nav a').forEach((link) => {
   if (link.getAttribute('href') === currentPage) link.setAttribute('aria-current', 'page');
 });
+
+
+function initBrandSlider() {
+  const viewport = document.querySelector('[data-brand-slider]');
+  const prev = document.querySelector('[data-brand-prev]');
+  const next = document.querySelector('[data-brand-next]');
+  const current = document.querySelector('[data-brand-current]');
+  if (!viewport || !prev || !next) return;
+
+  const slides = [...viewport.querySelectorAll('.about-slide')];
+  let activeIndex = 0;
+  let timer;
+
+  const update = (index) => {
+    activeIndex = (index + slides.length) % slides.length;
+    slides[activeIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
+  };
+
+  const syncIndex = () => {
+    const viewportLeft = viewport.getBoundingClientRect().left;
+    const nearest = slides.reduce((best, slide, index) => {
+      const distance = Math.abs(slide.getBoundingClientRect().left - viewportLeft);
+      return distance < best.distance ? { index, distance } : best;
+    }, { index: 0, distance: Infinity });
+    activeIndex = nearest.index;
+    if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
+  };
+
+  const stop = () => window.clearInterval(timer);
+  const start = () => {
+    stop();
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      timer = window.setInterval(() => update(activeIndex + 1), 4800);
+    }
+  };
+
+  prev.addEventListener('click', () => { update(activeIndex - 1); start(); });
+  next.addEventListener('click', () => { update(activeIndex + 1); start(); });
+  viewport.addEventListener('scroll', () => window.requestAnimationFrame(syncIndex), { passive: true });
+  viewport.addEventListener('mouseenter', stop);
+  viewport.addEventListener('mouseleave', start);
+  viewport.addEventListener('focusin', stop);
+  viewport.addEventListener('focusout', start);
+  viewport.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') { event.preventDefault(); update(activeIndex - 1); }
+    if (event.key === 'ArrowRight') { event.preventDefault(); update(activeIndex + 1); }
+  });
+  start();
+}
+
+initBrandSlider();
