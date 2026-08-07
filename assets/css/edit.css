@@ -1,0 +1,12 @@
+.post-owner-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
+.post-action-button,.mypage-edit{display:inline-flex;align-items:center;justify-content:center;min-height:30px;padding:0 11px;border:1px solid var(--green);background:#fff;color:var(--green);font-size:11px;font-weight:700;cursor:pointer}
+.post-action-button:hover,.mypage-edit:hover{background:var(--green);color:#fff}
+.inquiry-detail-side{display:flex;min-width:96px;flex-direction:column;align-items:flex-end;gap:2px}
+.inquiry-detail-side .post-owner-actions{margin-top:9px}
+.mypage-row-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;white-space:nowrap}
+.mypage-row-actions .mypage-status{margin-right:4px}
+.mypage-edit{min-height:auto;padding:0;border:0;text-decoration:underline;text-underline-offset:3px;background:transparent}
+.mypage-edit:hover{background:transparent;color:var(--green);opacity:.65}
+.mypage-delete{padding:0}
+@media(max-width:720px){.inquiry-detail-side{width:100%;align-items:flex-start;flex-direction:row;justify-content:space-between}.inquiry-detail-side .post-owner-actions{margin:0}.mypage-row-actions{gap:7px}}
+@media(max-width:620px){.mypage-row-actions{grid-column:2/-1;justify-self:end;flex-wrap:wrap}.mypage-row-actions .mypage-status{order:-1}.post-owner-actions{justify-content:flex-start}}
