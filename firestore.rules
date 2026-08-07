@@ -19,6 +19,9 @@ service cloud.firestore {
     function validReviewCreate() {
       return signedIn()
         && request.resource.data.userId == request.auth.uid
+        && request.resource.data.rating is int
+        && request.resource.data.rating >= 1
+        && request.resource.data.rating <= 5
         && request.resource.data.title is string
         && request.resource.data.title.size() >= 2
         && request.resource.data.title.size() <= 60
