@@ -12,19 +12,44 @@ import {
   signOut,
   updateProfile
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
+import {
+  doc,
+  getFirestore,
+  serverTimestamp,
+  setDoc
+} from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 import { firebaseConfig, firebaseReady } from './firebase-config.js';
 
 let auth = null;
+let db = null;
 
 function getRelimAuth() {
   if (!firebaseReady) return null;
   if (!auth) {
     const app = getApps()[0] || initializeApp(firebaseConfig);
     auth = getAuth(app);
+    db = getFirestore(app);
     auth.languageCode = 'ko';
     setPersistence(auth, browserLocalPersistence).catch(() => {});
   }
   return auth;
+}
+
+async function syncMemberProfile(user) {
+  if (!user || !db) return;
+  const provider = user.providerData?.[0]?.providerId || 'password';
+  try {
+    await setDoc(doc(db, 'users', user.uid), {
+      uid: user.uid,
+      name: user.displayName || '리림 회원',
+      email: user.email || '',
+      provider,
+      createdAt: user.metadata?.creationTime || '',
+      lastLoginAt: serverTimestamp()
+    }, { merge: true });
+  } catch (error) {
+    console.error('[RE:LIM MEMBER PROFILE]', error);
+  }
 }
 
 function safeReturnUrl() {
@@ -111,6 +136,7 @@ export function initAuthNavigation(memberLink) {
       return;
     }
 
+    syncMemberProfile(user);
     memberLink.textContent = '마이페이지';
     memberLink.href = 'mypage.html';
     memberLink.setAttribute('aria-label', '마이페이지');
@@ -172,6 +198,7 @@ export function initLoginPage() {
     setStatus();
 
     if (user) {
+      syncMemberProfile(user);
       if (name) name.textContent = user.displayName || '리림 회원';
       if (email) email.textContent = user.email || '';
       if (avatar) avatar.textContent = userInitial(user);
@@ -185,7 +212,8 @@ export function initLoginPage() {
     try {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
-      await signInWithPopup(relimAuth, provider);
+      const credential = await signInWithPopup(relimAuth, provider);
+      await syncMemberProfile(credential.user);
       window.location.href = safeReturnUrl();
     } catch (error) {
       setStatus(errorMessage(error), true);
@@ -202,7 +230,8 @@ export function initLoginPage() {
     submit.disabled = true;
     setStatus('로그인하고 있습니다.');
     try {
-      await signInWithEmailAndPassword(relimAuth, String(data.get('email')).trim(), String(data.get('password')));
+      const credential = await signInWithEmailAndPassword(relimAuth, String(data.get('email')).trim(), String(data.get('password')));
+      await syncMemberProfile(credential.user);
       window.location.href = safeReturnUrl();
     } catch (error) {
       setStatus(errorMessage(error), true);
@@ -232,6 +261,7 @@ export function initLoginPage() {
     try {
       const credential = await createUserWithEmailAndPassword(relimAuth, emailValue, password);
       await updateProfile(credential.user, { displayName: nameValue });
+      await syncMemberProfile({ ...credential.user, displayName: nameValue });
       window.location.href = safeReturnUrl();
     } catch (error) {
       setStatus(errorMessage(error), true);
@@ -283,6 +313,7 @@ export function requireAuth(returnUrl = window.location.href) {
         window.location.href = `login.html?return=${encodeURIComponent(returnUrl)}`;
         return;
       }
+      syncMemberProfile(user);
       resolve(user);
     });
   });
