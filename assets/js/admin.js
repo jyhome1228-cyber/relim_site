@@ -3,10 +3,11 @@ import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/fi
 import {
   collection,
   doc,
+  getDoc,
   getFirestore,
   onSnapshot,
   Timestamp,
-  writeBatch
+  updateDoc
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 import { firebaseConfig, firebaseReady } from './firebase-config.js';
 
@@ -47,8 +48,9 @@ const answerForm = inquiryModal?.querySelector('[data-admin-answer-form]');
 const answerStatus = inquiryModal?.querySelector('[data-admin-answer-status]');
 const openInquiryLink = inquiryModal?.querySelector('[data-admin-open-inquiry]');
 
-let activeInquiryId = null;
-let activeInquiry = null;
+let activeQuestionId = null;
+let activeQuestion = null;
+let activeBody = null;
 let unsubscribers = [];
 
 const isAdmin = (user) => ADMIN_EMAILS.has(String(user?.email || '').toLowerCase());
@@ -81,13 +83,6 @@ const providerLabel = (provider) => {
   return provider || '-';
 };
 
-const maskName = (value) => {
-  const name = String(value || '리림 회원').trim();
-  if (name.length <= 1) return `${name}*`;
-  if (name.length === 2) return `${name[0]}*`;
-  return `${name[0]}${'*'.repeat(Math.min(2, name.length - 1))}`;
-};
-
 const makeCell = (text = '', className = '') => {
   const td = document.createElement('td');
   td.textContent = text;
@@ -117,7 +112,6 @@ const closeModal = (modal) => {
 function renderMembers(snapshot) {
   const docs = sortByDate(snapshot.docs, 'lastLoginAt');
   memberTable?.replaceChildren();
-
   docs.forEach((snapshotDoc) => {
     const item = snapshotDoc.data();
     const tr = document.createElement('tr');
@@ -130,20 +124,19 @@ function renderMembers(snapshot) {
     );
     memberTable?.append(tr);
   });
-
   if (statMembers) statMembers.textContent = String(docs.length);
   if (memberCount) memberCount.textContent = `${docs.length}명`;
   if (memberEmpty) memberEmpty.hidden = docs.length > 0;
 }
 
-function renderInquiries(snapshot) {
+function renderQuestions(snapshot) {
   const docs = sortByDate(snapshot.docs);
   inquiryTable?.replaceChildren();
   let waiting = 0;
 
   docs.forEach((snapshotDoc) => {
     const item = { id: snapshotDoc.id, ...snapshotDoc.data() };
-    const completed = Boolean(item.answer) || item.status === '답변완료';
+    const completed = item.status === '답변완료';
     if (!completed) waiting += 1;
 
     const tr = document.createElement('tr');
@@ -158,14 +151,14 @@ function renderInquiries(snapshot) {
     action.type = 'button';
     action.className = 'admin-row-button';
     action.textContent = '내용 보기';
-    action.addEventListener('click', () => openInquiry(item));
+    action.addEventListener('click', () => openQuestion(item));
     actionTd.append(action);
 
     tr.append(
       statusTd,
       makeCell(item.category || '문의', 'admin-muted'),
       makeCell(item.title || '문의', 'admin-title-cell'),
-      makeCell(maskName(item.userName), 'admin-muted'),
+      makeCell(item.userName || '리림 회원', 'admin-muted'),
       makeCell(formatDate(item.createdAt), 'admin-muted'),
       actionTd
     );
@@ -176,23 +169,14 @@ function renderInquiries(snapshot) {
   if (statWaiting) statWaiting.textContent = String(waiting);
   if (inquiryCount) inquiryCount.textContent = `${docs.length}건`;
   if (inquiryEmpty) inquiryEmpty.hidden = docs.length > 0;
-
-  if (activeInquiryId) {
-    const updated = docs.find((docSnap) => docSnap.id === activeInquiryId);
-    if (updated && inquiryModal?.classList.contains('is-open')) {
-      openInquiry({ id: updated.id, ...updated.data() }, false);
-    }
-  }
 }
 
 function renderReviews(snapshot) {
   const docs = sortByDate(snapshot.docs);
   reviewTable?.replaceChildren();
-
   docs.forEach((snapshotDoc) => {
     const item = snapshotDoc.data();
     const tr = document.createElement('tr');
-
     const imageTd = document.createElement('td');
     if (item.imageDataUrl) {
       const img = document.createElement('img');
@@ -204,12 +188,10 @@ function renderReviews(snapshot) {
       imageTd.textContent = '-';
       imageTd.className = 'admin-muted';
     }
-
     const ratingTd = document.createElement('td');
     ratingTd.className = 'admin-stars';
     const rating = Math.max(0, Math.min(5, Number(item.rating) || 0));
     ratingTd.textContent = rating ? `${'★'.repeat(rating)} ${rating.toFixed(1)}` : '-';
-
     tr.append(
       imageTd,
       ratingTd,
@@ -219,33 +201,42 @@ function renderReviews(snapshot) {
     );
     reviewTable?.append(tr);
   });
-
   if (statReviews) statReviews.textContent = String(docs.length);
   if (reviewCount) reviewCount.textContent = `${docs.length}건`;
   if (reviewEmpty) reviewEmpty.hidden = docs.length > 0;
 }
 
-function openInquiry(item, shouldOpen = true) {
+async function openQuestion(item) {
   if (!item || !inquiryModal) return;
-  activeInquiryId = item.id;
-  activeInquiry = item;
+  try {
+    const bodySnap = await getDoc(doc(db, 'questions', item.id, 'private', 'body'));
+    if (!bodySnap.exists()) {
+      window.alert('문의 본문이 없습니다.');
+      return;
+    }
+    activeQuestionId = item.id;
+    activeQuestion = item;
+    activeBody = bodySnap.data();
 
-  if (inquiryCategory) inquiryCategory.textContent = item.category || '문의';
-  if (inquiryTitle) inquiryTitle.textContent = item.title || '문의';
-  if (inquiryMeta) inquiryMeta.textContent = `${maskName(item.userName)} · ${formatDate(item.createdAt, true)} · ${item.status || '답변대기'}`;
-  if (inquiryContent) inquiryContent.textContent = item.content || '';
-  if (answerView) answerView.hidden = !item.answer;
-  if (answerText) answerText.textContent = item.answer || '';
-  if (answerForm?.elements.answer) answerForm.elements.answer.value = item.answer || '';
-  if (openInquiryLink) openInquiryLink.href = `inquiry.html?id=${encodeURIComponent(item.id)}`;
-  setStatus(answerStatus);
-
-  if (shouldOpen) openModal(inquiryModal);
+    if (inquiryCategory) inquiryCategory.textContent = item.category || '문의';
+    if (inquiryTitle) inquiryTitle.textContent = item.title || '문의';
+    if (inquiryMeta) inquiryMeta.textContent = `${item.userName || '리림 회원'} · ${formatDate(item.createdAt, true)} · ${item.status || '답변대기'}`;
+    if (inquiryContent) inquiryContent.textContent = activeBody.content || '';
+    if (answerView) answerView.hidden = !activeBody.answer;
+    if (answerText) answerText.textContent = activeBody.answer || '';
+    if (answerForm?.elements.answer) answerForm.elements.answer.value = activeBody.answer || '';
+    if (openInquiryLink) openInquiryLink.href = `inquiry.html?id=${encodeURIComponent(item.id)}`;
+    setStatus(answerStatus);
+    openModal(inquiryModal);
+  } catch (error) {
+    console.error('[RE:LIM ADMIN QUESTION]', error);
+    window.alert('문의 내용을 불러오지 못했습니다.');
+  }
 }
 
 answerForm?.addEventListener('submit', async (event) => {
   event.preventDefault();
-  if (!activeInquiryId || !activeInquiry || !db) return;
+  if (!activeQuestionId || !activeQuestion || !db) return;
   const submit = answerForm.querySelector('[type="submit"]');
   const answer = String(new FormData(answerForm).get('answer') || '').trim();
   if (answer.length < 2) return setStatus(answerStatus, '답변 내용을 입력해 주세요.', true);
@@ -254,26 +245,22 @@ answerForm?.addEventListener('submit', async (event) => {
   setStatus(answerStatus, '답변을 저장하고 있습니다.');
   try {
     const now = Timestamp.now();
-    const batch = writeBatch(db);
-    batch.update(doc(db, 'inquiries', activeInquiryId), {
+    await updateDoc(doc(db, 'questions', activeQuestionId, 'private', 'body'), {
       answer,
-      status: '답변완료',
       answeredAt: now,
       answeredBy: auth.currentUser?.email || 'RE:LIM',
       updatedAt: now
     });
-    batch.update(doc(db, 'inquiryIndex', activeInquiryId), {
+    await updateDoc(doc(db, 'questions', activeQuestionId), {
       status: '답변완료',
       updatedAt: now
     });
-    await batch.commit();
     setStatus(answerStatus, '관리자 답변이 저장되었습니다.');
+    if (answerView) answerView.hidden = false;
+    if (answerText) answerText.textContent = answer;
   } catch (error) {
     console.error('[RE:LIM ADMIN ANSWER]', error);
-    const code = String(error?.code || '');
-    setStatus(answerStatus, code.includes('permission-denied')
-      ? '관리자 답변 권한이 없습니다. Firestore Rules를 최신 상태로 게시해 주세요.'
-      : `답변 저장 중 오류가 발생했습니다. (${code || 'unknown'})`, true);
+    setStatus(answerStatus, '답변 저장에 실패했습니다.', true);
   } finally {
     submit.disabled = false;
   }
@@ -288,7 +275,7 @@ function startDashboard(user) {
   unsubscribers.forEach((unsubscribe) => unsubscribe?.());
   unsubscribers = [
     onSnapshot(collection(db, 'users'), renderMembers, (error) => console.error('[RE:LIM ADMIN USERS]', error)),
-    onSnapshot(collection(db, 'inquiries'), renderInquiries, (error) => console.error('[RE:LIM ADMIN INQUIRIES]', error)),
+    onSnapshot(collection(db, 'questions'), renderQuestions, (error) => console.error('[RE:LIM ADMIN QUESTIONS]', error)),
     onSnapshot(collection(db, 'reviews'), renderReviews, (error) => console.error('[RE:LIM ADMIN REVIEWS]', error))
   ];
 }
@@ -299,7 +286,7 @@ if (!auth || !db) {
 } else {
   onAuthStateChanged(auth, (user) => {
     if (!user) {
-      window.location.replace('login.html?return=admin.html');
+      location.replace('login.html?return=admin.html');
       return;
     }
     if (!isAdmin(user)) {
@@ -316,7 +303,7 @@ logoutButton?.addEventListener('click', async () => {
   logoutButton.disabled = true;
   try {
     await signOut(auth);
-    window.location.href = 'login.html?return=admin.html';
+    location.href = 'login.html?return=admin.html';
   } finally {
     logoutButton.disabled = false;
   }
