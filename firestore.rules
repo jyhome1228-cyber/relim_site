@@ -10,6 +10,12 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == userId;
     }
 
+    function isAdmin() {
+      return signedIn()
+        && request.auth.token.email != null
+        && request.auth.token.email == 'planus253@naver.com';
+    }
+
     function validReviewCreate() {
       return signedIn()
         && request.resource.data.userId == request.auth.uid
@@ -25,14 +31,20 @@ service cloud.firestore {
 
     function validInquiryCreate() {
       return signedIn()
+        && request.resource.data.keys().hasOnly([
+          'userId', 'userName', 'category', 'title', 'content',
+          'status', 'createdAt', 'updatedAt'
+        ])
         && request.resource.data.userId == request.auth.uid
+        && request.resource.data.userName is string
+        && request.resource.data.category is string
         && request.resource.data.title is string
         && request.resource.data.title.size() >= 2
         && request.resource.data.title.size() <= 80
         && request.resource.data.content is string
         && request.resource.data.content.size() >= 5
         && request.resource.data.content.size() <= 3000
-        && request.resource.data.status == '접수';
+        && request.resource.data.status == '답변대기';
     }
 
     match /users/{userId} {
@@ -44,7 +56,7 @@ service cloud.firestore {
       }
     }
 
-    // 리뷰는 누구나 읽고, 로그인한 작성자만 등록/수정/삭제할 수 있다.
+    // 리뷰: 누구나 열람, 로그인 회원 작성, 작성자 본인 수정/삭제.
     match /reviews/{reviewId} {
       allow read: if true;
       allow create: if validReviewCreate();
@@ -54,14 +66,13 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.userId == request.auth.uid;
     }
 
-    // 문의는 작성자 본인만 읽고 관리할 수 있다. 공개 목록은 허용하지 않는다.
+    // 문의: 커뮤니티형 공개 게시판.
+    // 회원만 글을 쓸 수 있고, 답변/상태 변경은 관리자 계정만 가능하다.
     match /inquiries/{inquiryId} {
+      allow read: if true;
       allow create: if validInquiryCreate();
-      allow read: if signedIn() && resource.data.userId == request.auth.uid;
-      allow update: if signedIn()
-        && resource.data.userId == request.auth.uid
-        && request.resource.data.userId == resource.data.userId;
-      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+      allow update: if isAdmin();
+      allow delete: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
     }
 
     match /{document=**} {
