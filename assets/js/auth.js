@@ -78,8 +78,6 @@ export function initLoginPage() {
   if (!page) return;
 
   const googleButton = page.querySelector('[data-google-login]');
-  const tabs = [...page.querySelectorAll('[data-auth-tab]')];
-  const panels = [...page.querySelectorAll('[data-auth-form]')];
   const loginForm = page.querySelector('[data-login-form]');
   const signupForm = page.querySelector('[data-signup-form]');
   const resetButton = page.querySelector('[data-password-reset]');
@@ -113,18 +111,6 @@ export function initLoginPage() {
     };
     return messages[error?.code] || '처리 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
   };
-
-  const activateTab = (name) => {
-    tabs.forEach((tab) => {
-      const active = tab.dataset.authTab === name;
-      tab.classList.toggle('is-active', active);
-      tab.setAttribute('aria-selected', String(active));
-    });
-    panels.forEach((panel) => { panel.hidden = panel.dataset.authForm !== name; });
-    setStatus();
-  };
-
-  tabs.forEach((tab) => tab.addEventListener('click', () => activateTab(tab.dataset.authTab)));
 
   if (!relimAuth) {
     setup.hidden = false;
