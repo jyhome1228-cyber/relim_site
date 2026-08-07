@@ -740,7 +740,7 @@ h3 {
 .home-focus-shade{background:linear-gradient(90deg,rgba(28,35,23,.84) 0%,rgba(52,62,44,.62) 48%,rgba(27,34,22,.42) 100%)}
 .home-focus-inner{position:relative;z-index:1;padding-top:clamp(76px,9vh,120px);padding-bottom:clamp(76px,9vh,112px)}
 .home-focus-hero .eyebrow{margin-bottom:clamp(28px,4vh,46px);color:rgba(255,255,255,.72)}
-.home-focus-logo{display:block;width:clamp(210px,26vw,390px);height:auto;margin-bottom:clamp(38px,5vh,62px);filter:brightness(0) invert(1)}
+.home-focus-logo{display:block;width:clamp(150px,18vw,270px);height:auto;margin-bottom:clamp(32px,4vh,48px);filter:brightness(0) invert(1)}
 .home-focus-hero h1{max-width:760px;margin:0 0 24px;color:#fff;font-size:clamp(38px,4.3vw,66px);font-weight:500;line-height:1.16;letter-spacing:-.05em}
 .home-focus-inner>p:not(.eyebrow){max-width:570px;margin:0;color:rgba(255,255,255,.86);font-size:clamp(15px,1.2vw,18px);line-height:1.8}
 .home-focus-actions{display:flex;gap:24px;align-items:center;margin-top:36px}
@@ -760,7 +760,7 @@ h3 {
   .home-focus-image{object-position:58% center}
   .home-focus-shade{background:linear-gradient(180deg,rgba(38,47,31,.6),rgba(38,47,31,.84))}
   .home-focus-inner{padding-top:68px;padding-bottom:82px}
-  .home-focus-logo{width:min(67vw,270px);margin-bottom:40px}
+  .home-focus-logo{width:min(48vw,190px);margin-bottom:34px}
   .home-focus-hero h1{font-size:35px}
   .home-focus-inner>p:not(.eyebrow) br{display:none}
   .home-focus-actions{gap:18px;margin-top:28px}
