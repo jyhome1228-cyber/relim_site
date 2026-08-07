@@ -48,69 +48,6 @@ service cloud.firestore {
         ]);
     }
 
-    function validInquiryFields() {
-      return request.resource.data.category is string
-        && request.resource.data.category.size() >= 2
-        && request.resource.data.category.size() <= 30
-        && request.resource.data.title is string
-        && request.resource.data.title.size() >= 2
-        && request.resource.data.title.size() <= 80
-        && request.resource.data.content is string
-        && request.resource.data.content.size() >= 5
-        && request.resource.data.content.size() <= 3000;
-    }
-
-    function validInquiryCreate() {
-      return signedIn()
-        && request.resource.data.userId == request.auth.uid
-        && request.resource.data.userName is string
-        && request.resource.data.status == '답변대기'
-        && validInquiryFields();
-    }
-
-    function validInquiryOwnerUpdate() {
-      return signedIn()
-        && resource.data.userId == request.auth.uid
-        && request.resource.data.userId == resource.data.userId
-        && request.resource.data.userName == resource.data.userName
-        && request.resource.data.createdAt == resource.data.createdAt
-        && request.resource.data.status == resource.data.status
-        && validInquiryFields()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-          'category', 'title', 'content', 'updatedAt'
-        ]);
-    }
-
-    function validInquiryIndexCreate() {
-      return signedIn()
-        && request.resource.data.keys().hasOnly([
-          'ownerUid', 'userName', 'category', 'title', 'status', 'createdAt', 'updatedAt'
-        ])
-        && request.resource.data.ownerUid == request.auth.uid
-        && request.resource.data.userName is string
-        && request.resource.data.category is string
-        && request.resource.data.category.size() >= 2
-        && request.resource.data.category.size() <= 30
-        && request.resource.data.title is string
-        && request.resource.data.title.size() >= 2
-        && request.resource.data.title.size() <= 80
-        && request.resource.data.status == '답변대기';
-    }
-
-    function validInquiryIndexOwnerUpdate() {
-      return signedIn()
-        && resource.data.ownerUid == request.auth.uid
-        && request.resource.data.ownerUid == resource.data.ownerUid
-        && request.resource.data.userName == resource.data.userName
-        && request.resource.data.createdAt == resource.data.createdAt
-        && request.resource.data.status == resource.data.status
-        && request.resource.data.category is string
-        && request.resource.data.title is string
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-          'category', 'title', 'updatedAt'
-        ]);
-    }
-
     match /users/{userId} {
       allow create, read, update: if isOwner(userId);
       allow delete: if false;
@@ -120,7 +57,6 @@ service cloud.firestore {
       }
     }
 
-    // 리뷰: 누구나 열람, 로그인 회원 작성, 작성자 본인만 수정/삭제.
     match /reviews/{reviewId} {
       allow read: if true;
       allow create: if validReviewCreate();
@@ -128,22 +64,47 @@ service cloud.firestore {
       allow delete: if signedIn() && resource.data.userId == request.auth.uid;
     }
 
-    // 문의 게시판에 노출되는 공개 목록 데이터.
-    // 제목/구분/마스킹된 작성자/작성일/답변상태만 담고 본문과 답변은 저장하지 않는다.
+    // 문의 게시판 공개 목록: 제목/구분/작성자/날짜/답변상태만 노출.
     match /inquiryIndex/{inquiryId} {
       allow read: if true;
-      allow create: if validInquiryIndexCreate();
-      allow update: if isAdmin() || validInquiryIndexOwnerUpdate();
-      allow delete: if isAdmin() || (signedIn() && resource.data.ownerUid == request.auth.uid);
+
+      // 로그인 회원은 자기 UID로만 목록 항목을 만들 수 있다.
+      allow create: if signedIn()
+        && request.resource.data.ownerUid == request.auth.uid;
+
+      // 작성자는 제목/구분만 수정, 관리자는 답변상태 갱신 가능.
+      allow update: if isAdmin()
+        || (signedIn()
+          && resource.data.ownerUid == request.auth.uid
+          && request.resource.data.ownerUid == resource.data.ownerUid
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'category', 'title', 'updatedAt'
+          ]));
+
+      allow delete: if isAdmin()
+        || (signedIn() && resource.data.ownerUid == request.auth.uid);
     }
 
-    // 실제 문의 본문과 관리자 답변.
-    // 작성자 본인과 관리자만 읽을 수 있어 다른 회원에게 내용/답변이 노출되지 않는다.
+    // 실제 문의 내용과 관리자 답변: 작성자 본인과 관리자만 열람.
     match /inquiries/{inquiryId} {
-      allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
-      allow create: if validInquiryCreate();
-      allow update: if isAdmin() || validInquiryOwnerUpdate();
-      allow delete: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+      allow read: if isAdmin()
+        || (signedIn() && resource.data.userId == request.auth.uid);
+
+      // 등록 시 본인 UID로만 작성 가능.
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid;
+
+      // 작성자는 문의 본문 관련 필드만 수정 가능. 답변/상태는 관리자만 수정.
+      allow update: if isAdmin()
+        || (signedIn()
+          && resource.data.userId == request.auth.uid
+          && request.resource.data.userId == resource.data.userId
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'category', 'title', 'content', 'updatedAt'
+          ]));
+
+      allow delete: if isAdmin()
+        || (signedIn() && resource.data.userId == request.auth.uid);
     }
 
     match /{document=**} {
