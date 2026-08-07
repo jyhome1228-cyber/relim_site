@@ -731,3 +731,33 @@ h3 {
   .room-modal-footer{margin-top:20px}
   .room-modal-footer .button{width:100%}
 }
+
+
+/* Main brand focus — forest story moved ahead of pool imagery */
+.home-focus-hero{position:relative;display:flex;min-height:calc(100svh - 82px);align-items:center;overflow:hidden;background:var(--green);color:#fff}
+.home-focus-image,.home-focus-shade{position:absolute;inset:0;width:100%;height:100%}
+.home-focus-image{object-fit:cover;object-position:center 46%;transform:scale(1.002)}
+.home-focus-shade{background:linear-gradient(90deg,rgba(28,35,23,.84) 0%,rgba(52,62,44,.62) 48%,rgba(27,34,22,.42) 100%)}
+.home-focus-inner{position:relative;z-index:1;padding-top:clamp(76px,9vh,120px);padding-bottom:clamp(76px,9vh,112px)}
+.home-focus-hero .eyebrow{margin-bottom:clamp(28px,4vh,46px);color:rgba(255,255,255,.72)}
+.home-focus-logo{display:block;width:clamp(210px,26vw,390px);height:auto;margin-bottom:clamp(38px,5vh,62px);filter:brightness(0) invert(1)}
+.home-focus-hero h1{max-width:760px;margin:0 0 24px;color:#fff;font-size:clamp(38px,4.3vw,66px);font-weight:500;line-height:1.16;letter-spacing:-.05em}
+.home-focus-inner>p:not(.eyebrow){max-width:570px;margin:0;color:rgba(255,255,255,.86);font-size:clamp(15px,1.2vw,18px);line-height:1.8}
+.home-focus-actions{display:flex;gap:24px;align-items:center;margin-top:36px}
+.home-focus-button{border-color:#fff;background:#fff;color:var(--green)}
+.home-focus-link{color:#fff;font-size:14px;font-weight:600}
+.home-focus-link span{margin-left:5px}
+.home-focus-scroll{position:absolute;z-index:2;right:max(var(--gutter),calc((100% - var(--container))/2));bottom:38px;display:flex;gap:10px;align-items:center;color:rgba(255,255,255,.72);font-size:10px;font-weight:700;letter-spacing:.16em}
+.home-gallery-hero{min-height:min(55vw,640px);scroll-margin-top:82px}
+@media(max-width:620px){
+  .home-focus-hero{min-height:calc(100svh - 64px)}
+  .home-focus-image{object-position:58% center}
+  .home-focus-shade{background:linear-gradient(180deg,rgba(38,47,31,.6),rgba(38,47,31,.84))}
+  .home-focus-inner{padding-top:68px;padding-bottom:82px}
+  .home-focus-logo{width:min(67vw,270px);margin-bottom:40px}
+  .home-focus-hero h1{font-size:35px}
+  .home-focus-inner>p:not(.eyebrow) br{display:none}
+  .home-focus-actions{gap:18px;margin-top:28px}
+  .home-focus-scroll{right:var(--gutter);bottom:22px}
+  .home-gallery-hero{min-height:72vw}
+}
