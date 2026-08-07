@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>비밀 문의 | 리림 RE:LIM</title>
-  <meta name="description" content="리림 이용, 예약, 시설 관련 문의를 비밀글로 남겨주세요. 문의 내용과 답변은 작성자와 관리자만 확인할 수 있습니다.">
+  <title>문의하기 | 리림 RE:LIM</title>
+  <meta name="description" content="리림 이용, 예약, 시설 관련 문의를 남겨주세요. 문의 제목은 게시판에 표시되며 내용과 답변은 작성자와 관리자만 확인할 수 있습니다.">
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/community.css">
@@ -15,14 +15,14 @@
 <main class="community-page" data-inquiry-page>
   <section class="community-hero">
     <div class="container community-hero-grid">
-      <div><p class="eyebrow">PRIVATE Q&A</p><h1>문의하기</h1><p>문의 목록은 확인할 수 있지만 문의 내용과 관리자 답변은 작성자 본인과 리림 관리자만 확인할 수 있습니다.</p></div>
+      <div><p class="eyebrow">Q&A BOARD</p><h1>문의하기</h1><p>리림 이용과 예약, 시설 관련 문의를 남겨주세요. 게시판에는 문의 제목이 표시되며 내용과 답변은 작성자 본인과 리림 관리자만 확인할 수 있습니다.</p></div>
       <div class="community-actions"><a class="community-button" href="faq.html">FAQ 확인</a><button class="community-button primary" type="button" data-inquiry-write>글쓰기</button></div>
     </div>
   </section>
 
   <section class="community-section">
     <div class="container">
-      <div class="community-toolbar inquiry-toolbar"><div><strong data-inquiry-board-label>비밀문의</strong><span class="inquiry-count">총 <b data-inquiry-count>0</b>개의 문의</span></div><a class="community-button" href="mypage.html">마이페이지</a></div>
+      <div class="community-toolbar inquiry-toolbar"><div><strong data-inquiry-board-label>Q&A</strong><span class="inquiry-count">총 <b data-inquiry-count>0</b>개의 문의</span></div><a class="community-button" href="mypage.html">마이페이지</a></div>
       <div class="inquiry-board-head" aria-hidden="true"><span>No.</span><span>구분</span><span>제목</span><span>작성자</span><span>작성일</span><span>상태</span></div>
       <div class="inquiry-board" data-inquiry-list></div>
       <div class="community-empty" data-inquiry-empty>아직 등록된 문의가 없습니다.</div>
@@ -31,11 +31,11 @@
   </section>
 </main>
 
-<div class="community-modal" id="inquiryWriteModal" role="dialog" aria-modal="true" aria-label="비밀 문의 글쓰기">
+<div class="community-modal" id="inquiryWriteModal" role="dialog" aria-modal="true" aria-label="문의 글쓰기">
   <div class="community-modal-panel">
     <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
-    <p class="eyebrow">PRIVATE QUESTION</p><h2>비밀 문의 글쓰기</h2>
-    <p class="community-help inquiry-write-help">작성한 문의와 관리자 답변은 본인과 관리자만 확인할 수 있으며 마이페이지에도 함께 저장됩니다.</p>
+    <p class="eyebrow">WRITE A QUESTION</p><h2>문의 글쓰기</h2>
+    <p class="community-help inquiry-write-help">문의 제목은 게시판에 표시되며 문의 내용과 관리자 답변은 작성자 본인과 관리자만 확인할 수 있습니다. 작성한 문의는 마이페이지에도 저장됩니다.</p>
     <form class="community-form" data-inquiry-form>
       <label class="community-field"><span>문의 유형</span><select name="category"><option>이용 문의</option><option>예약 문의</option><option>시설 문의</option><option>결제·환불 문의</option><option>기타 문의</option></select></label>
       <label class="community-field"><span>제목</span><input type="text" name="title" maxlength="80" placeholder="문의 제목을 입력해 주세요" required></label>
@@ -46,23 +46,23 @@
   </div>
 </div>
 
-<div class="community-modal" id="inquiryPrivacyModal" role="dialog" aria-modal="true" aria-label="비밀글 안내">
+<div class="community-modal" id="inquiryPrivacyModal" role="dialog" aria-modal="true" aria-label="문의 열람 안내">
   <div class="community-modal-panel privacy-notice-panel">
     <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
-    <p class="eyebrow">PRIVATE POST</p>
-    <h2>비밀글입니다.</h2>
-    <p class="privacy-notice-copy" data-private-message>작성자 본인만 문의 내용과 관리자 답변을 확인할 수 있습니다.</p>
+    <p class="eyebrow">Q&A NOTICE</p>
+    <h2>작성자만 확인할 수 있습니다.</h2>
+    <p class="privacy-notice-copy" data-private-message>문의 내용은 작성자 본인만 확인할 수 있습니다. 다른 회원의 문의 내용과 관리자 답변은 공개되지 않습니다.</p>
     <div class="community-form-actions"><button class="community-button primary" type="button" data-community-close>확인</button></div>
   </div>
 </div>
 
-<div class="community-modal" id="inquiryDetailModal" role="dialog" aria-modal="true" aria-label="비밀 문의 상세보기">
+<div class="community-modal" id="inquiryDetailModal" role="dialog" aria-modal="true" aria-label="문의 상세보기">
   <div class="community-modal-panel wide inquiry-detail-panel">
     <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
-    <div class="inquiry-detail-head"><div><p class="eyebrow" data-inquiry-detail-category>PRIVATE Q&A</p><h2 data-inquiry-detail-title>문의 제목</h2><p class="inquiry-detail-meta" data-inquiry-detail-meta></p></div><div class="inquiry-detail-side"><span class="inquiry-state" data-inquiry-detail-state>답변대기</span><div class="post-owner-actions" data-inquiry-owner-actions hidden><button class="post-action-button" type="button" data-inquiry-edit>수정</button><button class="post-action-button is-danger" type="button" data-inquiry-delete>삭제</button></div></div></div>
+    <div class="inquiry-detail-head"><div><p class="eyebrow" data-inquiry-detail-category>Q&A</p><h2 data-inquiry-detail-title>문의 제목</h2><p class="inquiry-detail-meta" data-inquiry-detail-meta></p></div><div class="inquiry-detail-side"><span class="inquiry-state" data-inquiry-detail-state>답변대기</span><div class="post-owner-actions" data-inquiry-owner-actions hidden><button class="post-action-button" type="button" data-inquiry-edit>수정</button><button class="post-action-button is-danger" type="button" data-inquiry-delete>삭제</button></div></div></div>
     <p class="community-status" data-inquiry-delete-status hidden></p>
     <div class="inquiry-detail-body" data-inquiry-detail-content></div>
-    <section class="inquiry-answer" data-inquiry-answer-view hidden><p class="eyebrow">RE:LIM ANSWER · PRIVATE</p><div data-inquiry-answer-text></div><p class="inquiry-answer-date" data-inquiry-answer-date></p></section>
+    <section class="inquiry-answer" data-inquiry-answer-view hidden><p class="eyebrow">RE:LIM ANSWER</p><div data-inquiry-answer-text></div><p class="inquiry-answer-date" data-inquiry-answer-date></p></section>
     <section class="inquiry-admin-reply" data-inquiry-admin-reply hidden>
       <p class="eyebrow">ADMIN REPLY</p><h3>관리자 답변</h3>
       <form data-inquiry-answer-form><label class="community-field"><span>답변 내용</span><textarea name="answer" maxlength="3000" placeholder="고객 문의에 대한 답변을 입력해 주세요." required></textarea></label><p class="community-status" data-inquiry-answer-status hidden></p><div class="community-form-actions"><button class="community-button primary" type="submit">답변 등록</button></div></form>
@@ -86,6 +86,6 @@
 
 <footer class="site-footer"><div class="container footer-main"><div class="footer-identity"><img class="footer-logo" src="assets/images/relim-logo.svg" alt="RE:LIM"><p>수영장·수로·개별 텐트·바비큐 공간과 카페를 함께 이용하는 용인 야외 공간입니다.</p></div><div><h3>메뉴</h3><div class="footer-links"><a href="about.html">리림 소개</a><a href="space.html">공간 안내</a><a href="gallery.html">갤러리</a><a href="reviews.html">리뷰</a><a href="inquiry.html">문의하기</a></div></div><div><h3>문의</h3><div class="footer-links"><a href="tel:01057948823">고객센터 010-5794-8823</a><a href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener">@RELIMOFFICIAL ↗</a></div></div><div><h3>주소</h3><p>경기도 용인시 처인구 원삼면<br>보개원삼로1372번길 45</p><div class="footer-links"><a href="location.html">오시는 길</a></div></div></div><div class="container footer-bottom"><span>© 2026 RE:LIM. All rights reserved.</span><span>사업자등록번호 220-86-50466</span></div></footer>
 <script src="assets/js/script.js"></script>
-<script type="module" src="assets/js/inquiry.js?v=20260807-2218"></script>
+<script type="module" src="assets/js/inquiry.js?v=20260807-2253"></script>
 </body>
 </html>
