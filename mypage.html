@@ -8,12 +8,13 @@
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/community.css">
+  <link rel="stylesheet" href="assets/css/reviews.css">
 </head>
 <body>
 <header class="site-header"><div class="container header-inner"><a class="brand brand-logo" href="index.html" aria-label="리림 홈"><img src="assets/images/relim-logo.svg" alt="RE:LIM"></a><button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav"><a href="about.html">리림 소개</a><a href="space.html">공간 안내</a><a href="gallery.html">갤러리</a><a href="guide.html">이용 안내</a><a href="reservation.html">예약 안내</a><a href="location.html">오시는 길</a><a href="faq.html">자주 묻는 질문</a></nav><a class="header-book" href="reservation.html">예약하기</a></div></header>
 
 <main class="community-page" data-mypage>
-  <section class="community-hero"><div class="container"><p class="eyebrow">MY RE:LIM</p><h1>마이페이지</h1><p>내가 남긴 문의와 리뷰를 한곳에서 확인할 수 있습니다.</p></div></section>
+  <section class="community-hero"><div class="container"><p class="eyebrow">MY RE:LIM</p><h1>마이페이지</h1><p>내가 남긴 문의와 리뷰를 확인하고 직접 수정하거나 관리할 수 있습니다.</p></div></section>
   <section class="community-section"><div class="container">
     <div class="community-empty" data-mypage-loading>회원 정보를 불러오고 있습니다.</div>
     <div data-mypage-account hidden>
@@ -41,8 +42,38 @@
   </div></section>
 </main>
 
+<div class="community-modal" id="mypageInquiryEditModal" role="dialog" aria-modal="true" aria-label="문의 수정">
+  <div class="community-modal-panel">
+    <button class="community-modal-close" type="button" data-mypage-close aria-label="닫기">×</button>
+    <p class="eyebrow">EDIT MY QUESTION</p><h2>문의 수정</h2>
+    <form class="community-form" data-my-inquiry-edit-form>
+      <label class="community-field"><span>문의 유형</span><select name="category"><option>이용 문의</option><option>예약 문의</option><option>시설 문의</option><option>결제·환불 문의</option><option>기타 문의</option></select></label>
+      <label class="community-field"><span>제목</span><input type="text" name="title" maxlength="80" required></label>
+      <label class="community-field"><span>문의 내용</span><textarea name="content" maxlength="3000" required></textarea></label>
+      <p class="community-status" data-my-inquiry-edit-status hidden></p>
+      <div class="community-form-actions"><button class="community-button" type="button" data-mypage-close>취소</button><button class="community-button primary" type="submit">수정 완료</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="community-modal" id="mypageReviewEditModal" role="dialog" aria-modal="true" aria-label="리뷰 수정">
+  <div class="community-modal-panel">
+    <button class="community-modal-close" type="button" data-mypage-close aria-label="닫기">×</button>
+    <p class="eyebrow">EDIT MY REVIEW</p><h2>리뷰 수정</h2>
+    <form class="community-form" data-my-review-edit-form>
+      <div class="community-field review-rating-field"><span>별점</span><div class="rating-picker" data-my-rating-picker role="group" aria-label="별점 수정"><button type="button" data-rating="1">★</button><button type="button" data-rating="2">★</button><button type="button" data-rating="3">★</button><button type="button" data-rating="4">★</button><button type="button" data-rating="5">★</button><strong data-my-rating-label>별점을 선택해 주세요</strong></div><input type="hidden" name="rating" data-my-rating-value required></div>
+      <label class="community-field"><span>제목</span><input type="text" name="title" maxlength="60" required></label>
+      <label class="community-field"><span>사진 교체 <small>(선택)</small></span><input type="file" name="image" accept="image/*"></label>
+      <p class="community-help">새 사진을 선택하지 않으면 기존 사진이 유지됩니다.</p>
+      <label class="community-field"><span>리뷰 내용</span><textarea name="content" maxlength="2000" required></textarea></label>
+      <p class="community-status" data-my-review-edit-status hidden></p>
+      <div class="community-form-actions"><button class="community-button" type="button" data-mypage-close>취소</button><button class="community-button primary" type="submit">수정 완료</button></div>
+    </form>
+  </div>
+</div>
+
 <footer class="site-footer"><div class="container footer-main"><div class="footer-identity"><img class="footer-logo" src="assets/images/relim-logo.svg" alt="RE:LIM"><p>수영장·수로·개별 텐트·바비큐 공간과 카페를 함께 이용하는 용인 야외 공간입니다.</p></div><div><h3>메뉴</h3><div class="footer-links"><a href="about.html">리림 소개</a><a href="space.html">공간 안내</a><a href="gallery.html">갤러리</a><a href="reviews.html">리뷰</a><a href="inquiry.html">문의하기</a></div></div><div><h3>문의</h3><div class="footer-links"><a href="tel:01057948823">고객센터 010-5794-8823</a><a href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener">@RELIMOFFICIAL ↗</a></div></div><div><h3>주소</h3><p>경기도 용인시 처인구 원삼면<br>보개원삼로1372번길 45</p><div class="footer-links"><a href="location.html">오시는 길</a></div></div></div><div class="container footer-bottom"><span>© 2026 RE:LIM. All rights reserved.</span><span>사업자등록번호 220-86-50466</span></div></footer>
 <script src="assets/js/script.js"></script>
-<script type="module" src="assets/js/community.js"></script>
+<script type="module" src="assets/js/mypage.js"></script>
 </body>
 </html>
