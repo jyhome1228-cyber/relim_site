@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>리뷰 | 리림 RE:LIM</title>
+  <meta name="description" content="리림을 이용한 고객들의 사진 리뷰와 이용 후기를 확인하세요.">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/community.css">
+</head>
+<body>
+<header class="site-header"><div class="container header-inner"><a class="brand brand-logo" href="index.html" aria-label="리림 홈"><img src="assets/images/relim-logo.svg" alt="RE:LIM"></a><button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav"><a href="about.html">리림 소개</a><a href="space.html">공간 안내</a><a href="gallery.html">갤러리</a><a href="guide.html">이용 안내</a><a href="reservation.html">예약 안내</a><a href="location.html">오시는 길</a><a href="faq.html">자주 묻는 질문</a></nav><a class="header-book" href="reservation.html">예약하기</a></div></header>
+
+<main class="community-page" data-reviews-page>
+  <section class="community-hero">
+    <div class="container community-hero-grid">
+      <div><p class="eyebrow">RE:LIM REVIEW</p><h1>리뷰</h1><p>리림에서 보낸 시간을 사진과 함께 남겨주세요. 회원이 작성한 리뷰는 갤러리 형태로 공개됩니다.</p></div>
+      <div class="community-actions"><button class="community-button primary" type="button" data-review-write>리뷰 작성</button><a class="community-button" href="mypage.html">내 글 보기</a></div>
+    </div>
+  </section>
+  <section class="community-section">
+    <div class="container">
+      <div class="community-toolbar"><strong>PHOTO REVIEW</strong><p>등록된 리뷰 <span data-review-count>0</span>개</p></div>
+      <div class="review-grid" data-review-grid></div>
+      <div class="community-empty" data-review-empty>아직 등록된 리뷰가 없습니다. 첫 리뷰를 남겨주세요.</div>
+    </div>
+  </section>
+</main>
+
+<div class="community-modal" id="reviewWriteModal" role="dialog" aria-modal="true" aria-label="리뷰 작성">
+  <div class="community-modal-panel">
+    <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
+    <p class="eyebrow">WRITE A REVIEW</p><h2>리뷰 작성</h2>
+    <form class="community-form" id="reviewForm">
+      <label class="community-field"><span>제목</span><input type="text" name="title" maxlength="60" placeholder="리림에서의 시간을 한 문장으로 남겨주세요" required></label>
+      <label class="community-field"><span>사진</span><input type="file" name="image" accept="image/*"></label>
+      <p class="community-help">사진은 등록 시 웹용으로 자동 압축됩니다. 사진 없이 글만 작성해도 됩니다.</p>
+      <label class="community-field"><span>리뷰 내용</span><textarea name="content" maxlength="2000" placeholder="이용하신 공간과 좋았던 점을 자유롭게 남겨주세요." required></textarea></label>
+      <p class="community-status" id="reviewFormStatus" hidden></p>
+      <div class="community-form-actions"><button class="community-button" type="button" data-community-close>취소</button><button class="community-button primary" type="submit">등록하기</button></div>
+    </form>
+  </div>
+</div>
+
+<div class="community-modal" id="reviewDetailModal" role="dialog" aria-modal="true" aria-label="리뷰 상세">
+  <div class="community-modal-panel wide">
+    <button class="community-modal-close" type="button" data-community-close aria-label="닫기">×</button>
+    <p class="eyebrow">RE:LIM REVIEW</p><h2 data-review-detail-title></h2>
+    <div class="review-detail-meta" data-review-detail-meta></div>
+    <img class="review-detail-image" data-review-detail-image src="" alt="" hidden>
+    <p class="review-detail-content" data-review-detail-content></p>
+  </div>
+</div>
+
+<footer class="site-footer"><div class="container footer-main"><div class="footer-identity"><img class="footer-logo" src="assets/images/relim-logo.svg" alt="RE:LIM"><p>수영장·수로·개별 텐트·바비큐 공간과 카페를 함께 이용하는 용인 야외 공간입니다.</p></div><div><h3>메뉴</h3><div class="footer-links"><a href="about.html">리림 소개</a><a href="space.html">공간 안내</a><a href="gallery.html">갤러리</a><a href="reviews.html">리뷰</a><a href="inquiry.html">문의하기</a></div></div><div><h3>문의</h3><div class="footer-links"><a href="tel:01057948823">고객센터 010-5794-8823</a><a href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener">@RELIMOFFICIAL ↗</a></div></div><div><h3>주소</h3><p>경기도 용인시 처인구 원삼면<br>보개원삼로1372번길 45</p><div class="footer-links"><a href="location.html">오시는 길</a></div></div></div><div class="container footer-bottom"><span>© 2026 RE:LIM. All rights reserved.</span><span>사업자등록번호 220-86-50466</span></div></footer>
+<script src="assets/js/script.js"></script>
+<script type="module" src="assets/js/community.js"></script>
+</body>
+</html>
