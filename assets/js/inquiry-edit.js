@@ -3,6 +3,13 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
 import { doc, getDoc, getFirestore, serverTimestamp, updateDoc } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 import { firebaseConfig, firebaseReady } from './firebase-config.js';
 
+if (!document.querySelector('link[href="assets/css/edit.css"]')) {
+  const styleLink = document.createElement('link');
+  styleLink.rel = 'stylesheet';
+  styleLink.href = 'assets/css/edit.css';
+  document.head.append(styleLink);
+}
+
 const app = firebaseReady ? (getApps()[0] || initializeApp(firebaseConfig)) : null;
 const auth = app ? getAuth(app) : null;
 const db = app ? getFirestore(app) : null;
