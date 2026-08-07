@@ -9,7 +9,8 @@ import {
   query,
   serverTimestamp,
   updateDoc,
-  where
+  where,
+  writeBatch
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 import { firebaseConfig, firebaseReady } from './firebase-config.js';
 
@@ -183,7 +184,14 @@ function init() {
       actions.append(makeButton('삭제', 'mypage-delete', async () => {
         if (!window.confirm('이 글을 삭제할까요?')) return;
         try {
-          await deleteDoc(doc(db, type === 'inquiry' ? 'inquiries' : 'reviews', id));
+          if (type === 'inquiry') {
+            const batch = writeBatch(db);
+            batch.delete(doc(db, 'inquiries', id));
+            batch.delete(doc(db, 'inquiryIndex', id));
+            await batch.commit();
+          } else {
+            await deleteDoc(doc(db, 'reviews', id));
+          }
         } catch (error) {
           console.error(error);
           window.alert('삭제 권한을 확인해 주세요.');
@@ -207,7 +215,10 @@ function init() {
     submit.disabled = true;
     setStatus(inquiryStatus, '문의를 수정하고 있습니다.');
     try {
-      await updateDoc(doc(db, 'inquiries', activeInquiry.id), { category, title, content, updatedAt: serverTimestamp() });
+      const batch = writeBatch(db);
+      batch.update(doc(db, 'inquiries', activeInquiry.id), { category, title, content, updatedAt: serverTimestamp() });
+      batch.update(doc(db, 'inquiryIndex', activeInquiry.id), { category, title, updatedAt: serverTimestamp() });
+      await batch.commit();
       setStatus(inquiryStatus, '문의가 수정되었습니다.');
       window.setTimeout(() => closeModal(inquiryModal), 450);
     } catch (error) {
