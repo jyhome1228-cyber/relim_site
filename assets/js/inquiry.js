@@ -48,7 +48,11 @@ let openedFromUrl = false;
 const formatDate = (value) => {
   const date = value?.toDate?.() || (value ? new Date(value) : null);
   if (!date || Number.isNaN(date.getTime())) return '방금 전';
-  return new Intl.DateTimeFormat('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' }).format(date);
+  return new Intl.DateTimeFormat('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit'
+  }).format(date);
 };
 
 const maskName = (value) => {
@@ -86,25 +90,26 @@ const closeModal = (modal) => {
 
 const firebaseErrorMessage = (error, action = '저장') => {
   const code = String(error?.code || '');
-  if (code.includes('permission-denied')) return `${action} 권한이 없습니다. Firestore Rules를 최신 상태로 게시해 주세요.`;
+  if (code.includes('permission-denied')) return `${action} 권한이 없습니다. Firebase Firestore 규칙을 최신 상태로 게시해 주세요.`;
   if (code.includes('unauthenticated')) return '로그인 상태가 만료되었습니다. 다시 로그인해 주세요.';
   if (code.includes('failed-precondition')) return 'Firestore 설정을 확인해 주세요.';
   if (code.includes('unavailable')) return 'Firebase 연결이 원활하지 않습니다. 잠시 후 다시 시도해 주세요.';
   return `${action} 중 오류가 발생했습니다. (${code || 'unknown'})`;
 };
 
-function showPrivacyNotice() {
+function showPrivateNotice(needsLogin = false) {
   const message = privacyModal?.querySelector('[data-private-message]');
   if (message) {
-    message.textContent = currentUser
-      ? '비밀글입니다. 작성자 본인만 문의 내용과 관리자 답변을 확인할 수 있습니다.'
-      : '비밀글입니다. 로그인 후 작성자 본인만 문의 내용과 관리자 답변을 확인할 수 있습니다.';
+    message.textContent = needsLogin
+      ? '문의 내용은 작성자 본인만 확인할 수 있습니다. 로그인 후 본인이 작성한 글이라면 내용을 확인할 수 있습니다.'
+      : '문의 내용은 작성자 본인만 확인할 수 있습니다. 다른 회원의 문의 내용과 관리자 답변은 공개되지 않습니다.';
   }
   openModal(privacyModal);
 }
 
 function renderDetail(id, item, syncUrl = true) {
   if (!detailModal || !item) return;
+
   activeInquiryId = id;
   activeInquiry = item;
 
@@ -148,26 +153,28 @@ async function openInquiry(indexItem, syncUrl = true) {
   if (!indexItem) return;
 
   if (!currentUser) {
-    showPrivacyNotice();
+    showPrivateNotice(true);
     return;
   }
 
-  if (!isAdmin(currentUser) && indexItem.ownerUid !== currentUser.uid) {
-    showPrivacyNotice();
+  const owner = indexItem.ownerUid === currentUser.uid;
+  const admin = isAdmin(currentUser);
+  if (!owner && !admin) {
+    showPrivateNotice(false);
     return;
   }
 
   try {
     const snapshot = await getDoc(doc(db, 'inquiries', indexItem.id));
     if (!snapshot.exists()) {
-      showPrivacyNotice();
+      window.alert('문의 내용을 찾을 수 없습니다.');
       return;
     }
     renderDetail(indexItem.id, { id: snapshot.id, ...snapshot.data() }, syncUrl);
   } catch (error) {
-    console.error('[RE:LIM Q&A] 비밀문의 열람 실패:', error);
+    console.error('[RE:LIM Q&A] 문의 상세 조회 실패:', error);
     if (String(error?.code || '').includes('permission-denied')) {
-      showPrivacyNotice();
+      showPrivateNotice(false);
       return;
     }
     window.alert(firebaseErrorMessage(error, '조회'));
@@ -177,7 +184,12 @@ async function openInquiry(indexItem, syncUrl = true) {
 function renderBoard(snapshot) {
   indexCache = new Map();
   list?.replaceChildren();
-  const docs = [...snapshot.docs].sort((a, b) => (b.data().createdAt?.toMillis?.() || 0) - (a.data().createdAt?.toMillis?.() || 0));
+
+  const docs = [...snapshot.docs].sort((a, b) => {
+    const aTime = a.data().createdAt?.toMillis?.() || 0;
+    const bTime = b.data().createdAt?.toMillis?.() || 0;
+    return bTime - aTime;
+  });
   const total = docs.length;
 
   docs.forEach((snapshotDoc, index) => {
@@ -198,7 +210,7 @@ function renderBoard(snapshot) {
 
     const title = document.createElement('span');
     title.className = 'board-title';
-    title.textContent = `🔒 ${item.title || '비밀 문의'}`;
+    title.textContent = item.title || '문의';
 
     const author = document.createElement('span');
     author.className = 'board-author';
@@ -222,7 +234,7 @@ function renderBoard(snapshot) {
   });
 
   if (count) count.textContent = String(total);
-  if (boardLabel) boardLabel.textContent = '비밀문의';
+  if (boardLabel) boardLabel.textContent = 'Q&A';
   if (empty) {
     empty.hidden = total > 0;
     empty.textContent = '아직 등록된 문의가 없습니다.';
@@ -275,10 +287,12 @@ writeForm?.addEventListener('submit', async (event) => {
   const title = String(data.get('title') || '').trim();
   const content = String(data.get('content') || '').trim();
 
-  if (title.length < 2 || content.length < 5) return setStatus(writeStatus, '문의 제목과 내용을 조금 더 입력해 주세요.', true);
+  if (title.length < 2 || content.length < 5) {
+    return setStatus(writeStatus, '문의 제목과 내용을 조금 더 입력해 주세요.', true);
+  }
 
   submit.disabled = true;
-  setStatus(writeStatus, '비밀 문의를 저장하고 있습니다.');
+  setStatus(writeStatus, '문의를 등록하고 있습니다.');
 
   try {
     const inquiryRef = doc(collection(db, 'inquiries'));
@@ -313,14 +327,15 @@ writeForm?.addEventListener('submit', async (event) => {
     await batch.commit();
 
     writeForm.reset();
-    setStatus(writeStatus, '비밀 문의가 정상적으로 등록되었습니다.');
+    setStatus(writeStatus, '문의가 등록되었습니다.');
+
     window.setTimeout(() => {
       closeModal(writeModal);
       window.location.href = `inquiry.html?id=${encodeURIComponent(inquiryRef.id)}`;
-    }, 300);
+    }, 250);
   } catch (error) {
-    console.error('[RE:LIM Q&A] 문의 저장 실패:', error);
-    setStatus(writeStatus, firebaseErrorMessage(error, '저장'), true);
+    console.error('[RE:LIM Q&A] 문의 등록 실패:', error);
+    setStatus(writeStatus, firebaseErrorMessage(error, '등록'), true);
   } finally {
     submit.disabled = false;
   }
@@ -346,7 +361,9 @@ editForm?.addEventListener('submit', async (event) => {
   const title = String(data.get('title') || '').trim();
   const content = String(data.get('content') || '').trim();
 
-  if (title.length < 2 || content.length < 5) return setStatus(editStatus, '문의 제목과 내용을 조금 더 입력해 주세요.', true);
+  if (title.length < 2 || content.length < 5) {
+    return setStatus(editStatus, '문의 제목과 내용을 조금 더 입력해 주세요.', true);
+  }
 
   submit.disabled = true;
   setStatus(editStatus, '문의를 수정하고 있습니다.');
@@ -373,16 +390,20 @@ editForm?.addEventListener('submit', async (event) => {
 
 deleteButton?.addEventListener('click', async () => {
   if (!activeInquiryId || !activeInquiry || !currentUser) return;
-  if (activeInquiry.userId !== currentUser.uid && !isAdmin(currentUser)) return;
-  if (!window.confirm('이 문의를 삭제할까요? 관리자 답변도 함께 삭제되며 복구할 수 없습니다.')) return;
+  const owner = activeInquiry.userId === currentUser.uid;
+  const admin = isAdmin(currentUser);
+  if (!owner && !admin) return;
+  if (!window.confirm('이 문의를 삭제할까요? 삭제한 글은 복구할 수 없습니다.')) return;
 
   deleteButton.disabled = true;
   setStatus(deleteStatus, '문의를 삭제하고 있습니다.');
+
   try {
     const batch = writeBatch(db);
     batch.delete(doc(db, 'inquiries', activeInquiryId));
     batch.delete(doc(db, 'inquiryIndex', activeInquiryId));
     await batch.commit();
+
     activeInquiryId = null;
     activeInquiry = null;
     closeModal(detailModal);
@@ -404,7 +425,7 @@ answerForm?.addEventListener('submit', async (event) => {
   if (answer.length < 2) return setStatus(answerStatus, '답변 내용을 입력해 주세요.', true);
 
   submit.disabled = true;
-  setStatus(answerStatus, '관리자 답변을 등록하고 있습니다.');
+  setStatus(answerStatus, '답변을 등록하고 있습니다.');
 
   try {
     const now = Timestamp.now();
@@ -431,10 +452,10 @@ answerForm?.addEventListener('submit', async (event) => {
       updatedAt: now
     };
     renderDetail(activeInquiryId, activeInquiry, false);
-    setStatus(answerStatus, '관리자 답변이 등록되었습니다. 작성자 본인에게만 표시됩니다.');
+    setStatus(answerStatus, '관리자 답변이 등록되었습니다.');
   } catch (error) {
     console.error('[RE:LIM Q&A] 관리자 답변 실패:', error);
-    setStatus(answerStatus, firebaseErrorMessage(error, '답변 저장'), true);
+    setStatus(answerStatus, firebaseErrorMessage(error, '답변 등록'), true);
   } finally {
     submit.disabled = false;
   }
