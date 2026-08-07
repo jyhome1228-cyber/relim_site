@@ -60,15 +60,13 @@
 </header>
 
 <main class="page about-page">
-  <section class="about-forest-hero" id="about-top" aria-labelledby="aboutHeroTitle">
-    <img class="about-forest-hero-image" src="https://cdn.imweb.me/upload/S2023030963558ef55ba8e/9356128a57034.png" alt="숲과 리림 공간이 어우러진 풍경">
-    <div class="about-forest-hero-shade"></div>
-    <div class="container about-forest-hero-inner">
+  <section class="about-intro-hero" aria-labelledby="aboutHeroTitle">
+    <div class="container about-intro-inner">
       <p class="eyebrow">ABOUT RE:LIM</p>
-      <img class="about-hero-logo about-hero-logo-white" src="assets/images/relim-logo.svg" alt="RE:LIM">
+      <img class="about-intro-logo" src="assets/images/relim-logo.svg" alt="RE:LIM">
       <h1 id="aboutHeroTitle">자연 속에서 더 좋은 시간을<br>만들어온 경험의 새로운 확장</h1>
       <p>나인힐스와 레이지캠프에서 이어온 경험을 바탕으로,<br>리림은 숲과 물, 쉼과 식사가 함께하는 하루를 만듭니다.</p>
-      <a class="about-scroll-cue" href="#about-journey">SCROLL <span aria-hidden="true">↓</span></a>
+      <a class="about-intro-scroll" href="#about-journey">세 공간의 이야기 <span aria-hidden="true">↓</span></a>
     </div>
   </section>
 
@@ -81,23 +79,35 @@
           <p>나인힐스에서 시작된 자연 속 경험은 레이지캠프를 거치며 쉼과 식사가 함께하는 시간으로 확장되었습니다. 오랜 시간 자연 가까이에서 공간을 운영하며 사람들이 머물고, 먹고, 쉬는 방식을 세심하게 살펴왔습니다. 그렇게 쌓인 경험을 바탕으로 숲과 물, 식사와 휴식이 하나의 흐름으로 이어지는 리림이 탄생했습니다.</p>
         </div>
       </div>
-      <ol class="brand-journey-list">
-        <li>
-          <span class="journey-index">01</span>
-          <div class="journey-name"><small>The Beginning</small><strong>NINE HILLS</strong></div>
-          <div class="journey-copy"><h3>자연 속에 머무는 경험의 시작</h3><p>나인힐스는 일상에서 잠시 벗어나 자연 가까이 머무는 시간을 제안하며 시작되었습니다. 계절과 풍경을 온전히 느낄 수 있는 환경을 만들고 운영하면서, 좋은 공간은 시설보다 그 안에서 보내는 시간으로 기억된다는 것을 배웠습니다.</p></div>
-        </li>
-        <li>
-          <span class="journey-index">02</span>
-          <div class="journey-name"><small>The Expansion</small><strong>LAZY CAMP</strong></div>
-          <div class="journey-copy"><h3>쉼과 식사가 함께하는 캠핑의 확장</h3><p>레이지캠프는 엄마와 아빠가 잠시 게으름을 피워도 괜찮은 곳입니다. 캠핑이 처음인 초보 캠퍼와 온전한 휴식이 필요한 사람들을 위해, 준비의 부담은 덜고 자연 속에서 편안히 머무는 시간을 제안했습니다. 식사는 각자의 취향과 방식에 맞게 자유롭게 준비해 즐길 수 있도록 했습니다.</p></div>
-        </li>
-        <li class="is-current">
-          <span class="journey-index">03</span>
-          <div class="journey-name journey-name-logo"><small>The New Chapter</small><img src="assets/images/relim-logo.svg" alt="RE:LIM"></div>
-          <div class="journey-copy"><h3>숲과 물, 사람이 함께하는 새로운 하루</h3><p>리림은 두 공간에서 축적한 경험을 바탕으로 물놀이와 휴식, 바비큐와 대화가 자연스럽게 이어지는 하루를 제안합니다. 개별 쉘터의 편안함과 물·숲의 풍경을 한 공간에 담아 가족과 친구가 각자의 속도로 즐길 수 있도록 완성했습니다.</p></div>
-        </li>
-      </ol>
+      <div class="brand-journey-cards">
+        <details class="journey-card">
+          <summary>
+            <span class="journey-index">01</span>
+            <span class="journey-kicker">The Beginning</span>
+            <strong>NINE HILLS</strong>
+            <span class="journey-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="journey-panel"><h3>자연 속에 머무는 경험의 시작</h3><p>나인힐스는 일상에서 잠시 벗어나 자연 가까이 머무는 시간을 제안하며 시작되었습니다. 계절과 풍경을 온전히 느낄 수 있는 환경을 만들고 운영하면서, 좋은 공간은 시설보다 그 안에서 보내는 시간으로 기억된다는 것을 배웠습니다.</p></div>
+        </details>
+        <details class="journey-card">
+          <summary>
+            <span class="journey-index">02</span>
+            <span class="journey-kicker">The Expansion</span>
+            <strong>LAZY CAMP</strong>
+            <span class="journey-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="journey-panel"><h3>쉼과 식사가 함께하는 캠핑의 확장</h3><p>레이지캠프는 엄마와 아빠가 잠시 게으름을 피워도 괜찮은 곳입니다. 캠핑이 처음인 초보 캠퍼와 온전한 휴식이 필요한 사람들을 위해, 준비의 부담은 덜고 자연 속에서 편안히 머무는 시간을 제안했습니다. 식사는 각자의 취향과 방식에 맞게 자유롭게 준비해 즐길 수 있도록 했습니다.</p></div>
+        </details>
+        <details class="journey-card journey-card-current">
+          <summary>
+            <span class="journey-index">03</span>
+            <span class="journey-kicker">The New Chapter</span>
+            <img src="assets/images/relim-logo.svg" alt="RE:LIM">
+            <span class="journey-toggle" aria-hidden="true">+</span>
+          </summary>
+          <div class="journey-panel"><h3>숲과 물, 사람이 함께하는 새로운 하루</h3><p>리림은 두 공간에서 축적한 경험을 바탕으로 물놀이와 휴식, 바비큐와 대화가 자연스럽게 이어지는 하루를 제안합니다. 개별 쉘터의 편안함과 물·숲의 풍경을 한 공간에 담아 가족과 친구가 각자의 속도로 즐길 수 있도록 완성했습니다.</p></div>
+        </details>
+      </div>
     </div>
   </section>
 
