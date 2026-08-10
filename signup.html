@@ -8,6 +8,7 @@
   <meta name="robots" content="noindex,nofollow">
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/legal.css?v=20260810-1603">
 </head>
 <body class="auth-body">
 <header class="site-header"><div class="container header-inner">
@@ -27,16 +28,41 @@
     <p class="eyebrow">JOIN RE:LIM</p>
     <div data-auth-setup hidden><h2>회원가입을<br>준비하고 있습니다.</h2><p class="auth-description">Firebase 인증 설정을 완료하면 바로 가입할 수 있습니다.</p></div>
     <div data-auth-guest hidden>
-      <h2>회원가입</h2><p class="auth-description">필수 정보만 입력하고 리림의 회원 서비스를 시작하세요.</p>
+      <h2>회원가입</h2><p class="auth-description">필수 정보와 약관을 확인하고 리림의 회원 서비스를 시작하세요.</p>
       <form class="auth-form" data-auth-form="signup" data-signup-form>
         <label class="auth-field"><span>이름</span><input type="text" name="name" autocomplete="name" placeholder="이름을 입력해 주세요" minlength="2" required></label>
         <label class="auth-field"><span>이메일</span><input type="email" name="email" autocomplete="email" placeholder="name@example.com" required></label>
         <label class="auth-field"><span>비밀번호</span><input type="password" name="password" autocomplete="new-password" placeholder="영문·숫자 포함 8자 이상" minlength="8" required></label>
         <label class="auth-field"><span>비밀번호 확인</span><input type="password" name="passwordConfirm" autocomplete="new-password" placeholder="비밀번호를 다시 입력해 주세요" minlength="8" required></label>
-        <div class="auth-agreements">
-          <label><input type="checkbox" name="terms" required><span><b>[필수]</b> 이용약관에 동의합니다.</span></label>
-          <label><input type="checkbox" name="privacy" required><span><b>[필수]</b> 개인정보 수집 및 이용에 동의합니다.</span></label>
+
+        <div class="auth-agreements" aria-label="회원가입 필수 약관">
+          <label class="auth-agree-all"><input type="checkbox" data-agree-all><span>필수 항목 전체 동의</span></label>
+
+          <div class="auth-agreement-row">
+            <label><input type="checkbox" name="age14" data-required-agreement required><span><b>[필수]</b> 만 14세 이상입니다.</span></label>
+          </div>
+
+          <div class="auth-agreement-row">
+            <label><input type="checkbox" name="terms" data-required-agreement required><span><b>[필수]</b> 이용약관에 동의합니다.</span></label>
+            <a class="auth-agreement-link" href="terms.html" target="_blank" rel="noopener">내용 보기</a>
+          </div>
+
+          <div class="auth-agreement-row">
+            <label><input type="checkbox" name="privacy" data-required-agreement required><span><b>[필수]</b> 개인정보 수집 및 이용에 동의합니다.</span></label>
+            <a class="auth-agreement-link" href="privacy.html" target="_blank" rel="noopener">처리방침 보기</a>
+          </div>
+
+          <div class="auth-privacy-summary" aria-label="개인정보 수집 이용 필수 안내">
+            <dl>
+              <dt>수집 목적</dt><dd>회원 식별·로그인, 리뷰·문의 등 회원서비스 제공</dd>
+              <dt>수집 항목</dt><dd>이름, 이메일, Firebase UID, 가입방식, 계정 생성·최근 로그인 정보</dd>
+              <dt>보유 기간</dt><dd>회원 탈퇴 또는 개인정보 삭제 요청 시까지. 법령상 보존 필요 시 해당 기간까지</dd>
+              <dt>동의 거부</dt><dd>동의를 거부할 수 있으나 필수 정보이므로 회원가입이 제한됩니다.</dd>
+            </dl>
+            <p>비밀번호 인증은 Firebase Authentication을 통해 처리되며 리림의 Firestore 회원 프로필 DB에는 비밀번호 원문을 저장하지 않습니다.</p>
+          </div>
         </div>
+
         <button class="auth-primary-button" type="submit">회원가입</button>
       </form>
       <div class="auth-divider"><span>또는</span></div>
@@ -44,12 +70,13 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.07H12v3.92h5.38a4.6 4.6 0 0 1-2 3.02v2.54h3.24c1.9-1.75 2.98-4.33 2.98-7.41Z"/><path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.62-2.36l-3.24-2.54c-.9.6-2.05.96-3.38.96-2.6 0-4.8-1.76-5.6-4.13H3.05v2.62A10 10 0 0 0 12 22Z"/><path fill="#FBBC05" d="M6.4 13.93A6 6 0 0 1 6.08 12c0-.67.12-1.32.32-1.93V7.45H3.05A10 10 0 0 0 2 12c0 1.61.39 3.13 1.05 4.55l3.35-2.62Z"/><path fill="#EA4335" d="M12 5.94c1.47 0 2.79.5 3.83 1.5L18.7 4.56A9.64 9.64 0 0 0 12 2a10 10 0 0 0-8.95 5.45l3.35 2.62c.8-2.37 3-4.13 5.6-4.13Z"/></svg>
         <span>Google로 가입하기</span>
       </button>
-      <p class="auth-policy">이미 회원이신가요? <a href="login.html">로그인</a></p>
+      <p class="auth-google-consent-note">Google 가입도 위 필수 항목 동의 후 진행할 수 있습니다.</p>
+      <p class="auth-policy">이미 회원이신가요? <a href="login.html">로그인</a> · <a href="terms.html">이용약관</a> · <a href="privacy.html">개인정보 처리방침</a></p>
     </div>
     <div class="auth-account" data-auth-account hidden><div class="auth-account-avatar" data-auth-avatar>R</div><p class="eyebrow">SIGNED IN</p><h2 data-auth-name>리림 회원</h2><p class="auth-account-email" data-auth-email></p><div class="auth-account-actions"><a class="button" href="index.html">홈으로 이동</a><button class="auth-logout-button" type="button" data-logout>로그아웃</button></div></div>
     <p class="auth-status" data-auth-status role="status" hidden></p><a class="auth-back" href="index.html">← 리림 홈으로 돌아가기</a>
   </div></section>
 </main>
-<script src="assets/js/script.js"></script><script type="module" src="assets/js/auth.js"></script>
+<script src="assets/js/script.js"></script><script type="module" src="assets/js/auth.js?v=20260810-1603"></script>
 </body>
 </html>
