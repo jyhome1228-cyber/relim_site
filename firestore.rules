@@ -104,6 +104,45 @@ service cloud.firestore {
       }
     }
 
+    // 방문 통계는 사이트에서 +1 증가만 허용하고, 조회는 관리자에게만 허용한다.
+    match /trafficDays/{dayId} {
+      allow read: if isAdmin();
+
+      allow create: if dayId.matches('^\\d{4}-\\d{2}-\\d{2}$')
+        && request.resource.data.keys().hasOnly(['dayKey', 'count', 'updatedAt'])
+        && request.resource.data.dayKey == dayId
+        && request.resource.data.count == 1
+        && request.resource.data.updatedAt is timestamp;
+
+      allow update: if dayId.matches('^\\d{4}-\\d{2}-\\d{2}$')
+        && resource.data.dayKey == dayId
+        && request.resource.data.dayKey == resource.data.dayKey
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.updatedAt is timestamp
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['count', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    match /trafficSummary/{summaryId} {
+      allow read: if isAdmin();
+
+      allow create: if summaryId == 'total'
+        && request.resource.data.keys().hasOnly(['scope', 'count', 'updatedAt'])
+        && request.resource.data.scope == 'total'
+        && request.resource.data.count == 1
+        && request.resource.data.updatedAt is timestamp;
+
+      allow update: if summaryId == 'total'
+        && resource.data.scope == 'total'
+        && request.resource.data.scope == resource.data.scope
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.updatedAt is timestamp
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['count', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
     // 이전 문의 구조는 마이그레이션 전 데이터 보호를 위해 비공개 유지.
     match /inquiryIndex/{inquiryId} {
       allow read: if true;
