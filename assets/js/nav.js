@@ -1,6 +1,6 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 
-const NAV_STYLE_VERSION = '20260810-1439';
+const NAV_STYLE_VERSION = '20260810-1603';
 const TITLE_STYLE_VERSION = '20260810-1439';
 const TYPOGRAPHY_STYLE_VERSION = '20260810-1439';
 
@@ -38,8 +38,22 @@ function createNavLink(label, href, className = '') {
   return link;
 }
 
+function ensureFooterLegalLinks() {
+  document.querySelectorAll('.footer-bottom').forEach((footerBottom) => {
+    if (footerBottom.querySelector('.footer-policy-links')) return;
+    const group = document.createElement('span');
+    group.className = 'footer-policy-links';
+    group.append(
+      createNavLink('이용약관', 'terms.html'),
+      createNavLink('개인정보 처리방침', 'privacy.html')
+    );
+    footerBottom.append(group);
+  });
+}
+
 function initRelimNavigation() {
   ensureNavStyles();
+  ensureFooterLegalLinks();
 
   const nav = document.querySelector('.nav');
   const menuButton = document.querySelector('.menu-toggle');
