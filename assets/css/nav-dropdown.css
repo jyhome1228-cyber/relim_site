@@ -1,4 +1,4 @@
-.nav{flex:1;justify-content:center;min-width:0;margin:0 clamp(18px,2.4vw,38px);gap:clamp(22px,2.45vw,40px)}
+.nav{flex:1;justify-content:center;min-width:0;margin:0 clamp(18px,2.4vw,38px);gap:clamp(25px,2.75vw,46px)!important}
 .nav>a,.nav-dropdown-toggle{position:relative;display:inline-flex;align-items:center;gap:8px;padding:27px 0 24px;border:0;background:transparent;color:var(--green);font:inherit;font-size:15px;font-weight:600;line-height:1;white-space:nowrap;cursor:pointer}
 .nav-dropdown{position:relative;display:flex;align-self:stretch;align-items:center}
 .nav-dropdown-toggle::after{content:"";position:absolute;right:0;bottom:20px;left:0;height:1px;background:var(--green);transform:scaleX(0);transition:transform .25s ease}
@@ -14,15 +14,21 @@
 .footer-policy-links{display:flex;flex-wrap:wrap;gap:8px 14px;margin-left:auto}
 .footer-policy-links a{color:inherit;font-size:inherit;text-decoration:none}
 .footer-policy-links a:hover{text-decoration:underline;text-underline-offset:3px}
+.footer-business-info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 34px;padding:24px 0;border-top:1px solid var(--line);color:var(--muted);font-size:11px;line-height:1.65}
+.footer-business-info span{display:block;min-width:0}
+.footer-business-info b{margin-right:7px;color:var(--green-soft);font-weight:650}
+.footer-business-info a{text-decoration:none}
+.footer-business-info a:hover{text-decoration:underline;text-underline-offset:3px}
 
 @media(max-width:1180px) and (min-width:901px){
-  .nav{margin:0 18px;gap:19px}
+  .nav{margin:0 18px;gap:21px!important}
   .nav>a,.nav-dropdown-toggle{font-size:13px}
   .nav-dropdown-menu{width:164px}
+  .footer-business-info{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 24px}
 }
 
 @media(max-width:900px){
-  .nav{margin:0;justify-content:flex-start;max-height:calc(100dvh - 66px);overflow-y:auto}
+  .nav{margin:0;justify-content:flex-start;gap:0!important;max-height:calc(100dvh - 66px);overflow-y:auto}
   .nav>a,.nav-dropdown-toggle{width:100%;justify-content:space-between;padding:18px 0;border-bottom:1px solid var(--line);font-size:19px;font-weight:600;line-height:1.45;text-align:left}
   .nav-dropdown{display:block;width:100%}
   .nav-dropdown-toggle::after{display:none}
@@ -34,4 +40,5 @@
   .nav-dropdown-menu a:hover,.nav-dropdown-menu a[aria-current="page"]{background:transparent;color:var(--green);font-weight:700!important}
   .nav-location{margin-left:0}
   .footer-policy-links{width:100%;margin-left:0}
+  .footer-business-info{grid-template-columns:1fr;gap:7px;padding:20px 0}
 }
