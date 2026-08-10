@@ -1,6 +1,6 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 
-const NAV_STYLE_VERSION = '20260807-2305';
+const NAV_STYLE_VERSION = '20260810-1412';
 
 function ensureNavStyles() {
   if (document.querySelector('[data-relim-nav-style]')) return;
