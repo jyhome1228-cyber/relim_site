@@ -11,6 +11,9 @@
 .nav-dropdown-menu a::after{display:none!important}
 .nav-dropdown-menu a:hover,.nav-dropdown-menu a[aria-current="page"]{background:#f4f6f2;color:var(--green)}
 .nav-location{margin-left:2px}
+.footer-policy-links{display:flex;flex-wrap:wrap;gap:8px 14px;margin-left:auto}
+.footer-policy-links a{color:inherit;font-size:inherit;text-decoration:none}
+.footer-policy-links a:hover{text-decoration:underline;text-underline-offset:3px}
 
 @media(max-width:1180px) and (min-width:901px){
   .nav{margin:0 18px;gap:19px}
@@ -30,4 +33,5 @@
   .nav-dropdown-menu a:last-child{border-bottom:0!important}
   .nav-dropdown-menu a:hover,.nav-dropdown-menu a[aria-current="page"]{background:transparent;color:var(--green);font-weight:700!important}
   .nav-location{margin-left:0}
+  .footer-policy-links{width:100%;margin-left:0}
 }
