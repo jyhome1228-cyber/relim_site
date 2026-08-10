@@ -149,6 +149,9 @@ export function initAuthNavigation(memberLink) {
     return;
   }
 
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  const isAuthPage = currentPage === 'login.html' || currentPage === 'signup.html';
+
   onAuthStateChanged(relimAuth, (user) => {
     memberLink.replaceChildren();
     if (!user) {
@@ -159,7 +162,7 @@ export function initAuthNavigation(memberLink) {
       return;
     }
 
-    syncMemberProfile(user);
+    if (!isAuthPage) syncMemberProfile(user);
     memberLink.textContent = '마이페이지';
     memberLink.href = 'mypage.html';
     memberLink.setAttribute('aria-label', '마이페이지');
@@ -240,7 +243,6 @@ export function initLoginPage() {
     setStatus();
 
     if (user) {
-      syncMemberProfile(user);
       if (name) name.textContent = user.displayName || '리림 회원';
       if (email) email.textContent = user.email || '';
       if (avatar) avatar.textContent = userInitial(user);
