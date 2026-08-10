@@ -2,6 +2,8 @@ import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/12.17
 import {
   browserLocalPersistence,
   createUserWithEmailAndPassword,
+  deleteUser,
+  getAdditionalUserInfo,
   getAuth,
   GoogleAuthProvider,
   onAuthStateChanged,
@@ -20,6 +22,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 import { firebaseConfig, firebaseReady } from './firebase-config.js';
 
+const CONSENT_VERSION = '2026-08-10';
 let auth = null;
 let db = null;
 
@@ -49,6 +52,26 @@ async function syncMemberProfile(user) {
     }, { merge: true });
   } catch (error) {
     console.error('[RE:LIM MEMBER PROFILE]', error);
+  }
+}
+
+async function recordMemberConsent(user, source = 'email') {
+  if (!user || !db) return;
+  try {
+    await setDoc(doc(db, 'users', user.uid), {
+      agreements: {
+        age14: true,
+        terms: true,
+        privacy: true,
+        termsVersion: CONSENT_VERSION,
+        privacyVersion: CONSENT_VERSION,
+        source,
+        agreedAt: serverTimestamp()
+      }
+    }, { merge: true });
+  } catch (error) {
+    console.error('[RE:LIM MEMBER CONSENT]', error);
+    throw error;
   }
 }
 
@@ -148,6 +171,7 @@ export function initLoginPage() {
   const page = document.querySelector('[data-auth-page]');
   if (!page) return;
 
+  const signupMode = page.dataset.authMode === 'signup';
   const googleButton = page.querySelector('[data-google-login]');
   const loginForm = page.querySelector('[data-login-form]');
   const signupForm = page.querySelector('[data-signup-form]');
@@ -160,6 +184,8 @@ export function initLoginPage() {
   const name = page.querySelector('[data-auth-name]');
   const email = page.querySelector('[data-auth-email]');
   const avatar = page.querySelector('[data-auth-avatar]');
+  const allAgreement = page.querySelector('[data-agree-all]');
+  const requiredAgreements = [...page.querySelectorAll('[data-required-agreement]')];
   const relimAuth = getRelimAuth();
 
   const setStatus = (message = '', isError = false) => {
@@ -184,6 +210,22 @@ export function initLoginPage() {
     return messages[error?.code] || '처리 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
   };
 
+  const agreementsReady = () => !signupMode || requiredAgreements.every((input) => input.checked);
+
+  const updateAgreementAllState = () => {
+    if (!allAgreement || !requiredAgreements.length) return;
+    const checkedCount = requiredAgreements.filter((input) => input.checked).length;
+    allAgreement.checked = checkedCount === requiredAgreements.length;
+    allAgreement.indeterminate = checkedCount > 0 && checkedCount < requiredAgreements.length;
+  };
+
+  allAgreement?.addEventListener('change', () => {
+    requiredAgreements.forEach((input) => { input.checked = allAgreement.checked; });
+    allAgreement.indeterminate = false;
+  });
+  requiredAgreements.forEach((input) => input.addEventListener('change', updateAgreementAllState));
+  updateAgreementAllState();
+
   if (!relimAuth) {
     if (setup) setup.hidden = false;
     if (guest) guest.hidden = true;
@@ -206,6 +248,11 @@ export function initLoginPage() {
   });
 
   googleButton?.addEventListener('click', async () => {
+    if (signupMode && !agreementsReady()) {
+      setStatus('만 14세 이상 확인, 이용약관 및 개인정보 수집·이용에 모두 동의해 주세요.', true);
+      return;
+    }
+
     googleButton.disabled = true;
     googleButton.classList.add('is-loading');
     setStatus('Google 계정을 확인하고 있습니다.');
@@ -213,7 +260,17 @@ export function initLoginPage() {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
       const credential = await signInWithPopup(relimAuth, provider);
+      const additionalInfo = getAdditionalUserInfo(credential);
+
+      if (!signupMode && additionalInfo?.isNewUser) {
+        await deleteUser(credential.user);
+        setStatus('처음 Google로 가입하는 경우 회원가입 페이지에서 약관 동의 후 진행해 주세요.', true);
+        window.setTimeout(() => { window.location.href = 'signup.html'; }, 1200);
+        return;
+      }
+
       await syncMemberProfile(credential.user);
+      if (signupMode) await recordMemberConsent(credential.user, 'google');
       window.location.href = safeReturnUrl();
     } catch (error) {
       setStatus(errorMessage(error), true);
@@ -254,14 +311,17 @@ export function initLoginPage() {
       return setStatus('비밀번호는 영문과 숫자를 포함해 8자 이상 입력해 주세요.', true);
     }
     if (password !== passwordConfirm) return setStatus('비밀번호가 서로 일치하지 않습니다.', true);
-    if (!data.get('terms') || !data.get('privacy')) return setStatus('필수 약관에 동의해 주세요.', true);
+    if (!data.get('age14') || !data.get('terms') || !data.get('privacy')) {
+      return setStatus('만 14세 이상 확인, 이용약관 및 개인정보 수집·이용에 모두 동의해 주세요.', true);
+    }
 
     submit.disabled = true;
     setStatus('회원가입을 진행하고 있습니다.');
     try {
       const credential = await createUserWithEmailAndPassword(relimAuth, emailValue, password);
       await updateProfile(credential.user, { displayName: nameValue });
-      await syncMemberProfile({ ...credential.user, displayName: nameValue });
+      await syncMemberProfile(credential.user);
+      await recordMemberConsent(credential.user, 'email');
       window.location.href = safeReturnUrl();
     } catch (error) {
       setStatus(errorMessage(error), true);
