@@ -1,9 +1,18 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 
-const NAV_STYLE_VERSION = '20260810-1416';
-const TITLE_STYLE_VERSION = '20260810-1416';
+const NAV_STYLE_VERSION = '20260810-1439';
+const TITLE_STYLE_VERSION = '20260810-1439';
+const TYPOGRAPHY_STYLE_VERSION = '20260810-1439';
 
 function ensureNavStyles() {
+  if (!document.querySelector('[data-relim-typography-style]')) {
+    const typographyLink = document.createElement('link');
+    typographyLink.rel = 'stylesheet';
+    typographyLink.href = `assets/css/typography-global.css?v=${TYPOGRAPHY_STYLE_VERSION}`;
+    typographyLink.dataset.relimTypographyStyle = '';
+    document.head.append(typographyLink);
+  }
+
   if (!document.querySelector('[data-relim-nav-style]')) {
     const navLink = document.createElement('link');
     navLink.rel = 'stylesheet';
