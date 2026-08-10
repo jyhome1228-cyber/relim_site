@@ -1,0 +1,41 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+
+/* RE:LIM global typography */
+:root {
+  --relim-font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+option {
+  font-family: var(--relim-font) !important;
+}
+
+body {
+  /* Existing 1.65 leading tightened by 1% */
+  line-height: 1.6335;
+  /* Global tracking: -1% */
+  letter-spacing: -0.01em;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+select,
+textarea,
+option {
+  letter-spacing: -0.01em;
+}
+
+/* Preserve intentional display tracking where each component already defines it. */
+.eyebrow,
+[class*="kicker"],
+[class*="meta"],
+[class*="index"] {
+  font-family: var(--relim-font) !important;
+}
