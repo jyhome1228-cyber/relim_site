@@ -1,8 +1,17 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 
-const NAV_STYLE_VERSION = '20260810-1603';
+const NAV_STYLE_VERSION = '20260810-1620';
 const TITLE_STYLE_VERSION = '20260810-1439';
 const TYPOGRAPHY_STYLE_VERSION = '20260810-1439';
+
+const RELIM_BUSINESS = {
+  company: '(주)나인힐스',
+  representative: '남현승',
+  businessNumber: '220-86-50466',
+  tourismNumber: '제2015-000014호',
+  address: '경기 용인시 처인구 원삼면 보개원삼로1372번길 41 나인힐스',
+  email: 'penury@naver.com'
+};
 
 function ensureNavStyles() {
   if (!document.querySelector('[data-relim-typography-style]')) {
@@ -38,6 +47,31 @@ function createNavLink(label, href, className = '') {
   return link;
 }
 
+function ensureFooterBusinessInfo() {
+  document.querySelectorAll('.site-footer').forEach((footer) => {
+    if (!footer.querySelector('.footer-business-info')) {
+      const businessInfo = document.createElement('div');
+      businessInfo.className = 'container footer-business-info';
+      businessInfo.innerHTML = `
+        <span><b>상호명</b>${RELIM_BUSINESS.company}</span>
+        <span><b>대표자</b>${RELIM_BUSINESS.representative}</span>
+        <span><b>사업자등록번호</b>${RELIM_BUSINESS.businessNumber}</span>
+        <span><b>관광사업(야영장) 등록번호</b>${RELIM_BUSINESS.tourismNumber}</span>
+        <span><b>사업자 주소</b>${RELIM_BUSINESS.address}</span>
+        <span><b>이메일</b><a href="mailto:${RELIM_BUSINESS.email}">${RELIM_BUSINESS.email}</a></span>
+      `;
+      const footerBottom = footer.querySelector('.footer-bottom');
+      if (footerBottom) footer.insertBefore(businessInfo, footerBottom);
+      else footer.append(businessInfo);
+    }
+
+    const addressHeading = footer.querySelector('.footer-main > div:last-child h3');
+    if (addressHeading && addressHeading.textContent.trim() === '주소') {
+      addressHeading.textContent = '오시는 길';
+    }
+  });
+}
+
 function ensureFooterLegalLinks() {
   document.querySelectorAll('.footer-bottom').forEach((footerBottom) => {
     if (footerBottom.querySelector('.footer-policy-links')) return;
@@ -53,6 +87,7 @@ function ensureFooterLegalLinks() {
 
 function initRelimNavigation() {
   ensureNavStyles();
+  ensureFooterBusinessInfo();
   ensureFooterLegalLinks();
 
   const nav = document.querySelector('.nav');
