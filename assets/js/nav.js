@@ -1,14 +1,24 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 
-const NAV_STYLE_VERSION = '20260810-1412';
+const NAV_STYLE_VERSION = '20260810-1416';
+const TITLE_STYLE_VERSION = '20260810-1416';
 
 function ensureNavStyles() {
-  if (document.querySelector('[data-relim-nav-style]')) return;
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = `assets/css/nav-dropdown.css?v=${NAV_STYLE_VERSION}`;
-  link.dataset.relimNavStyle = '';
-  document.head.append(link);
+  if (!document.querySelector('[data-relim-nav-style]')) {
+    const navLink = document.createElement('link');
+    navLink.rel = 'stylesheet';
+    navLink.href = `assets/css/nav-dropdown.css?v=${NAV_STYLE_VERSION}`;
+    navLink.dataset.relimNavStyle = '';
+    document.head.append(navLink);
+  }
+
+  if (!document.querySelector('[data-relim-title-style]')) {
+    const titleLink = document.createElement('link');
+    titleLink.rel = 'stylesheet';
+    titleLink.href = `assets/css/title-scale.css?v=${TITLE_STYLE_VERSION}`;
+    titleLink.dataset.relimTitleStyle = '';
+    document.head.append(titleLink);
+  }
 }
 
 function createNavLink(label, href, className = '') {
