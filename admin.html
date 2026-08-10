@@ -18,7 +18,7 @@
     <main class="admin-main">
       <section data-admin-loading class="admin-state">
         <h2>관리자 데이터를 불러오고 있습니다.</h2>
-        <p>회원, 문의, 리뷰 정보를 확인하고 있습니다.</p>
+        <p>방문자, 회원, 문의, 리뷰 정보를 확인하고 있습니다.</p>
       </section>
 
       <section data-admin-denied class="admin-state" hidden>
@@ -29,8 +29,20 @@
 
       <div data-admin-dashboard hidden>
         <section class="admin-hero">
-          <div><p class="admin-eyebrow">RE:LIM OPERATIONS</p><h1>Admin Dashboard</h1><p>가입자, 문의, 리뷰를 한 화면에서 확인합니다. 문의는 상세 내용을 열고 관리자 답변까지 등록할 수 있습니다.</p></div>
+          <div><p class="admin-eyebrow">RE:LIM OPERATIONS</p><h1>Admin Dashboard</h1><p>방문자 통계와 가입자, 문의, 리뷰를 한 화면에서 확인합니다. 문의는 상세 내용을 열고 관리자 답변까지 등록할 수 있습니다.</p></div>
           <div class="admin-session" data-admin-session></div>
+        </section>
+
+        <section class="admin-traffic-section" aria-labelledby="trafficTitle">
+          <div class="admin-section-heading">
+            <div><p class="admin-eyebrow">VISITOR ANALYTICS</p><h2 id="trafficTitle">방문자 현황</h2></div>
+            <span class="admin-traffic-note" data-traffic-note>오늘부터 집계됩니다.</span>
+          </div>
+          <div class="admin-traffic-grid">
+            <article class="admin-stat admin-stat-traffic"><span>TODAY</span><strong data-stat-traffic-today>0</strong><small>오늘 방문자</small></article>
+            <article class="admin-stat admin-stat-traffic"><span>LAST 7 DAYS</span><strong data-stat-traffic-week>0</strong><small>최근 7일 방문자</small></article>
+            <article class="admin-stat admin-stat-traffic"><span>TOTAL</span><strong data-stat-traffic-total>0</strong><small>전체 방문자</small></article>
+          </div>
         </section>
 
         <section class="admin-summary">
