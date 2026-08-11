@@ -11,7 +11,7 @@ import {
 } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';
 import { firebaseConfig, firebaseReady } from './firebase-config.js';
 
-const ADMIN_EMAILS = new Set(['planus253@naver.com']);
+const ADMIN_EMAILS = new Set(['planus253@naver.com', 'penury@naver.com']);
 const app = firebaseReady ? (getApps()[0] || initializeApp(firebaseConfig)) : null;
 const auth = app ? getAuth(app) : null;
 const db = app ? getFirestore(app) : null;
