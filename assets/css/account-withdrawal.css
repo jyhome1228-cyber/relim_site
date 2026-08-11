@@ -1,0 +1,74 @@
+/* RE:LIM — account withdrawal */
+.mypage-account-management{
+  margin-top:clamp(72px,8vw,110px);
+  padding-top:28px;
+  border-top:1px solid var(--line);
+}
+.mypage-account-management-head{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:28px;
+  align-items:end;
+}
+.mypage-account-management .eyebrow{margin-bottom:10px;color:var(--muted)}
+.mypage-account-management h2{margin:0 0 10px;font-size:22px}
+.mypage-account-management p{max-width:680px;margin:0;color:var(--muted);font-size:13px;line-height:1.75}
+.mypage-withdraw-open{
+  min-width:132px;
+  min-height:44px;
+  padding:0 18px;
+  border:1px solid #b99087;
+  background:#fff;
+  color:#8a4f43;
+  font:inherit;
+  font-size:12px;
+  font-weight:650;
+  cursor:pointer;
+  transition:background-color .2s ease,color .2s ease,border-color .2s ease;
+}
+.mypage-withdraw-open:hover,.mypage-withdraw-open:focus-visible{
+  border-color:#8a4f43;
+  background:#8a4f43;
+  color:#fff;
+  outline:none;
+}
+.withdraw-modal .community-modal-panel{width:min(620px,100%)}
+.withdraw-modal h2{margin:0 0 12px;font-size:clamp(25px,2.4vw,34px)}
+.withdraw-intro{margin:0;color:var(--muted);font-size:14px;line-height:1.8}
+.withdraw-summary{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:26px 0 24px;
+}
+.withdraw-summary>div{padding:16px;border:1px solid var(--line);background:#fafbf9}
+.withdraw-summary span{display:block;margin-bottom:5px;color:var(--muted);font-size:10px;letter-spacing:.04em}
+.withdraw-summary strong{font-size:19px;font-weight:650}
+.withdraw-notice{margin:0 0 24px;padding:18px 18px 16px;background:#faf4f2;border-top:1px solid #d7b7b0;color:#6f4d46}
+.withdraw-notice strong{display:block;margin-bottom:8px;font-size:13px}
+.withdraw-notice ul{margin:0;padding-left:18px;font-size:12px;line-height:1.8}
+.withdraw-reauth{display:grid;gap:9px;margin:0 0 20px}
+.withdraw-reauth label{display:grid;gap:8px;color:var(--green);font-size:12px;font-weight:650}
+.withdraw-reauth input{width:100%;height:50px;padding:0 14px;border:1px solid #cfd5cf;background:#fff;color:var(--green);font:inherit;font-size:14px;outline:none}
+.withdraw-reauth input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(52,62,44,.07)}
+.withdraw-provider-note{margin:0;color:var(--muted);font-size:12px;line-height:1.7}
+.withdraw-confirm{display:flex;gap:9px;align-items:flex-start;margin:20px 0 0;color:#5e675f;font-size:12px;line-height:1.6;cursor:pointer}
+.withdraw-confirm input{width:16px;height:16px;margin:2px 0 0;accent-color:#8a4f43;flex:0 0 auto}
+.withdraw-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:24px}
+.withdraw-cancel,.withdraw-submit{min-height:46px;padding:0 18px;font:inherit;font-size:12px;font-weight:650;cursor:pointer}
+.withdraw-cancel{border:1px solid var(--line);background:#fff;color:var(--green)}
+.withdraw-submit{border:1px solid #8a4f43;background:#8a4f43;color:#fff}
+.withdraw-submit:hover,.withdraw-submit:focus-visible{background:#6f3e35;outline:none}
+.withdraw-submit:disabled{cursor:wait;opacity:.55}
+.withdraw-status{margin:18px 0 0;padding:12px 14px;background:#f3f6f3;color:var(--green);font-size:12px;line-height:1.65}
+.withdraw-status.is-error{background:#faf1ef;color:#a34736}
+@media(max-width:620px){
+  .mypage-account-management{margin-top:64px}
+  .mypage-account-management-head{grid-template-columns:1fr;gap:18px}
+  .mypage-withdraw-open{width:100%}
+  .withdraw-summary{grid-template-columns:1fr}
+  .withdraw-summary>div{display:flex;justify-content:space-between;align-items:center}
+  .withdraw-summary span{margin:0}
+  .withdraw-summary strong{font-size:16px}
+  .withdraw-actions{display:grid;grid-template-columns:1fr 1fr}
+}
