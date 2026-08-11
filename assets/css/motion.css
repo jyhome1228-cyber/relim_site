@@ -9,27 +9,18 @@ html.motion-enabled {
   scroll-behavior: smooth;
 }
 
-/* Page enter / leave */
+/* Page transition: keep first paint stable, fade only when leaving */
 html.motion-enabled .page,
 html.motion-enabled .site-footer {
-  opacity: 0;
-  transform: translateY(8px);
   transition:
-    opacity .48s cubic-bezier(.22,.61,.36,1),
-    transform .62s cubic-bezier(.22,.61,.36,1);
-}
-
-html.motion-enabled.motion-loaded .page,
-html.motion-enabled.motion-loaded .site-footer {
-  opacity: 1;
-  transform: none;
+    opacity .32s cubic-bezier(.22,.61,.36,1),
+    transform .36s cubic-bezier(.22,.61,.36,1);
 }
 
 html.motion-enabled.motion-leaving .page,
 html.motion-enabled.motion-leaving .site-footer {
   opacity: 0;
   transform: translateY(-5px);
-  transition-duration: .26s;
 }
 
 /* Scroll reveal */
