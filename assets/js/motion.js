@@ -1,13 +1,27 @@
-const MOTION_STYLE_VERSION = '20260811-1';
+const MOTION_STYLE_VERSION = '20260811-2';
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function ensureMotionStyles() {
-  if (document.querySelector('[data-relim-motion-style]')) return;
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = `assets/css/motion.css?v=${MOTION_STYLE_VERSION}`;
-  link.dataset.relimMotionStyle = '';
-  document.head.append(link);
+  const existing = document.querySelector('[data-relim-motion-style]');
+  if (existing) {
+    if (existing.sheet) return Promise.resolve();
+    return new Promise((resolve) => {
+      existing.addEventListener('load', resolve, { once: true });
+      existing.addEventListener('error', resolve, { once: true });
+      window.setTimeout(resolve, 1200);
+    });
+  }
+
+  return new Promise((resolve) => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = `assets/css/motion.css?v=${MOTION_STYLE_VERSION}`;
+    link.dataset.relimMotionStyle = '';
+    link.addEventListener('load', resolve, { once: true });
+    link.addEventListener('error', resolve, { once: true });
+    document.head.append(link);
+    window.setTimeout(resolve, 1200);
+  });
 }
 
 function isHomePage() {
@@ -127,14 +141,12 @@ function initPageTransitions() {
 
   window.addEventListener('pageshow', () => {
     document.documentElement.classList.remove('motion-leaving');
-    window.requestAnimationFrame(() => {
-      document.documentElement.classList.add('motion-loaded');
-    });
   });
 }
 
-function initMotionSystem() {
-  ensureMotionStyles();
+async function initMotionSystem() {
+  await ensureMotionStyles();
+
   document.documentElement.classList.add('motion-enabled');
   if (isHomePage()) document.documentElement.classList.add('home-motion');
 
