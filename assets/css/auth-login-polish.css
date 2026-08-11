@@ -1,0 +1,50 @@
+/* Login page signup CTA emphasis */
+.auth-signup-button{
+  display:flex;
+  width:100%;
+  height:58px;
+  margin-top:10px;
+  padding:0 20px;
+  border:1px solid var(--green);
+  background:#fff;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  color:var(--green);
+  font:inherit;
+  font-size:14px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:-.01em;
+  transition:background-color .2s ease,color .2s ease,transform .2s ease,border-color .2s ease;
+}
+
+.auth-signup-button:hover,
+.auth-signup-button:focus-visible{
+  background:var(--green);
+  color:#fff;
+  outline:none;
+  transform:translateY(-1px);
+}
+
+.auth-signup-button .auth-signup-arrow{
+  margin-left:2px;
+  font-size:16px;
+  font-weight:400;
+  transition:transform .2s ease;
+}
+
+.auth-signup-button:hover .auth-signup-arrow,
+.auth-signup-button:focus-visible .auth-signup-arrow{
+  transform:translateX(3px);
+}
+
+.auth-policy.auth-policy-login{
+  margin-top:17px;
+  font-size:11px;
+}
+
+@media(max-width:620px){
+  .auth-signup-button{height:56px;margin-top:9px;font-size:14px}
+  .auth-policy.auth-policy-login{margin-top:15px}
+}
