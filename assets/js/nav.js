@@ -2,6 +2,35 @@ import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]'
 import('./traffic.js').catch((error) => console.warn('[RE:LIM TRAFFIC LOAD]', error));
 import('./motion.js?v=20260811-2').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
 
+const GA_MEASUREMENT_ID = 'G-EL627CS50V';
+
+function initGoogleAnalytics() {
+  const existingLoader = [...document.scripts].find((script) =>
+    script.src.includes(`googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`)
+  );
+
+  // index.html처럼 이미 GA4가 초기화된 페이지는 중복 page_view를 보내지 않는다.
+  if (existingLoader && typeof window.gtag === 'function') return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function gtag() {
+    window.dataLayer.push(arguments);
+  };
+
+  if (!existingLoader) {
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+    gaScript.dataset.relimGa = GA_MEASUREMENT_ID;
+    document.head.append(gaScript);
+  }
+
+  window.gtag('js', new Date());
+  window.gtag('config', GA_MEASUREMENT_ID);
+}
+
+initGoogleAnalytics();
+
 const NAV_STYLE_VERSION = '20260811-visitor';
 const TITLE_STYLE_VERSION = '20260810-1439';
 const TYPOGRAPHY_STYLE_VERSION = '20260810-1439';
