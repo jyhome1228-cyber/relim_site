@@ -1,3 +1,5 @@
+import './operational-updates.js?v=20260812-1';
+
 const MOTION_STYLE_VERSION = '20260811-2';
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
