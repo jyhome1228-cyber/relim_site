@@ -18,18 +18,18 @@
     <main class="admin-main">
       <section data-admin-loading class="admin-state">
         <h2>관리자 데이터를 불러오고 있습니다.</h2>
-        <p>방문자, 회원, 문의, 리뷰 정보를 확인하고 있습니다.</p>
+        <p>방문자, 문의, 리뷰 정보를 확인하고 있습니다.</p>
       </section>
 
       <section data-admin-denied class="admin-state" hidden>
         <h2>관리자 권한이 필요합니다.</h2>
-        <p>가입자 정보와 문의 본문에는 개인정보가 포함될 수 있어 관리자 계정에서만 열람할 수 있습니다.</p>
+        <p>문의 본문과 운영 데이터에는 개인정보가 포함될 수 있어 관리자 계정에서만 열람할 수 있습니다.</p>
         <a class="admin-link" href="login.html?return=admin.html">관리자 계정으로 로그인</a>
       </section>
 
       <div data-admin-dashboard hidden>
         <section class="admin-hero">
-          <div><p class="admin-eyebrow">RE:LIM OPERATIONS</p><h1>Admin Dashboard</h1><p>방문자 통계와 가입자, 문의, 리뷰를 한 화면에서 확인합니다. 문의는 상세 내용을 열고 관리자 답변까지 등록할 수 있습니다.</p></div>
+          <div><p class="admin-eyebrow">RE:LIM OPERATIONS</p><h1>Admin Dashboard</h1><p>방문자 통계와 문의, 리뷰를 한 화면에서 확인합니다. 문의는 상세 내용을 열고 관리자 답변까지 등록할 수 있습니다.</p></div>
           <div class="admin-session" data-admin-session></div>
         </section>
 
@@ -45,25 +45,13 @@
           </div>
         </section>
 
-        <section class="admin-summary">
-          <article class="admin-stat"><span>MEMBERS</span><strong data-stat-members>0</strong></article>
+        <section class="admin-summary admin-summary-compact">
           <article class="admin-stat"><span>INQUIRIES</span><strong data-stat-inquiries>0</strong></article>
           <article class="admin-stat"><span>WAITING</span><strong data-stat-waiting>0</strong></article>
           <article class="admin-stat"><span>REVIEWS</span><strong data-stat-reviews>0</strong></article>
         </section>
 
         <div class="admin-grid">
-          <section class="admin-panel">
-            <div class="admin-panel-head"><div><h2>가입자</h2><p>사이트 로그인 시 회원 프로필이 자동 기록됩니다.</p></div><span class="admin-count" data-member-count>0명</span></div>
-            <div class="admin-table-wrap">
-              <table class="admin-table">
-                <thead><tr><th>이름</th><th>이메일</th><th>가입 방식</th><th>가입일</th><th>최근 로그인</th></tr></thead>
-                <tbody data-member-table></tbody>
-              </table>
-            </div>
-            <div class="admin-empty" data-member-empty hidden>기록된 회원이 없습니다.</div>
-          </section>
-
           <section class="admin-panel">
             <div class="admin-panel-head"><div><h2>문의</h2><p>문의 내용은 관리자와 작성자만 열람할 수 있습니다.</p></div><span class="admin-count" data-inquiry-count>0건</span></div>
             <div class="admin-table-wrap">
