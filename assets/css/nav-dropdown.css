@@ -29,17 +29,19 @@
 }
 
 @media(max-width:900px){
+  body.mobile-nav-open{overflow:hidden}
   .site-header{height:68px}
   .header-inner{height:68px;display:flex;align-items:center;justify-content:space-between}
   .brand-logo{width:120px;flex:0 0 auto}
 
-  /* Mobile header keeps only logo + hamburger. Account/reservation move into the opened menu. */
   .header-inner > .header-book,
   .header-inner > .member-nav-link.header-book{
     display:none!important;
   }
 
   .menu-toggle{
+    position:relative;
+    z-index:72;
     display:flex!important;
     width:40px;
     height:40px;
@@ -53,6 +55,8 @@
     gap:5px;
     border:0;
     background:transparent;
+    touch-action:manipulation;
+    -webkit-tap-highlight-color:transparent;
   }
   .menu-toggle span{
     display:block;
@@ -62,12 +66,14 @@
     background:var(--green);
     transform-origin:center;
     transition:transform .2s ease,opacity .16s ease;
+    pointer-events:none;
   }
   .menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
   .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
   .menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 
   .nav{
+    z-index:70;
     top:68px!important;
     right:0;
     left:0;
@@ -77,6 +83,8 @@
     gap:0!important;
     max-height:calc(100dvh - 68px);
     overflow-y:auto;
+    overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
     border-bottom:1px solid var(--line);
     background:#fff;
   }
@@ -91,6 +99,7 @@
     line-height:1.25!important;
     letter-spacing:-.02em;
     text-align:left;
+    touch-action:manipulation;
   }
   .nav-dropdown{display:block;width:100%}
   .nav-dropdown-toggle::after{display:none}
@@ -120,6 +129,7 @@
     font-size:14px!important;
     font-weight:500!important;
     line-height:1.35!important;
+    touch-action:manipulation;
   }
   .nav-dropdown-menu a:last-child{border-bottom:0!important}
   .nav-dropdown-menu a:hover,.nav-dropdown-menu a[aria-current="page"]{background:transparent;color:var(--green);font-weight:700!important}
@@ -140,6 +150,7 @@
     align-items:center;
     justify-content:space-between;
     text-decoration:none;
+    touch-action:manipulation;
   }
   .nav-mobile-reservation{
     min-height:54px;
