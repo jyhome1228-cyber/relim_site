@@ -1,7 +1,10 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 import('./traffic.js').catch((error) => console.warn('[RE:LIM TRAFFIC LOAD]', error));
 import('./motion.js?v=20260811-2').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
-import('./collected-reviews.js?v=20260812-1').catch((error) => console.warn('[RE:LIM COLLECTED REVIEWS]', error));
+
+if (document.querySelector('[data-reviews-page]')) {
+  import('./collected-reviews.js?v=20260812-1').catch((error) => console.warn('[RE:LIM COLLECTED REVIEWS]', error));
+}
 
 const GA_MEASUREMENT_ID = 'G-EL627CS50V';
 
@@ -31,7 +34,7 @@ function initGoogleAnalytics() {
 
 initGoogleAnalytics();
 
-const NAV_STYLE_VERSION = '20260812-mobile-1';
+const NAV_STYLE_VERSION = '20260812-mobile-2';
 const TITLE_STYLE_VERSION = '20260810-1439';
 const TYPOGRAPHY_STYLE_VERSION = '20260810-1439';
 
@@ -135,6 +138,8 @@ function createMobileActions(nav) {
   actions.append(reservation, account);
   nav.append(actions);
 
+  let authObserver = null;
+
   const sync = () => {
     const header = document.querySelector('.header-inner');
     const sourceAccount = header?.querySelector('[data-auth-nav], .member-nav-link');
@@ -142,36 +147,62 @@ function createMobileActions(nav) {
       .find((link) => !link.matches('[data-auth-nav], .member-nav-link'));
 
     if (sourceReservation) {
-      reservation.href = sourceReservation.href;
-      if (sourceReservation.target) reservation.target = sourceReservation.target;
-      if (sourceReservation.rel) reservation.rel = sourceReservation.rel;
+      const nextHref = sourceReservation.href || 'reservation.html';
+      if (reservation.href !== nextHref) reservation.href = nextHref;
+
+      if (sourceReservation.target) {
+        if (reservation.target !== sourceReservation.target) reservation.target = sourceReservation.target;
+      } else if (reservation.hasAttribute('target')) {
+        reservation.removeAttribute('target');
+      }
+
+      if (sourceReservation.rel) {
+        if (reservation.rel !== sourceReservation.rel) reservation.rel = sourceReservation.rel;
+      } else if (reservation.hasAttribute('rel')) {
+        reservation.removeAttribute('rel');
+      }
     }
 
     if (sourceAccount) {
-      account.href = sourceAccount.href;
-      const label = sourceAccount.textContent.trim() || '로그인';
-      account.querySelector('span:first-child').textContent = label;
-      account.setAttribute('aria-label', sourceAccount.getAttribute('aria-label') || label);
+      const nextHref = sourceAccount.href || account.href;
+      const nextLabel = sourceAccount.textContent.trim() || '로그인';
+      const nextAria = sourceAccount.getAttribute('aria-label') || nextLabel;
+      const labelNode = account.querySelector('span:first-child');
+
+      if (account.href !== nextHref) account.href = nextHref;
+      if (labelNode && labelNode.textContent !== nextLabel) labelNode.textContent = nextLabel;
+      if (account.getAttribute('aria-label') !== nextAria) account.setAttribute('aria-label', nextAria);
     }
+
+    return sourceAccount;
   };
 
-  sync();
-  const header = document.querySelector('.header-inner');
-  if (header) {
-    const observer = new MutationObserver(sync);
-    observer.observe(header, {
+  const bindAuthObserver = () => {
+    const sourceAccount = sync();
+    if (!sourceAccount || authObserver) return Boolean(sourceAccount);
+
+    authObserver = new MutationObserver(() => sync());
+    authObserver.observe(sourceAccount, {
       childList: true,
       subtree: true,
       attributes: true,
       characterData: true,
       attributeFilter: ['href', 'aria-label', 'data-auth-state']
     });
-  }
+    return true;
+  };
 
-  window.setTimeout(sync, 250);
-  window.setTimeout(sync, 900);
+  bindAuthObserver();
 
-  return actions;
+  // Auth module is loaded asynchronously. Retry only a few times instead of observing the whole header.
+  [120, 450, 1200].forEach((delay) => {
+    window.setTimeout(() => {
+      if (!authObserver) bindAuthObserver();
+      else sync();
+    }, delay);
+  });
+
+  return { actions, sync };
 }
 
 function initRelimNavigation() {
@@ -215,7 +246,7 @@ function initRelimNavigation() {
   dropdown.append(dropdownButton, dropdownMenu);
 
   nav.replaceChildren(about, dropdown, gallery, faq, reviews, inquiry, location);
-  createMobileActions(nav);
+  const mobileActions = createMobileActions(nav);
 
   const allLinks = [...nav.querySelectorAll('a')];
   allLinks.forEach((link) => {
@@ -231,6 +262,17 @@ function initRelimNavigation() {
     dropdown.classList.toggle('is-open', open);
     dropdownButton.setAttribute('aria-expanded', String(open));
   };
+
+  const syncMobileOpenState = () => {
+    if (!menuButton) return;
+    const open = menuButton.getAttribute('aria-expanded') === 'true';
+    document.body.classList.toggle('mobile-nav-open', open && window.matchMedia('(max-width: 900px)').matches);
+    if (open) mobileActions.sync();
+  };
+
+  menuButton?.addEventListener('click', () => {
+    window.requestAnimationFrame(syncMobileOpenState);
+  });
 
   dropdownButton.addEventListener('click', (event) => {
     event.stopPropagation();
@@ -250,6 +292,7 @@ function initRelimNavigation() {
       if (window.matchMedia('(max-width: 900px)').matches) {
         nav.classList.remove('is-open');
         menuButton?.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('mobile-nav-open');
       }
     });
   });
@@ -262,7 +305,21 @@ function initRelimNavigation() {
     if (event.key !== 'Escape') return;
     setDropdown(false);
     dropdownButton.blur();
+    if (window.matchMedia('(max-width: 900px)').matches) {
+      nav.classList.remove('is-open');
+      menuButton?.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('mobile-nav-open');
+    }
   });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) {
+      nav.classList.remove('is-open');
+      menuButton?.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('mobile-nav-open');
+      setDropdown(false);
+    }
+  }, { passive: true });
 }
 
 initRelimNavigation();
