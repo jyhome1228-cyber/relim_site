@@ -34,7 +34,7 @@ function initGoogleAnalytics() {
 
 initGoogleAnalytics();
 
-const NAV_STYLE_VERSION = '20260812-mobile-2';
+const NAV_STYLE_VERSION = '20260812-mobile-3';
 const TITLE_STYLE_VERSION = '20260810-1439';
 const TYPOGRAPHY_STYLE_VERSION = '20260810-1439';
 
