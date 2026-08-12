@@ -137,7 +137,8 @@
 
   .nav-mobile-actions{
     display:grid;
-    gap:0;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
     width:100%;
     margin-top:24px;
     padding-top:20px;
@@ -145,34 +146,51 @@
   }
   .nav-mobile-reservation,
   .nav-mobile-account{
+    position:relative;
     display:flex;
     width:100%;
+    min-width:0;
+    min-height:54px;
+    padding:0 36px 0 18px;
     align-items:center;
-    justify-content:space-between;
+    justify-content:center;
+    border:1px solid var(--green);
     text-decoration:none;
+    font-size:14px;
+    font-weight:650;
+    line-height:1;
+    letter-spacing:-.02em;
+    text-align:center;
     touch-action:manipulation;
   }
   .nav-mobile-reservation{
-    min-height:54px;
-    padding:0 18px;
     background:var(--green);
     color:#fff;
+  }
+  .nav-mobile-account{
+    background:#fff;
+    color:var(--green);
+  }
+  .nav-mobile-reservation span:first-child,
+  .nav-mobile-account span:first-child{
+    display:block;
+    min-width:0;
+    white-space:nowrap;
+  }
+  .nav-mobile-reservation span:last-child,
+  .nav-mobile-account span:last-child{
+    position:absolute;
+    top:50%;
+    right:14px;
     font-size:15px;
-    font-weight:650;
+    font-weight:400;
+    line-height:1;
+    transform:translateY(-50%);
   }
   .nav-mobile-reservation:hover,
   .nav-mobile-reservation:focus-visible{background:#293224;color:#fff;outline:none}
-  .nav-mobile-account{
-    min-height:52px;
-    padding:0 2px;
-    border-bottom:1px solid var(--line);
-    color:var(--green-soft);
-    font-size:13px;
-    font-weight:550;
-  }
-  .nav-mobile-account span:last-child{font-size:15px;font-weight:400}
   .nav-mobile-account:hover,
-  .nav-mobile-account:focus-visible{color:var(--green);outline:none}
+  .nav-mobile-account:focus-visible{background:#f4f6f2;color:var(--green);outline:none}
 
   .footer-policy-links{width:100%;margin-left:0}
   .footer-business-info{grid-template-columns:1fr;gap:7px;padding:20px 0}
@@ -185,7 +203,9 @@
   .menu-toggle span{width:21px!important}
   .nav{top:66px!important;max-height:calc(100dvh - 66px);padding:12px var(--gutter) 24px!important}
   .nav>a,.nav-dropdown-toggle{min-height:54px;font-size:17px!important}
-  .nav-mobile-actions{margin-top:20px;padding-top:18px}
-  .nav-mobile-reservation{min-height:52px;font-size:14px}
-  .nav-mobile-account{min-height:50px;font-size:13px}
+  .nav-mobile-actions{margin-top:20px;padding-top:18px;gap:8px}
+  .nav-mobile-reservation,
+  .nav-mobile-account{min-height:50px;padding:0 32px 0 14px;font-size:13px}
+  .nav-mobile-reservation span:last-child,
+  .nav-mobile-account span:last-child{right:12px;font-size:14px}
 }
