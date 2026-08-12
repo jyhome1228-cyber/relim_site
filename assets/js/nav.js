@@ -1,6 +1,6 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 import('./traffic.js').catch((error) => console.warn('[RE:LIM TRAFFIC LOAD]', error));
-import('./motion.js?v=20260811-2').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
+import('./motion.js?v=20260812-ops1').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
 
 if (document.querySelector('[data-reviews-page]')) {
   import('./collected-reviews.js?v=20260812-1').catch((error) => console.warn('[RE:LIM COLLECTED REVIEWS]', error));
@@ -194,7 +194,6 @@ function createMobileActions(nav) {
 
   bindAuthObserver();
 
-  // Auth module is loaded asynchronously. Retry only a few times instead of observing the whole header.
   [120, 450, 1200].forEach((delay) => {
     window.setTimeout(() => {
       if (!authObserver) bindAuthObserver();
