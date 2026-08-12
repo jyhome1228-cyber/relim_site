@@ -1,6 +1,24 @@
-const STORAGE_KEY = 'relim-announcement-dismissed-date';
-const excludedPages = new Set(['admin.html', 'signup.html']);
+const STORAGE_KEY = 'relim-reservation-banner-dismissed-date';
+const excludedPages = new Set(['admin.html', 'login.html', 'signup.html', 'mypage.html']);
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+const RESERVATION_URL = 'https://camfit.co.kr/camp/601ab483a31528001e2e4c0b?keyword=%EB%82%98%EC%9D%B8%ED%9E%90%EC%8A%A4&adultCnt=2';
+
+function hideMemberUi() {
+  if (document.querySelector('[data-relim-member-ui-off]')) return;
+  const style = document.createElement('style');
+  style.dataset.relimMemberUiOff = '';
+  style.textContent = `
+    .member-nav-link.header-book,
+    [data-auth-nav],
+    .nav-mobile-account { display:none!important; }
+    @media(max-width:900px){
+      .nav-mobile-actions{grid-template-columns:1fr!important}
+    }
+  `;
+  document.head.append(style);
+}
+
+hideMemberUi();
 
 function localDateKey(date = new Date()) {
   const year = date.getFullYear();
@@ -23,11 +41,6 @@ function saveDismissedToday() {
   } catch {}
 }
 
-function returnTarget() {
-  const file = currentPage || 'index.html';
-  return `${file}${window.location.search || ''}${window.location.hash || ''}`;
-}
-
 if (!excludedPages.has(currentPage) && !dismissedToday() && !document.querySelector('[data-home-signup-banner]')) {
   if (!document.querySelector('[data-home-signup-banner-style]')) {
     const style = document.createElement('link');
@@ -40,16 +53,16 @@ if (!excludedPages.has(currentPage) && !dismissedToday() && !document.querySelec
   const banner = document.createElement('aside');
   banner.className = 'home-signup-banner';
   banner.dataset.homeSignupBanner = '';
-  banner.setAttribute('aria-label', '리림 회원가입 안내');
+  banner.setAttribute('aria-label', '리림 예약 안내');
   banner.innerHTML = `
     <div class="home-signup-banner__inner">
       <p class="home-signup-banner__copy">
         <strong>WELCOME TO RE:LIM</strong>
-        <span>리림의 다양한 혜택과 이벤트를 준비 중입니다. 지금 회원가입하고 먼저 만나보세요.</span>
+        <span>리림 예약이 오픈되었습니다. 원하는 날짜와 시간을 확인해 보세요.</span>
       </p>
       <div class="home-signup-banner__actions">
-        <a class="home-signup-banner__cta" href="signup.html?return=${encodeURIComponent(returnTarget())}">회원가입</a>
-        <button class="home-signup-banner__dismiss" type="button" data-banner-dismiss aria-label="오늘 하루 리림 회원가입 안내 보지 않기">오늘 하루 보지 않기 <span aria-hidden="true">×</span></button>
+        <a class="home-signup-banner__cta" href="${RESERVATION_URL}" target="_blank" rel="noopener">예약하러 가기</a>
+        <button class="home-signup-banner__dismiss" type="button" data-banner-dismiss aria-label="오늘 하루 리림 예약 안내 보지 않기">오늘 하루 보지 않기 <span aria-hidden="true">×</span></button>
       </div>
     </div>
   `;
