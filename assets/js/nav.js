@@ -10,7 +10,6 @@ function initGoogleAnalytics() {
     script.src.includes(`googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`)
   );
 
-  // index.html처럼 이미 GA4가 초기화된 페이지는 중복 page_view를 보내지 않는다.
   if (existingLoader && typeof window.gtag === 'function') return;
 
   window.dataLayer = window.dataLayer || [];
@@ -32,7 +31,7 @@ function initGoogleAnalytics() {
 
 initGoogleAnalytics();
 
-const NAV_STYLE_VERSION = '20260811-visitor';
+const NAV_STYLE_VERSION = '20260812-mobile-1';
 const TITLE_STYLE_VERSION = '20260810-1439';
 const TYPOGRAPHY_STYLE_VERSION = '20260810-1439';
 
@@ -117,6 +116,64 @@ function ensureFooterLegalLinks() {
   });
 }
 
+function createMobileActions(nav) {
+  const actions = document.createElement('div');
+  actions.className = 'nav-mobile-actions';
+  actions.setAttribute('aria-label', '회원 및 예약 메뉴');
+
+  const reservation = document.createElement('a');
+  reservation.className = 'nav-mobile-reservation';
+  reservation.href = 'reservation.html';
+  reservation.innerHTML = '<span>예약하기</span><span aria-hidden="true">↗</span>';
+
+  const account = document.createElement('a');
+  account.className = 'nav-mobile-account';
+  account.dataset.mobileAuthNav = '';
+  account.href = `login.html?return=${encodeURIComponent(window.location.pathname.split('/').pop() || 'index.html')}`;
+  account.innerHTML = '<span>로그인</span><span aria-hidden="true">→</span>';
+
+  actions.append(reservation, account);
+  nav.append(actions);
+
+  const sync = () => {
+    const header = document.querySelector('.header-inner');
+    const sourceAccount = header?.querySelector('[data-auth-nav], .member-nav-link');
+    const sourceReservation = [...(header?.querySelectorAll('.header-book') || [])]
+      .find((link) => !link.matches('[data-auth-nav], .member-nav-link'));
+
+    if (sourceReservation) {
+      reservation.href = sourceReservation.href;
+      if (sourceReservation.target) reservation.target = sourceReservation.target;
+      if (sourceReservation.rel) reservation.rel = sourceReservation.rel;
+    }
+
+    if (sourceAccount) {
+      account.href = sourceAccount.href;
+      const label = sourceAccount.textContent.trim() || '로그인';
+      account.querySelector('span:first-child').textContent = label;
+      account.setAttribute('aria-label', sourceAccount.getAttribute('aria-label') || label);
+    }
+  };
+
+  sync();
+  const header = document.querySelector('.header-inner');
+  if (header) {
+    const observer = new MutationObserver(sync);
+    observer.observe(header, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      characterData: true,
+      attributeFilter: ['href', 'aria-label', 'data-auth-state']
+    });
+  }
+
+  window.setTimeout(sync, 250);
+  window.setTimeout(sync, 900);
+
+  return actions;
+}
+
 function initRelimNavigation() {
   ensureNavStyles();
   ensureFooterBusinessInfo();
@@ -158,6 +215,7 @@ function initRelimNavigation() {
   dropdown.append(dropdownButton, dropdownMenu);
 
   nav.replaceChildren(about, dropdown, gallery, faq, reviews, inquiry, location);
+  createMobileActions(nav);
 
   const allLinks = [...nav.querySelectorAll('a')];
   allLinks.forEach((link) => {
