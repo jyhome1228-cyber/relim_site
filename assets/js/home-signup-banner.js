@@ -3,23 +3,6 @@ const excludedPages = new Set(['admin.html', 'login.html', 'signup.html', 'mypag
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
 const RESERVATION_URL = 'https://camfit.co.kr/camp/601ab483a31528001e2e4c0b?keyword=%EB%82%98%EC%9D%B8%ED%9E%90%EC%8A%A4&adultCnt=2';
 
-function hideMemberUi() {
-  if (document.querySelector('[data-relim-member-ui-off]')) return;
-  const style = document.createElement('style');
-  style.dataset.relimMemberUiOff = '';
-  style.textContent = `
-    .member-nav-link.header-book,
-    [data-auth-nav],
-    .nav-mobile-account { display:none!important; }
-    @media(max-width:900px){
-      .nav-mobile-actions{grid-template-columns:1fr!important}
-    }
-  `;
-  document.head.append(style);
-}
-
-hideMemberUi();
-
 function localDateKey(date = new Date()) {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
