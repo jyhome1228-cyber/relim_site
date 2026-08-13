@@ -1,7 +1,7 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 import('./traffic.js').catch((error) => console.warn('[RE:LIM TRAFFIC LOAD]', error));
 import('./motion.js?v=20260812-ops2').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
-import('./home-signup-banner.js?v=20260813-camfit').catch((error) => console.warn('[RE:LIM ANNOUNCEMENT BANNER]', error));
+import('./home-signup-banner.js?v=20260813-mobilefix1').catch((error) => console.warn('[RE:LIM ANNOUNCEMENT BANNER]', error));
 
 if (document.querySelector('[data-reviews-page]')) {
   import('./collected-reviews.js?v=20260812-1').catch((error) => console.warn('[RE:LIM COLLECTED REVIEWS]', error));
@@ -36,7 +36,7 @@ function initGoogleAnalytics() {
 
 initGoogleAnalytics();
 
-const NAV_STYLE_VERSION = '20260812-mobile-4';
+const NAV_STYLE_VERSION = '20260813-mobilefix1';
 const TITLE_STYLE_VERSION = '20260810-1439';
 const TYPOGRAPHY_STYLE_VERSION = '20260810-1439';
 
