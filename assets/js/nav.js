@@ -123,27 +123,18 @@ function ensureFooterLegalLinks() {
 function createMobileActions(nav) {
   const actions = document.createElement('div');
   actions.className = 'nav-mobile-actions';
-  actions.setAttribute('aria-label', '회원 및 예약 메뉴');
+  actions.setAttribute('aria-label', '예약 메뉴');
 
   const reservation = document.createElement('a');
   reservation.className = 'nav-mobile-reservation';
   reservation.href = 'reservation.html';
   reservation.innerHTML = '<span>예약하기</span><span aria-hidden="true">↗</span>';
 
-  const account = document.createElement('a');
-  account.className = 'nav-mobile-account';
-  account.dataset.mobileAuthNav = '';
-  account.href = `login.html?return=${encodeURIComponent(window.location.pathname.split('/').pop() || 'index.html')}`;
-  account.innerHTML = '<span>로그인</span><span aria-hidden="true">→</span>';
-
-  actions.append(reservation, account);
+  actions.append(reservation);
   nav.append(actions);
-
-  let authObserver = null;
 
   const sync = () => {
     const header = document.querySelector('.header-inner');
-    const sourceAccount = header?.querySelector('[data-auth-nav], .member-nav-link');
     const sourceReservation = [...(header?.querySelectorAll('.header-book') || [])]
       .find((link) => !link.matches('[data-auth-nav], .member-nav-link'));
 
@@ -163,45 +154,9 @@ function createMobileActions(nav) {
         reservation.removeAttribute('rel');
       }
     }
-
-    if (sourceAccount) {
-      const nextHref = sourceAccount.href || account.href;
-      const nextLabel = sourceAccount.textContent.trim() || '로그인';
-      const nextAria = sourceAccount.getAttribute('aria-label') || nextLabel;
-      const labelNode = account.querySelector('span:first-child');
-
-      if (account.href !== nextHref) account.href = nextHref;
-      if (labelNode && labelNode.textContent !== nextLabel) labelNode.textContent = nextLabel;
-      if (account.getAttribute('aria-label') !== nextAria) account.setAttribute('aria-label', nextAria);
-    }
-
-    return sourceAccount;
   };
 
-  const bindAuthObserver = () => {
-    const sourceAccount = sync();
-    if (!sourceAccount || authObserver) return Boolean(sourceAccount);
-
-    authObserver = new MutationObserver(() => sync());
-    authObserver.observe(sourceAccount, {
-      childList: true,
-      subtree: true,
-      attributes: true,
-      characterData: true,
-      attributeFilter: ['href', 'aria-label', 'data-auth-state']
-    });
-    return true;
-  };
-
-  bindAuthObserver();
-
-  [120, 450, 1200].forEach((delay) => {
-    window.setTimeout(() => {
-      if (!authObserver) bindAuthObserver();
-      else sync();
-    }, delay);
-  });
-
+  sync();
   return { actions, sync };
 }
 
