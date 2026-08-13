@@ -1,13 +1,14 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 import('./traffic.js').catch((error) => console.warn('[RE:LIM TRAFFIC LOAD]', error));
 import('./motion.js?v=20260812-ops2').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
-import('./home-signup-banner.js?v=20260812-2').catch((error) => console.warn('[RE:LIM ANNOUNCEMENT BANNER]', error));
+import('./home-signup-banner.js?v=20260813-camfit').catch((error) => console.warn('[RE:LIM ANNOUNCEMENT BANNER]', error));
 
 if (document.querySelector('[data-reviews-page]')) {
   import('./collected-reviews.js?v=20260812-1').catch((error) => console.warn('[RE:LIM COLLECTED REVIEWS]', error));
 }
 
 const GA_MEASUREMENT_ID = 'G-EL627CS50V';
+const RESERVATION_URL = 'https://camfit.co.kr/camp/6a6b276b521182001db33430?keyword=%EB%A6%AC%EB%A6%BC&adultCnt=2';
 
 function initGoogleAnalytics() {
   const existingLoader = [...document.scripts].find((script) =>
@@ -47,6 +48,14 @@ const RELIM_BUSINESS = {
   address: '경기 용인시 처인구 원삼면 보개원삼로1372번길 41 나인힐스',
   email: 'penury@naver.com'
 };
+
+function normalizeReservationLinks() {
+  document.querySelectorAll('.header-book, a[href*="camfit.co.kr/camp/"]').forEach((link) => {
+    link.href = RESERVATION_URL;
+    link.target = '_blank';
+    link.rel = 'noopener';
+  });
+}
 
 function ensureNavStyles() {
   if (!document.querySelector('[data-relim-typography-style]')) {
@@ -128,33 +137,18 @@ function createMobileActions(nav) {
 
   const reservation = document.createElement('a');
   reservation.className = 'nav-mobile-reservation';
-  reservation.href = 'reservation.html';
+  reservation.href = RESERVATION_URL;
+  reservation.target = '_blank';
+  reservation.rel = 'noopener';
   reservation.innerHTML = '<span>예약하기</span><span aria-hidden="true">↗</span>';
 
   actions.append(reservation);
   nav.append(actions);
 
   const sync = () => {
-    const header = document.querySelector('.header-inner');
-    const sourceReservation = [...(header?.querySelectorAll('.header-book') || [])]
-      .find((link) => !link.matches('[data-auth-nav], .member-nav-link'));
-
-    if (sourceReservation) {
-      const nextHref = sourceReservation.href || 'reservation.html';
-      if (reservation.href !== nextHref) reservation.href = nextHref;
-
-      if (sourceReservation.target) {
-        if (reservation.target !== sourceReservation.target) reservation.target = sourceReservation.target;
-      } else if (reservation.hasAttribute('target')) {
-        reservation.removeAttribute('target');
-      }
-
-      if (sourceReservation.rel) {
-        if (reservation.rel !== sourceReservation.rel) reservation.rel = sourceReservation.rel;
-      } else if (reservation.hasAttribute('rel')) {
-        reservation.removeAttribute('rel');
-      }
-    }
+    reservation.href = RESERVATION_URL;
+    reservation.target = '_blank';
+    reservation.rel = 'noopener';
   };
 
   sync();
@@ -162,6 +156,7 @@ function createMobileActions(nav) {
 }
 
 function initRelimNavigation() {
+  normalizeReservationLinks();
   ensureNavStyles();
   ensureFooterBusinessInfo();
   ensureFooterLegalLinks();
