@@ -73,15 +73,16 @@
   .menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
 
   .nav{
+    position:absolute!important;
     z-index:70;
-    top:68px!important;
+    top:100%!important;
     right:0;
     left:0;
     margin:0;
     padding:14px var(--gutter) 26px!important;
     justify-content:flex-start;
     gap:0!important;
-    max-height:calc(100dvh - 68px);
+    max-height:calc(100dvh - var(--relim-announcement-height,0px) - 68px);
     overflow-y:auto;
     overscroll-behavior:contain;
     -webkit-overflow-scrolling:touch;
@@ -203,7 +204,7 @@
   .brand-logo{width:112px!important}
   .menu-toggle{width:38px;height:38px;min-width:38px;flex-basis:38px;margin-right:-6px!important}
   .menu-toggle span{width:21px!important}
-  .nav{top:66px!important;max-height:calc(100dvh - 66px);padding:12px var(--gutter) 24px!important}
+  .nav{top:100%!important;max-height:calc(100dvh - var(--relim-announcement-height,0px) - 66px);padding:12px var(--gutter) 24px!important}
   .nav>a,.nav-dropdown-toggle{min-height:54px;font-size:17px!important}
   .nav-mobile-actions{margin-top:20px;padding-top:18px;gap:8px}
   .nav-mobile-reservation,
