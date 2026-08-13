@@ -28,7 +28,7 @@ if (!excludedPages.has(currentPage) && !dismissedToday() && !document.querySelec
   if (!document.querySelector('[data-home-signup-banner-style]')) {
     const style = document.createElement('link');
     style.rel = 'stylesheet';
-    style.href = 'assets/css/home-signup-banner.css?v=20260812-2';
+    style.href = 'assets/css/home-signup-banner.css?v=20260813-mobilefix1';
     style.dataset.homeSignupBannerStyle = '';
     document.head.append(style);
   }
@@ -45,7 +45,7 @@ if (!excludedPages.has(currentPage) && !dismissedToday() && !document.querySelec
       </p>
       <div class="home-signup-banner__actions">
         <a class="home-signup-banner__cta" href="${RESERVATION_URL}" target="_blank" rel="noopener">예약하러 가기</a>
-        <button class="home-signup-banner__dismiss" type="button" data-banner-dismiss aria-label="오늘 하루 리림 예약 안내 보지 않기">오늘 하루 보지 않기 <span aria-hidden="true">×</span></button>
+        <button class="home-signup-banner__dismiss" type="button" data-banner-dismiss aria-label="오늘은 리림 예약 안내 다시 보지 않기">오늘은 다시 보지 않기 <span aria-hidden="true">×</span></button>
       </div>
     </div>
   `;
