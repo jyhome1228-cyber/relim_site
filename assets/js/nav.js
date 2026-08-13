@@ -124,6 +124,7 @@ function createMobileActions(nav) {
   const actions = document.createElement('div');
   actions.className = 'nav-mobile-actions';
   actions.setAttribute('aria-label', '예약 메뉴');
+  actions.style.gridTemplateColumns = '1fr';
 
   const reservation = document.createElement('a');
   reservation.className = 'nav-mobile-reservation';
