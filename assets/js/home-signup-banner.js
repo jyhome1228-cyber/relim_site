@@ -1,7 +1,7 @@
 const STORAGE_KEY = 'relim-reservation-banner-dismissed-date';
 const excludedPages = new Set(['admin.html', 'login.html', 'signup.html', 'mypage.html']);
 const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-const RESERVATION_URL = 'https://camfit.co.kr/camp/601ab483a31528001e2e4c0b?keyword=%EB%82%98%EC%9D%B8%ED%9E%90%EC%8A%A4&adultCnt=2';
+const RESERVATION_URL = 'https://camfit.co.kr/camp/6a6b276b521182001db33430?keyword=%EB%A6%AC%EB%A6%BC&adultCnt=2';
 
 function localDateKey(date = new Date()) {
   const year = date.getFullYear();
