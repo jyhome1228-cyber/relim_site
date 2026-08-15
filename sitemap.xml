@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://re-lim.com/</loc>
-    <lastmod>2026-08-13</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://re-lim.com/assets/images/relim-2026/F1ST2344.webp</image:loc>
+      <image:title>용인 리림 캠핑장과 수영장 전경</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://re-lim.com/assets/images/relim-2026/F1ST2258.webp</image:loc>
+      <image:title>용인 리림 야외 수영장과 개별 쉘터</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://re-lim.com/about.html</loc>
@@ -17,6 +26,10 @@
     <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://re-lim.com/assets/images/relim-site-map-final.svg</image:loc>
+      <image:title>리림 수영장 유수풀 개별 쉘터 배치도</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://re-lim.com/guide.html</loc>
@@ -26,15 +39,19 @@
   </url>
   <url>
     <loc>https://re-lim.com/reservation.html</loc>
-    <lastmod>2026-08-10</lastmod>
+    <lastmod>2026-08-15</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.95</priority>
   </url>
   <url>
     <loc>https://re-lim.com/gallery.html</loc>
     <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
+    <priority>0.75</priority>
+    <image:image>
+      <image:loc>https://re-lim.com/assets/images/relim-2026/F1ST2355.webp</image:loc>
+      <image:title>용인 리림 전체 시설 전경</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://re-lim.com/reviews.html</loc>
@@ -46,24 +63,12 @@
     <loc>https://re-lim.com/location.html</loc>
     <lastmod>2026-08-10</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://re-lim.com/faq.html</loc>
     <lastmod>2026-08-10</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://re-lim.com/terms.html</loc>
-    <lastmod>2026-08-10</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
-  </url>
-  <url>
-    <loc>https://re-lim.com/privacy.html</loc>
-    <lastmod>2026-08-10</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.85</priority>
   </url>
 </urlset>
