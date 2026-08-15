@@ -1,5 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /admin.html
+Disallow: /login.html
+Disallow: /signup.html
+Disallow: /mypage.html
 
 Sitemap: https://re-lim.com/sitemap.xml
-
