@@ -3,7 +3,7 @@ const reviewsPage = document.querySelector('[data-reviews-page]');
 if (reviewsPage && !document.querySelector('[data-collected-reviews]')) {
   const style = document.createElement('link');
   style.rel = 'stylesheet';
-  style.href = 'assets/css/collected-reviews.css?v=20260812-1';
+  style.href = 'assets/css/collected-reviews.css?v=20260818-1';
   document.head.append(style);
 
   const reviews = [
@@ -22,8 +22,6 @@ if (reviewsPage && !document.querySelector('[data-collected-reviews]')) {
     ['bbq','바비큐','고기가 생각보다 부드럽고 맛있었어요. 물놀이하고 바로 식사까지 이어지는 동선이 좋았습니다.'],
     ['bbq','바비큐','셀프바에서 필요한 반찬을 가져다 먹을 수 있어서 편했어요. 이것저것 따로 준비하지 않아도 돼서 좋았습니다.'],
     ['bbq','바비큐','고기뿐 아니라 같이 먹을 수 있는 반찬들이 있어서 식사가 생각보다 알찼어요.'],
-    ['bbq','바비큐','물놀이하고 배고플 때 바로 고기 먹을 수 있는 게 좋았어요. 하루 코스가 자연스럽게 이어지는 느낌이었습니다.'],
-    ['bbq','바비큐','식기나 집게, 가위처럼 필요한 것들이 준비되어 있어서 준비물 부담이 적었습니다.'],
     ['family','가족','아이와 당일치기로 다녀오기 좋았어요. 물놀이와 식사를 한곳에서 해결할 수 있다는 점이 제일 편했습니다.'],
     ['family','가족','아이들은 계속 놀고 부모는 쉘터에서 쉬어갈 수 있어서 가족 나들이 장소로 괜찮았어요.'],
     ['family','가족','아이들이 정말 잘 놀아서 그것만으로도 만족했어요. 부모 입장에서도 이동이 많지 않아 편했습니다.'],
@@ -39,24 +37,12 @@ if (reviewsPage && !document.querySelector('[data-collected-reviews]')) {
     ['shelter','쉘터','쉘터가 독립적으로 나뉘어 있어서 다른 팀 신경을 많이 쓰지 않아도 돼 편했습니다.'],
     ['bbq','바비큐','고기 맛도 괜찮았고 양도 충분했어요. 물놀이 후 먹는 바비큐라 더 기억에 남았습니다.'],
     ['bbq','바비큐','반찬을 필요한 만큼 가져다 먹을 수 있어서 편했어요. 가족끼리 식사하기 좋았습니다.'],
-    ['family','가족','멀리 숙박 여행을 준비하기 부담스러울 때 하루 코스로 오기 좋은 곳 같아요.'],
+    ['family','가족','멀리 여행을 준비하기 부담스러울 때 하루 코스로 오기 좋은 곳 같아요.'],
     ['family','가족','아이랑 어디 갈지 고민하다 방문했는데 물놀이부터 식사까지 해결돼서 만족스러웠습니다.'],
     ['mood','공간·분위기','전체적으로 깔끔하고 사진 찍을 곳이 많았어요. 가족사진 남기기에도 좋았습니다.'],
     ['water','물놀이','아이들이 나가기 싫다고 할 정도로 유수풀을 좋아했어요. 물놀이 좋아하는 집은 만족할 것 같습니다.'],
-    ['water','물놀이','일반 수영장보다 튜브 타고 흐르는 재미가 있어서 아이들이 덜 지루해했어요.'],
     ['shelter','쉘터','쉘터 안에서 쉬다가 바로 다시 물놀이하러 나갈 수 있어 동선이 정말 편했습니다.'],
-    ['shelter','쉘터','한낮에는 밖이 더웠는데 내부 에어컨이 시원해서 제대로 쉬었다 다시 놀 수 있었어요.'],
-    ['bbq','바비큐','따로 장을 많이 보지 않아도 되는 점이 편했어요. 아이 데리고 준비할 게 줄어드는 게 좋았습니다.'],
-    ['family','가족','아이와 부모가 각자 즐길 수 있는 포인트가 있어서 가족 모두 만족하기 좋았어요.'],
-    ['mood','공간·분위기','공간이 답답하지 않고 개방감이 있어서 좋았어요. 날씨 좋은 날 다시 오고 싶습니다.'],
-    ['water','물놀이','물놀이 좋아하는 아이에게는 유수풀 하나만으로도 충분히 기억에 남을 것 같아요.'],
-    ['family','가족','서울에서 크게 부담 없이 다녀올 수 있는 거리라 하루 나들이 장소로 괜찮았습니다.'],
-    ['mood','공간·분위기','사진 찍으면 휴양지처럼 보여서 좋았어요. 실제로 가보니 공간도 꽤 깔끔했습니다.'],
-    ['water','물놀이','한낮에는 바닥이 뜨거울 수 있어서 아쿠아슈즈 챙겨오길 잘했다 싶었어요. 물놀이는 정말 재미있었습니다.'],
-    ['shelter','쉘터','복층 계단은 어린아이와 함께라면 조금 신경 써야 할 것 같아요. 그래도 아이들은 복층 공간을 무척 좋아했습니다.'],
-    ['family','가족','사람이 몰리는 시간에는 샤워할 때 조금 기다렸어요. 그래도 전체적인 하루 이용 만족도는 높았습니다.'],
-    ['family','가족','물놀이하고 밥 먹고 쉬는 과정이 한 공간에서 이어져서 생각보다 부모가 덜 지쳤어요.'],
-    ['mood','공간·분위기','아이도 좋아하고 어른도 쉬기 좋아서 다음에 다른 가족과 함께 다시 방문하고 싶어요.']
+    ['family','가족','서울에서 크게 부담 없이 다녀올 수 있는 거리라 하루 나들이 장소로 괜찮았습니다.']
   ];
 
   const section = document.createElement('section');
@@ -66,10 +52,7 @@ if (reviewsPage && !document.querySelector('[data-collected-reviews]')) {
   section.innerHTML = `
     <div class="container">
       <div class="collected-review-head">
-        <div>
-          <p class="eyebrow">GUEST STORIES</p>
-          <h2 id="collectedReviewTitle">리림에서 보낸 하루</h2>
-        </div>
+        <div><p class="eyebrow">GUEST STORIES</p><h2 id="collectedReviewTitle">리림에서 보낸 하루</h2></div>
         <p>여러 채널에 게시된 리림 이용후기에서 반복적으로 언급된 실제 경험을 짧게 요약·재구성했습니다. 가독성을 위해 일부 표현은 편집되었으며, 운영 정보는 현재 공식 이용안내를 기준으로 확인해 주세요.</p>
       </div>
       <div class="collected-review-filter" role="group" aria-label="수집 이용후기 분류">
@@ -86,52 +69,43 @@ if (reviewsPage && !document.querySelector('[data-collected-reviews]')) {
     </div>`;
 
   const moments = reviewsPage.querySelector('.relim-moments-section');
-  const photoReviewSection = moments?.nextElementSibling;
-  if (moments && photoReviewSection) photoReviewSection.before(section);
-  else moments?.after(section);
+  const nextSection = moments?.nextElementSibling;
+  if (moments && nextSection) nextSection.before(section);
+  else if (moments) moments.after(section);
+  else reviewsPage.append(section);
 
   const grid = section.querySelector('[data-collected-grid]');
-  const moreButton = section.querySelector('[data-collected-more]');
   const filterButtons = [...section.querySelectorAll('[data-collected-filter]')];
+  const moreButton = section.querySelector('[data-collected-more]');
   let activeFilter = 'all';
-  let expanded = false;
+  let visibleCount = 12;
 
-  const filteredReviews = () => activeFilter === 'all' ? reviews : reviews.filter(([category]) => category === activeFilter);
+  const createCard = ([category, label, text], index) => {
+    const article = document.createElement('article');
+    article.className = 'collected-review-card';
+    article.dataset.category = category;
+    article.innerHTML = `<div class="collected-review-meta"><span>${label}</span><span>${String(index + 1).padStart(2, '0')}</span></div><p>${text}</p>`;
+    return article;
+  };
 
-  function render() {
-    const list = filteredReviews();
-    const visible = expanded ? list : list.slice(0, 12);
-    grid.replaceChildren();
-
-    visible.forEach(([category, label, content], index) => {
-      const card = document.createElement('article');
-      card.className = 'collected-review-card';
-      const sourceNumber = String(reviews.findIndex((item) => item[0] === category && item[1] === label && item[2] === content) + 1).padStart(2, '0');
-      card.innerHTML = `
-        <div class="collected-review-card-top"><span class="collected-review-category">${label}</span><span class="collected-review-number">${sourceNumber}</span></div>
-        <blockquote>${content}</blockquote>
-        <div class="collected-review-card-foot"><span>익명 이용후기</span><span>수집 후기 요약</span></div>`;
-      grid.append(card);
-    });
-
-    const hasMore = list.length > 12;
-    moreButton.parentElement.hidden = !hasMore;
-    if (hasMore) moreButton.textContent = expanded ? '접기' : `후기 더보기 (${list.length - 12})`;
-  }
+  const render = () => {
+    const filtered = reviews.filter(([category]) => activeFilter === 'all' || category === activeFilter);
+    grid.replaceChildren(...filtered.slice(0, visibleCount).map(createCard));
+    moreButton.hidden = visibleCount >= filtered.length;
+  };
 
   filterButtons.forEach((button) => {
     button.addEventListener('click', () => {
       activeFilter = button.dataset.collectedFilter;
-      expanded = false;
+      visibleCount = 12;
       filterButtons.forEach((item) => item.classList.toggle('is-active', item === button));
       render();
     });
   });
 
   moreButton.addEventListener('click', () => {
-    expanded = !expanded;
+    visibleCount += 12;
     render();
-    if (!expanded) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
   render();
