@@ -274,3 +274,80 @@ function initRelimNavigation() {
 }
 
 initRelimNavigation();
+
+/* Brand naming normalization: display every '용인 리림' occurrence simply as '리림'. */
+const RELIM_NAME_FROM = '용인 리림';
+const RELIM_NAME_TO = '리림';
+const replaceRelimName = (value) => typeof value === 'string'
+  ? value.split(RELIM_NAME_FROM).join(RELIM_NAME_TO)
+  : value;
+
+function normalizeRelimNaming(root = document) {
+  if (!root) return;
+
+  document.title = replaceRelimName(document.title);
+
+  document.querySelectorAll('meta[content]').forEach((meta) => {
+    const current = meta.getAttribute('content');
+    const next = replaceRelimName(current);
+    if (next !== current) meta.setAttribute('content', next);
+  });
+
+  document.querySelectorAll('[alt],[title],[aria-label],[placeholder]').forEach((element) => {
+    ['alt', 'title', 'aria-label', 'placeholder'].forEach((attribute) => {
+      if (!element.hasAttribute(attribute)) return;
+      const current = element.getAttribute(attribute);
+      const next = replaceRelimName(current);
+      if (next !== current) element.setAttribute(attribute, next);
+    });
+  });
+
+  document.querySelectorAll('script[type="application/ld+json"]').forEach((script) => {
+    const next = replaceRelimName(script.textContent);
+    if (next !== script.textContent) script.textContent = next;
+  });
+
+  const walker = document.createTreeWalker(
+    root === document ? document.body : root,
+    NodeFilter.SHOW_TEXT,
+    {
+      acceptNode(node) {
+        const parent = node.parentElement;
+        if (!parent || ['SCRIPT', 'STYLE', 'NOSCRIPT'].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        return node.nodeValue?.includes(RELIM_NAME_FROM)
+          ? NodeFilter.FILTER_ACCEPT
+          : NodeFilter.FILTER_REJECT;
+      }
+    }
+  );
+
+  const targets = [];
+  while (walker.nextNode()) targets.push(walker.currentNode);
+  targets.forEach((node) => {
+    node.nodeValue = replaceRelimName(node.nodeValue);
+  });
+}
+
+normalizeRelimNaming();
+
+const relimNamingObserver = new MutationObserver((mutations) => {
+  mutations.forEach((mutation) => {
+    if (mutation.type === 'characterData') {
+      const node = mutation.target;
+      if (node.nodeValue?.includes(RELIM_NAME_FROM)) node.nodeValue = replaceRelimName(node.nodeValue);
+      return;
+    }
+
+    mutation.addedNodes.forEach((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        if (node.nodeValue?.includes(RELIM_NAME_FROM)) node.nodeValue = replaceRelimName(node.nodeValue);
+      } else if (node.nodeType === Node.ELEMENT_NODE) {
+        normalizeRelimNaming(node);
+      }
+    });
+  });
+});
+
+if (document.body) {
+  relimNamingObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
+}
