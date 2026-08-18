@@ -1,0 +1,235 @@
+/* RE:LIM visual polish — line cleanup + mobile stability
+   Loaded after sost-system.css. Keeps structural dividers only where they help reading. */
+
+:root{
+  --line-soft:rgba(52,62,44,.10);
+  --line-faint:rgba(52,62,44,.07);
+}
+
+/* 1. Remove decorative lines that compete with photography */
+.section + .section{
+  border-top:0!important;
+}
+
+.gallery-note{
+  border-top:0!important;
+  padding-top:0!important;
+  margin-bottom:40px!important;
+}
+
+.space-photo-head,
+.quick-guide-head,
+.relim-moments-head,
+.collected-review-head{
+  border-top:0!important;
+  padding-top:0!important;
+}
+
+/* Image cards read better through spacing, not rules */
+.card{
+  border-top:0!important;
+  padding-top:0!important;
+}
+
+.experience-copy,
+.review-card-copy,
+.space-photo-gallery figcaption{
+  border-top:0!important;
+}
+
+.experience-copy{
+  padding-top:0!important;
+}
+
+.review-card-copy{
+  margin-top:14px!important;
+  padding-top:0!important;
+}
+
+.space-photo-gallery figcaption{
+  margin-top:14px!important;
+  padding-top:0!important;
+}
+
+/* Keep information dividers, but make them quieter */
+.site-header{
+  border-bottom-color:var(--line-faint)!important;
+}
+
+.page-hero,
+.community-hero{
+  border-bottom-color:var(--line-faint)!important;
+}
+
+.section-head,
+.number-list,
+.flow-list,
+.space-guide,
+.space-guide-list>div,
+.number-row,
+.faq-item,
+.inquiry-board,
+.inquiry-board-row,
+.footer-bottom,
+.footer-business-info{
+  border-color:var(--line-soft)!important;
+}
+
+.section-head{
+  border-bottom-color:var(--line-soft)!important;
+}
+
+/* Image rhythm */
+.gallery-grid,
+.space-photo-gallery,
+.cards,
+.experience-grid,
+.product-grid{
+  align-items:start;
+}
+
+.gallery-item,
+.card-image,
+.product-image,
+.experience-image,
+.page-feature,
+.image-wide{
+  box-shadow:none!important;
+}
+
+/* Avoid doubled separators around image-heavy sections */
+.page-feature + .section,
+.image-wide + .section,
+.space-photo-section,
+.relim-moments-section,
+.collected-review-section{
+  border-top:0!important;
+}
+
+/* 2. Mobile stability pass */
+@media(max-width:900px){
+  html,body{
+    max-width:100%;
+    overflow-x:hidden;
+  }
+
+  img,video,svg,canvas{
+    max-width:100%;
+  }
+
+  .container,.shell{
+    min-width:0!important;
+  }
+
+  .community-hero-grid,
+  .section-intro,
+  .about-section-intro,
+  .quick-guide-head,
+  .split,
+  .space-guide{
+    min-width:0;
+  }
+
+  .community-actions,
+  .space-actions,
+  .faq-cta-links{
+    flex-wrap:wrap;
+  }
+
+  .community-modal-panel{
+    max-height:calc(100dvh - 28px)!important;
+  }
+
+  .room-modal-dialog{
+    max-width:calc(100vw - 24px)!important;
+    max-height:calc(100dvh - 24px)!important;
+  }
+}
+
+@media(max-width:760px){
+  /* Mobile image-first sections should not inherit desktop divider rhythm */
+  .gallery-note{
+    margin-bottom:28px!important;
+  }
+
+  .section-head,
+  .quick-guide-head,
+  .space-photo-head,
+  .relim-moments-head,
+  .collected-review-head{
+    margin-bottom:34px!important;
+  }
+
+  .gallery-item,
+  .card-image,
+  .product-image,
+  .experience-image,
+  .page-feature,
+  .image-wide,
+  .about-scene,
+  .relim-moment-item,
+  .review-card-media{
+    border-radius:8px!important;
+  }
+
+  .space-photo-gallery figcaption{
+    margin-top:12px!important;
+  }
+
+  .community-toolbar,
+  .inquiry-board-bottom{
+    flex-wrap:wrap;
+  }
+
+  .community-actions{
+    display:grid!important;
+    width:100%;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px!important;
+  }
+
+  .community-actions .community-button{
+    width:100%!important;
+    min-width:0;
+  }
+
+  .cta-band .container{
+    width:min(calc(100% - 32px),var(--container))!important;
+  }
+
+  .product-content,
+  .experience-copy,
+  .card,
+  .review-card-copy{
+    min-width:0;
+  }
+
+  .footer-policy-links{
+    row-gap:6px!important;
+  }
+}
+
+@media(max-width:480px){
+  .community-actions{
+    grid-template-columns:1fr;
+  }
+
+  .community-form-actions{
+    display:grid!important;
+    grid-template-columns:1fr 1fr;
+    width:100%;
+  }
+
+  .community-form-actions .community-button{
+    width:100%!important;
+    min-width:0;
+  }
+
+  .number-row{
+    grid-template-columns:28px minmax(0,1fr)!important;
+  }
+
+  .footer-policy-links{
+    width:100%;
+  }
+}
