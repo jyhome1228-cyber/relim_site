@@ -123,13 +123,13 @@ body *{
   letter-spacing:-.02em!important;
 }
 
-/* Main titles stay restrained; subheads gain a touch more presence */
+/* Main titles: slightly stronger while staying restrained */
 h1,
 .page-hero h1,
 .community-hero h1,
 .home-focus-inner h1,
 .about-intro-hero h1{
-  font-weight:470!important;
+  font-weight:520!important;
 }
 
 h2,
