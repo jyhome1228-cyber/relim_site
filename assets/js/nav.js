@@ -37,8 +37,8 @@ function initGoogleAnalytics() {
 initGoogleAnalytics();
 
 const NAV_STYLE_VERSION = '20260813-mobilefix1';
-const TITLE_STYLE_VERSION = '20260810-1439';
-const TYPOGRAPHY_STYLE_VERSION = '20260810-1439';
+const TITLE_STYLE_VERSION = '20260825-typography1';
+const TYPOGRAPHY_STYLE_VERSION = '20260825-typography1';
 
 const RELIM_BUSINESS = {
   company: '(주)나인힐스',
