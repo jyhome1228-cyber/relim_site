@@ -1,12 +1,13 @@
 /* RE:LIM visual polish — line cleanup + mobile stability
-   Loaded after sost-system.css. Keeps structural dividers only where they help reading. */
+   Loaded after sost-system.css.
+   Important: typography hierarchy is intentionally NOT overridden here. */
 
 :root{
   --line-soft:rgba(52,62,44,.10);
   --line-faint:rgba(52,62,44,.07);
 }
 
-/* 1. Remove decorative lines that compete with photography */
+/* Remove decorative lines that compete with photography */
 .section + .section{
   border-top:0!important;
 }
@@ -25,7 +26,7 @@
   padding-top:0!important;
 }
 
-/* Image cards read better through spacing, not rules */
+/* Image cards read through spacing rather than heavy rules */
 .card{
   border-top:0!important;
   padding-top:0!important;
@@ -51,7 +52,7 @@
   padding-top:0!important;
 }
 
-/* Keep information dividers, but make them quieter */
+/* Keep structural dividers quiet */
 .site-header{
   border-bottom-color:var(--line-faint)!important;
 }
@@ -106,81 +107,7 @@
   border-top:0!important;
 }
 
-/* 2. Typography polish — Pretendard everywhere, tighter tracking */
-html,
-body,
-button,
-input,
-select,
-textarea,
-option{
-  font-family:var(--relim-font,"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)!important;
-}
-
-/* Global copy rhythm: -2% tracking */
-body,
-body *{
-  letter-spacing:-.02em!important;
-}
-
-/* Main titles: slightly stronger while staying restrained */
-h1,
-.page-hero h1,
-.community-hero h1,
-.home-focus-inner h1,
-.about-intro-hero h1{
-  font-weight:520!important;
-}
-
-h2,
-h3,
-.section-head h2,
-.section-intro h2,
-.about-section-intro h2,
-.quick-guide-head h2,
-.space-photo-head h2,
-.space-guide-copy h3,
-.card h3,
-.visual-product h3,
-.experience-copy h3,
-.flow-list h3,
-.number-row h3,
-.faq-question-title,
-.community-toolbar strong,
-.mypage-block-head h2{
-  font-weight:560!important;
-}
-
-/* Labels stay readable without becoming heavy */
-.eyebrow,
-.meta,
-[class*="kicker"],
-[class*="index"],
-.faq-item-category,
-.faq-category-label{
-  font-weight:600!important;
-}
-
-/* Navigation: slightly stronger than body copy */
-.nav>a,
-.nav-dropdown-toggle{
-  font-weight:560!important;
-  letter-spacing:-.02em!important;
-}
-
-.nav-dropdown-menu a{
-  font-weight:520!important;
-  letter-spacing:-.02em!important;
-}
-
-.header-book,
-.nav-mobile-reservation,
-.nav-mobile-account{
-  font-weight:560!important;
-  letter-spacing:-.02em!important;
-}
-
-/* 3. Mobile stability pass */
+/* Mobile stability only — typography values remain owned by sost-system.css */
 @media(max-width:900px){
   html,body{
     max-width:100%;
@@ -218,16 +145,9 @@ h3,
     max-width:calc(100vw - 24px)!important;
     max-height:calc(100dvh - 24px)!important;
   }
-
-  .nav>a,
-  .nav-dropdown-toggle{
-    font-weight:560!important;
-    letter-spacing:-.02em!important;
-  }
 }
 
 @media(max-width:760px){
-  /* Mobile image-first sections should not inherit desktop divider rhythm */
   .gallery-note{
     margin-bottom:28px!important;
   }
