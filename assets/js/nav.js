@@ -1,6 +1,6 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 import('./traffic.js').catch((error) => console.warn('[RE:LIM TRAFFIC LOAD]', error));
-import('./motion.js?v=20260812-ops2').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
+import('./motion.js?v=20260831-polish1').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
 import('./home-signup-banner.js?v=20260813-mobilefix1').catch((error) => console.warn('[RE:LIM ANNOUNCEMENT BANNER]', error));
 
 if (document.querySelector('[data-reviews-page]')) {
