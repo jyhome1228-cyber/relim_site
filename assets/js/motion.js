@@ -3,6 +3,7 @@ import './operational-polish.js?v=20260812-1';
 
 const MOTION_STYLE_VERSION = '20260831-polish2';
 const POLISH_STYLE_VERSION = '20260831-system1';
+const COMMUNITY_STYLE_VERSION = '20260831-community1';
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 function ensureStylesheet(selector, href, datasetKey) {
@@ -44,6 +45,15 @@ function ensurePolishStyles() {
   );
 }
 
+function ensureCommunityStyles() {
+  if (!document.querySelector('.community-page, .auth-main')) return Promise.resolve();
+  return ensureStylesheet(
+    '[data-relim-community-polish-style]',
+    `assets/css/community-polish.css?v=${COMMUNITY_STYLE_VERSION}`,
+    'relimCommunityPolishStyle'
+  );
+}
+
 function isHomePage() {
   const page = window.location.pathname.split('/').pop();
   return !page || page === 'index.html';
@@ -73,6 +83,9 @@ function markRevealTargets() {
     '.gallery-grid > *',
     '.faq-item',
     '.location-overview .split > *',
+    '.relim-moments-grid > *',
+    '.community-toolbar',
+    '.inquiry-board',
     '.cta-band .container > *',
     '.footer-main > *'
   ];
@@ -83,7 +96,7 @@ function markRevealTargets() {
   selectors.forEach((selector) => {
     document.querySelectorAll(selector).forEach((element) => {
       if (seen.has(element)) return;
-      if (element.closest('.room-modal, .lightbox')) return;
+      if (element.closest('.room-modal, .lightbox, .community-modal')) return;
       seen.add(element);
       element.dataset.relimReveal = '';
       targets.push(element);
@@ -165,7 +178,7 @@ function initPageTransitions() {
 }
 
 async function initMotionSystem() {
-  await Promise.all([ensureMotionStyles(), ensurePolishStyles()]);
+  await Promise.all([ensureMotionStyles(), ensurePolishStyles(), ensureCommunityStyles()]);
 
   document.documentElement.classList.add('motion-enabled');
   if (isHomePage()) document.documentElement.classList.add('home-motion');
