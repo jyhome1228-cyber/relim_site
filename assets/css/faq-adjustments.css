@@ -1,4 +1,28 @@
-.faq-list .faq-answer {
-  color: #59645f;
-  font-weight: 400;
+/* RE:LIM FAQ — 2026-08-31 hierarchy and contrast polish */
+.faq-hero{padding:clamp(76px,7vw,108px) 0 56px!important;background:#fff!important}
+.faq-hero h1{margin-bottom:16px!important;font-size:clamp(34px,3.15vw,48px)!important;font-weight:700!important;line-height:1.12!important;letter-spacing:-.055em!important;color:var(--green)!important}
+.faq-hero .lead{max-width:760px;margin-bottom:0;color:var(--green-soft);font-size:17px!important;line-height:1.72}
+.faq-section{padding-top:clamp(58px,6vw,84px)!important}
+.faq-system{width:min(100%,1180px)}
+.faq-search-panel{padding:0 0 clamp(34px,4vw,48px);border:0;border-bottom:1px solid var(--line);background:#fff}
+.faq-search-label{margin-bottom:17px;font-size:clamp(24px,2.2vw,32px);font-weight:700;letter-spacing:-.045em}
+.faq-search-box{min-height:68px}
+#faqSearch{height:68px;font-size:clamp(17px,1.5vw,21px);font-weight:400}
+.faq-search-help{margin-top:15px}
+.faq-keywords{margin-top:20px}
+.faq-category-wrap{margin-top:clamp(38px,5vw,58px)}
+.faq-result-head{margin-top:clamp(38px,5vw,58px)}
+.faq-list .faq-answer{color:#59645f;font-weight:400}
+.faq-list .faq-question-title{font-weight:700}
+.faq-cta h2,.faq-cta .eyebrow{color:#fff!important}
+.faq-cta h2{font-weight:700!important}
+.faq-cta .button{color:#fff;border-color:rgba(255,255,255,.8)}
+
+@media(max-width:620px){
+  .faq-hero{padding:54px 0 38px!important}
+  .faq-hero h1{font-size:32px!important}
+  .faq-hero .lead{font-size:15px!important}
+  .faq-section{padding-top:46px!important}
+  .faq-search-label{font-size:25px}
+  .faq-search-box,#faqSearch{height:60px;min-height:60px}
 }
