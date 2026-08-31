@@ -1,0 +1,330 @@
+/* RE:LIM global visual system — 2026-08-31
+   Shared polish for all public pages: typography hierarchy, image radius,
+   section rhythm, cards and controls. Loaded after the base stylesheet. */
+
+:root{
+  --relim-radius:16px;
+  --relim-radius-small:12px;
+  --relim-radius-large:22px;
+  --relim-section-space:clamp(64px,7vw,108px);
+  --relim-section-space-compact:clamp(42px,4.5vw,68px);
+  --relim-text:#343e2c;
+  --relim-text-soft:#687064;
+  --relim-line:rgba(52,62,44,.13);
+}
+
+html{scroll-padding-top:72px}
+body{
+  color:var(--relim-text);
+  font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;
+  font-size:16px;
+  font-weight:400;
+  line-height:1.78;
+  letter-spacing:-.015em;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+/* --------------------------------------------------------------------------
+   Typography hierarchy
+   -------------------------------------------------------------------------- */
+main.page h1,
+main.page h2,
+main.page h3,
+.room-modal h2,
+.room-modal h3,
+.lightbox h2{
+  color:var(--relim-text);
+  font-family:inherit;
+  text-wrap:balance;
+}
+
+main.page h1{
+  margin-bottom:18px;
+  font-size:clamp(34px,3.8vw,56px);
+  font-weight:700;
+  line-height:1.16;
+  letter-spacing:-.055em;
+}
+
+main.page h2,
+.section-intro h2,
+.section-head h2,
+.quick-guide-head h2,
+.about-section-intro h2,
+.space-photo-head h2,
+.room-section-head h2,
+.location-info h2,
+.faq-empty h2{
+  margin-bottom:14px;
+  font-size:clamp(27px,2.5vw,38px);
+  font-weight:700;
+  line-height:1.24;
+  letter-spacing:-.045em;
+}
+
+main.page h3,
+.card h3,
+.product-card h3,
+.visual-product h3,
+.experience-copy h3,
+.number-row h3,
+.info-box h3,
+.location-contact strong,
+.room-button strong{
+  font-size:clamp(19px,1.45vw,24px);
+  font-weight:700;
+  line-height:1.35;
+  letter-spacing:-.035em;
+}
+
+main.page p,
+main.page li,
+main.page dd,
+main.page td,
+main.page th{
+  line-height:1.78;
+}
+
+main.page p{
+  color:var(--relim-text-soft);
+  font-size:15px;
+}
+
+main.page .lead{
+  max-width:760px;
+  color:var(--relim-text-soft);
+  font-size:clamp(16px,1.15vw,18px);
+  font-weight:400;
+  line-height:1.75;
+}
+
+.eyebrow,
+.meta,
+.product-index,
+.product-time,
+.experience-message,
+.faq-category-label,
+.gallery-note,
+.room-button span{
+  font-size:11px;
+  font-weight:700;
+  line-height:1.4;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.eyebrow{margin-bottom:12px;color:#6b7367}
+
+/* Main hero retains scale, but strengthens its title hierarchy. */
+.home-focus-hero h1{
+  max-width:780px;
+  color:#fff;
+  font-size:clamp(40px,4.45vw,68px);
+  font-weight:700;
+  line-height:1.13;
+}
+.home-focus-inner>p:not(.eyebrow){font-size:clamp(15px,1.1vw,17px);line-height:1.75}
+
+.home-gallery-intro h2{
+  margin:0 0 16px;
+  font-size:clamp(32px,3.25vw,48px);
+  font-weight:700;
+  line-height:1.23;
+  letter-spacing:-.05em;
+}
+.home-gallery-intro p:last-child{max-width:640px;font-size:15px;line-height:1.75}
+
+/* --------------------------------------------------------------------------
+   Consistent spacing
+   -------------------------------------------------------------------------- */
+.section{padding:var(--relim-section-space) 0}
+.section+.section{border-top:1px solid var(--relim-line)}
+.section-intro{gap:clamp(30px,5vw,78px)}
+.section-intro .copy{max-width:800px}
+.section-intro .copy>p:last-child{margin-bottom:0}
+.section-head{
+  gap:28px;
+  margin-bottom:clamp(26px,3vw,38px);
+  padding-bottom:15px;
+  border-bottom:1px solid rgba(52,62,44,.62);
+}
+.section-head p{margin:0;color:var(--relim-text-soft);font-size:14px}
+
+main.page>.page-hero+.section{padding-top:var(--relim-section-space-compact)}
+main.page>.page-hero+.page-feature+.section{padding-top:var(--relim-section-space-compact)}
+
+.image-wide{margin-top:clamp(34px,4vw,52px)}
+.cards{gap:clamp(18px,2vw,26px);margin-top:clamp(34px,4vw,48px)}
+.product-grid{gap:clamp(22px,2.5vw,34px)}
+.experience-grid{gap:clamp(24px,3vw,42px)}
+.info-grid{gap:18px}
+
+/* --------------------------------------------------------------------------
+   Global image treatment
+   Full-bleed background imagery is intentionally excluded.
+   -------------------------------------------------------------------------- */
+main.page img:not(.home-focus-image):not(.auth-visual>img),
+.room-modal img,
+.lightbox img{
+  border-radius:var(--relim-radius);
+}
+
+.image-wide,
+.card-image,
+.product-image,
+.experience-image,
+.page-feature,
+.about-hero-image,
+.about-scene,
+.about-slide,
+.home-gallery-hero,
+.gallery-item,
+.space-photo-gallery figure,
+.room-gallery figure,
+.site-map-canvas,
+.room-map-canvas{
+  overflow:hidden;
+  border-radius:var(--relim-radius);
+}
+
+.home-gallery-hero{border-radius:var(--relim-radius-large)}
+.lightbox img{border-radius:var(--relim-radius-large)}
+
+/* Images inside rounded wrappers inherit the same silhouette. */
+.image-wide img,
+.card-image img,
+.product-image img,
+.experience-image img,
+.page-feature img,
+.about-hero-image img,
+.about-scene img,
+.about-slide img,
+.home-gallery-hero img,
+.gallery-item img,
+.space-photo-gallery img,
+.room-gallery img,
+.site-map-canvas>img,
+.room-map-canvas>img{border-radius:inherit}
+
+/* --------------------------------------------------------------------------
+   Cards / lists / information blocks
+   -------------------------------------------------------------------------- */
+.card{padding-top:14px;border-top:1px solid rgba(52,62,44,.7)}
+.card-image{margin-bottom:16px}
+.card p{font-size:14px;line-height:1.72}
+.card h3{margin-bottom:8px}
+
+.product-content{padding-top:22px}
+.product-content>p,
+.experience-copy>p,
+.number-row p,
+.info-box p,
+.space-guide-copy>p:last-child,
+.space-photo-head>p,
+.location-description,
+.faq-answer{
+  color:var(--relim-text-soft);
+  font-size:14px;
+  line-height:1.78;
+}
+
+.number-list{margin-top:34px}
+.number-row{padding:30px 0}
+.number-row h3{margin-top:0}
+
+.info-box{
+  min-height:0;
+  padding:24px;
+  border:1px solid var(--relim-line);
+  border-radius:var(--relim-radius);
+  background:#fafbf9;
+}
+
+.location-contact{
+  border-color:var(--relim-line);
+  border-radius:var(--relim-radius);
+}
+
+/* FAQ */
+.faq-question{padding:22px 0;font-size:15px;font-weight:700}
+.faq-answer{padding-bottom:24px}
+.faq-search-box,
+.faq-search-panel,
+.faq-empty{border-radius:var(--relim-radius)}
+
+/* Gallery */
+.gallery-note{margin-bottom:26px;padding-top:14px;color:var(--relim-text-soft)}
+.gallery-grid{columns:4;column-gap:14px}
+.gallery-item{margin-bottom:14px;border-radius:var(--relim-radius)}
+.gallery-item img{transition:transform .42s cubic-bezier(.22,.61,.36,1),opacity .25s ease}
+.gallery-item:hover img{transform:scale(1.018)}
+
+/* Buttons and interactive controls */
+.button,
+.header-book,
+.location-map-button,
+.auth-primary-button,
+.google-login-button,
+.faq-reset,
+.faq-category,
+.faq-keyword{
+  border-radius:999px;
+}
+
+.link-arrow{
+  gap:18px;
+  margin-top:18px;
+  padding-bottom:4px;
+  border-bottom-color:rgba(52,62,44,.5);
+  font-size:12px;
+  font-weight:700;
+  transition:gap .22s ease,border-color .22s ease,opacity .22s ease;
+}
+.link-arrow:hover{gap:24px;border-bottom-color:var(--relim-text)}
+
+/* Header and footer */
+.site-header{height:72px}
+.header-inner{height:72px}
+.brand-logo{width:122px}
+.nav a,.nav-dropdown-toggle{font-size:13px;font-weight:600}
+.header-book{min-height:36px;padding:0 16px;font-size:12px}
+
+.footer-main{gap:34px;padding:54px 0 40px}
+.footer-logo{width:138px;margin-bottom:16px}
+.footer-main h3{margin-bottom:12px;font-size:11px;font-weight:700}
+.footer-main p,.footer-main a{font-size:12px;line-height:1.7}
+.footer-bottom{padding:15px 0 21px}
+
+/* --------------------------------------------------------------------------
+   Responsive hierarchy
+   -------------------------------------------------------------------------- */
+@media(max-width:1100px){
+  .gallery-grid{columns:3}
+}
+
+@media(max-width:900px){
+  .section-intro,.split{gap:22px}
+  .section-head{align-items:flex-start;flex-direction:column;gap:8px}
+  .gallery-grid{columns:2}
+}
+
+@media(max-width:620px){
+  :root{--relim-radius:13px;--relim-radius-large:16px;--relim-section-space:48px;--relim-section-space-compact:34px}
+  body{font-size:15px;line-height:1.72}
+  main.page h1{font-size:30px;line-height:1.2}
+  main.page h2,.section-intro h2,.section-head h2,.quick-guide-head h2,.about-section-intro h2,.space-photo-head h2,.room-section-head h2,.location-info h2{font-size:23px;line-height:1.28}
+  main.page h3,.card h3,.product-card h3,.visual-product h3,.experience-copy h3,.number-row h3,.info-box h3{font-size:18px}
+  main.page p,.product-content>p,.experience-copy>p,.number-row p,.info-box p,.faq-answer{font-size:14px;line-height:1.72}
+  main.page .lead{font-size:15px;line-height:1.68}
+  .eyebrow,.meta,.product-index,.product-time,.experience-message,.faq-category-label{font-size:10px}
+  .home-focus-hero h1{font-size:35px;line-height:1.16}
+  .home-gallery-intro{padding:56px 0 38px}
+  .home-gallery-intro h2{font-size:29px}
+  .home-gallery-intro p:last-child{font-size:14px}
+  .gallery-grid{columns:1}
+  .gallery-item{margin-bottom:12px}
+  .number-row{padding:22px 0}
+  .info-box{padding:20px}
+  .footer-main{gap:28px;padding:40px 0 30px}
+}
