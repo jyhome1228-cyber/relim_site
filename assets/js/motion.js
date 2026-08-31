@@ -1,11 +1,12 @@
 import './operational-updates.js?v=20260812-2';
 import './operational-polish.js?v=20260812-1';
 
-const MOTION_STYLE_VERSION = '20260831-polish1';
+const MOTION_STYLE_VERSION = '20260831-polish2';
+const POLISH_STYLE_VERSION = '20260831-system1';
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-function ensureMotionStyles() {
-  const existing = document.querySelector('[data-relim-motion-style]');
+function ensureStylesheet(selector, href, datasetKey) {
+  const existing = document.querySelector(selector);
   if (existing) {
     if (existing.sheet) return Promise.resolve();
     return new Promise((resolve) => {
@@ -18,13 +19,29 @@ function ensureMotionStyles() {
   return new Promise((resolve) => {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = `assets/css/motion.css?v=${MOTION_STYLE_VERSION}`;
-    link.dataset.relimMotionStyle = '';
+    link.href = href;
+    link.dataset[datasetKey] = '';
     link.addEventListener('load', resolve, { once: true });
     link.addEventListener('error', resolve, { once: true });
     document.head.append(link);
     window.setTimeout(resolve, 1200);
   });
+}
+
+function ensureMotionStyles() {
+  return ensureStylesheet(
+    '[data-relim-motion-style]',
+    `assets/css/motion.css?v=${MOTION_STYLE_VERSION}`,
+    'relimMotionStyle'
+  );
+}
+
+function ensurePolishStyles() {
+  return ensureStylesheet(
+    '[data-relim-polish-style]',
+    `assets/css/site-polish.css?v=${POLISH_STYLE_VERSION}`,
+    'relimPolishStyle'
+  );
 }
 
 function isHomePage() {
@@ -74,7 +91,7 @@ function markRevealTargets() {
   });
 
   targets.forEach((element, index) => {
-    const delay = Math.min((index % 4) * 55, 165);
+    const delay = Math.min((index % 4) * 35, 105);
     element.style.setProperty('--relim-reveal-delay', `${delay}ms`);
   });
 
@@ -98,8 +115,8 @@ function initRevealMotion() {
     });
   }, {
     root: null,
-    rootMargin: '0px 0px -8% 0px',
-    threshold: 0.08
+    rootMargin: '0px 0px -5% 0px',
+    threshold: 0.06
   });
 
   targets.forEach((element) => observer.observe(element));
@@ -139,7 +156,7 @@ function initPageTransitions() {
     document.documentElement.classList.add('motion-leaving');
     window.setTimeout(() => {
       window.location.href = link.href;
-    }, 245);
+    }, 200);
   });
 
   window.addEventListener('pageshow', () => {
@@ -148,7 +165,7 @@ function initPageTransitions() {
 }
 
 async function initMotionSystem() {
-  await ensureMotionStyles();
+  await Promise.all([ensureMotionStyles(), ensurePolishStyles()]);
 
   document.documentElement.classList.add('motion-enabled');
   if (isHomePage()) document.documentElement.classList.add('home-motion');
