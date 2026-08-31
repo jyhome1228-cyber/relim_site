@@ -1,0 +1,113 @@
+/* RE:LIM community / account page polish — 2026-08-31 */
+
+.community-page,
+.auth-main{
+  font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo",Arial,sans-serif;
+  color:var(--green);
+}
+
+/* Remove oversized board-page title blocks while keeping the useful actions. */
+.community-hero{
+  padding:24px 0;
+  border-bottom:1px solid rgba(52,62,44,.12);
+  background:#fff;
+}
+.community-hero-grid{
+  display:flex;
+  min-height:0;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+}
+.community-hero-grid>div:first-child{display:none}
+.community-actions{display:flex;gap:8px;margin:0}
+.community-section,
+.relim-moments-section{padding-top:clamp(36px,4.5vw,64px)}
+
+.community-page h1,
+.community-page h2,
+.community-page h3{
+  font-family:inherit;
+  color:var(--green);
+  font-weight:700;
+  letter-spacing:-.045em;
+}
+.community-page h1{font-size:clamp(32px,3.4vw,48px);line-height:1.18}
+.community-page h2{font-size:clamp(26px,2.4vw,36px);line-height:1.24}
+.community-page h3{font-size:clamp(18px,1.45vw,23px);line-height:1.35}
+.community-page p{color:var(--green-soft);font-size:14px;line-height:1.75}
+
+.community-button,
+.post-action-button{
+  border-radius:999px;
+  font-weight:700;
+}
+
+.community-toolbar{
+  margin-bottom:20px;
+  padding-bottom:15px;
+  border-bottom-color:rgba(52,62,44,.5);
+}
+.community-toolbar strong{font-size:18px;font-weight:700;letter-spacing:-.03em}
+
+.inquiry-board-head{font-size:11px;font-weight:700;letter-spacing:.06em}
+.inquiry-board,
+.community-empty{border-color:rgba(52,62,44,.13)}
+
+.community-modal-panel{
+  border-radius:18px;
+  box-shadow:0 24px 80px rgba(18,28,20,.18);
+}
+.community-modal-panel h2{font-weight:700}
+.community-field>span{font-weight:700}
+.community-field input,
+.community-field select,
+.community-field textarea{
+  border-radius:12px;
+}
+.community-modal-close{border-radius:50%}
+
+.relim-moments-head{margin-bottom:clamp(24px,3vw,38px)}
+.relim-moments-title{font-weight:700!important}
+.relim-moments-desc{font-size:14px!important;line-height:1.75!important}
+.relim-moment-item{
+  overflow:hidden;
+  border-radius:16px;
+}
+.relim-moment-item img{
+  width:100%;
+  border-radius:16px;
+}
+
+.review-card,
+.review-image,
+.review-photo,
+.review-gallery figure{
+  overflow:hidden;
+  border-radius:16px;
+}
+.review-card img,
+.review-image img,
+.review-photo img,
+.review-gallery img{border-radius:inherit}
+
+/* Account / login pages use the same title weight and softer field corners. */
+.auth-card h2,
+.auth-account h2{font-weight:700;letter-spacing:-.045em}
+.auth-field input{border-radius:12px}
+.auth-primary-button,
+.google-login-button{border-radius:999px}
+.auth-account-avatar{border-radius:50%}
+
+@media(max-width:620px){
+  .community-hero{padding:16px 0}
+  .community-hero-grid{justify-content:stretch}
+  .community-actions{width:100%}
+  .community-actions>*{flex:1}
+  .community-section,.relim-moments-section{padding-top:32px}
+  .community-page h1{font-size:29px}
+  .community-page h2{font-size:23px}
+  .community-page h3{font-size:18px}
+  .relim-moment-item,.relim-moment-item img{border-radius:13px}
+  .community-modal-panel{border-radius:18px 18px 0 0}
+}
