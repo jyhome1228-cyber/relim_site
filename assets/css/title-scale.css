@@ -1,17 +1,19 @@
+/* RE:LIM global design system loader — existing visual refinements first */
+@import url("./sost-system.css?v=20260825-typography1");
+@import url("./visual-polish.css?v=20260825-typography1");
+
 /* RE:LIM UNIVERSAL WEB DESIGN SYSTEM — 2026-09-06
    Structural UI system for the public site.
    Brand colors remain owned by the existing RE:LIM color tokens.
    Visual rule: no decorative rounding. Functional circular indicators may remain circular. */
 
 :root{
-  /* Layout */
   --layout-content:1040px;
   --layout-wide:1280px;
   --layout-visual:1440px;
   --container:1280px;
   --gutter:32px;
 
-  /* Spacing */
   --space-1:4px;
   --space-2:8px;
   --space-3:12px;
@@ -27,7 +29,6 @@
   --section-lg:112px;
   --section-xl:144px;
 
-  /* Type */
   --font-display:clamp(48px,5vw,72px);
   --font-h1:clamp(38px,4vw,48px);
   --font-h2:clamp(28px,3vw,40px);
@@ -41,19 +42,14 @@
   --weight-medium:500;
   --weight-bold:700;
 
-  /* Geometry */
   --radius-none:0px;
 
-  /* Motion */
   --motion-fast:150ms;
   --motion-normal:200ms;
   --motion-slow:300ms;
   --ease-standard:cubic-bezier(.2,0,0,1);
 }
 
-/* --------------------------------------------------------------------------
-   Foundation
-   -------------------------------------------------------------------------- */
 html{
   font-size:16px;
   scroll-padding-top:80px;
@@ -75,7 +71,7 @@ button,input,select,textarea,option{
   letter-spacing:-.022em!important;
 }
 
-/* Square-edge rule. Keep only true circular indicators/avatars/radios circular. */
+/* No decorative radius anywhere. Keep only semantically circular controls circular. */
 html body *{
   border-radius:0!important;
 }
@@ -93,9 +89,6 @@ html body :is(
   border-radius:50%!important;
 }
 
-/* --------------------------------------------------------------------------
-   Layout / grid
-   -------------------------------------------------------------------------- */
 .container,
 .shell{
   width:min(calc(100% - (var(--gutter) * 2)),var(--layout-wide))!important;
@@ -135,12 +128,7 @@ main.page :is(.article-body,.legal-content,.content-reading,.text-content){
   border-bottom:1px solid var(--green,var(--text,rgba(52,62,44,.72)))!important;
 }
 
-/* --------------------------------------------------------------------------
-   Typography hierarchy
-   -------------------------------------------------------------------------- */
-h1,h2,h3,p{
-  margin-top:0;
-}
+h1,h2,h3,p{margin-top:0}
 
 main.page h1,
 .page-hero h1,
@@ -233,26 +221,15 @@ main.page .lead,
   line-height:1.7!important;
 }
 
-/* --------------------------------------------------------------------------
-   Header / navigation
-   -------------------------------------------------------------------------- */
 .site-header{
   height:72px!important;
   border-bottom:1px solid var(--line,rgba(52,62,44,.14))!important;
   box-shadow:none!important;
 }
 
-.header-inner{
-  height:72px!important;
-}
-
-.brand-logo{
-  width:122px!important;
-}
-
-.nav{
-  gap:clamp(20px,2.2vw,36px)!important;
-}
+.header-inner{height:72px!important}
+.brand-logo{width:122px!important}
+.nav{gap:clamp(20px,2.2vw,36px)!important}
 
 .nav>a,
 .nav-dropdown-toggle{
@@ -284,9 +261,6 @@ main.page .lead,
   font-weight:var(--weight-medium)!important;
 }
 
-/* --------------------------------------------------------------------------
-   Hero / section rhythm
-   -------------------------------------------------------------------------- */
 .page-hero,
 .community-hero{
   padding:clamp(104px,9vw,144px) 0 var(--space-10)!important;
@@ -299,22 +273,12 @@ main.page .lead,
   margin-bottom:var(--space-6)!important;
 }
 
-.home-focus-actions{
-  margin-top:var(--space-8)!important;
-}
+.home-focus-actions{margin-top:var(--space-8)!important}
+.image-wide{margin-top:var(--space-10)!important}
 
-.image-wide{
-  margin-top:var(--space-10)!important;
-}
-
-/* --------------------------------------------------------------------------
-   Cards / image groups
-   -------------------------------------------------------------------------- */
 .card,
 .visual-product,
-.experience-card{
-  box-shadow:none!important;
-}
+.experience-card{box-shadow:none!important}
 
 .card{
   padding-top:var(--space-5)!important;
@@ -322,27 +286,16 @@ main.page .lead,
   background:transparent!important;
 }
 
-.card-image{
-  margin-bottom:var(--space-6)!important;
-}
-
-.card h3{
-  margin-bottom:var(--space-3)!important;
-}
-
-.card p{
-  font-size:var(--font-body-sm)!important;
-  line-height:1.7!important;
-}
+.card-image{margin-bottom:var(--space-6)!important}
+.card h3{margin-bottom:var(--space-3)!important}
+.card p{font-size:var(--font-body-sm)!important;line-height:1.7!important}
 
 .cards{
   gap:clamp(22px,2.2vw,32px)!important;
   margin-top:var(--space-10)!important;
 }
 
-.product-grid{
-  gap:clamp(24px,2.8vw,40px)!important;
-}
+.product-grid{gap:clamp(24px,2.8vw,40px)!important}
 
 .product-card:not(.visual-product){
   padding:var(--space-7)!important;
@@ -351,17 +304,9 @@ main.page .lead,
   box-shadow:none!important;
 }
 
-.product-content{
-  padding-top:var(--space-6)!important;
-}
-
-.experience-grid{
-  gap:clamp(28px,3vw,44px)!important;
-}
-
-.experience-image+.experience-copy{
-  margin-top:var(--space-6)!important;
-}
+.product-content{padding-top:var(--space-6)!important}
+.experience-grid{gap:clamp(28px,3vw,44px)!important}
+.experience-image+.experience-copy{margin-top:var(--space-6)!important}
 
 .experience-copy{
   padding-top:var(--space-6)!important;
@@ -373,16 +318,13 @@ main.page .lead,
 .faq-search-panel,
 .faq-search-box,
 .review-card,
-.inquiry-board-row{
-  box-shadow:none!important;
-}
+.inquiry-board-row{box-shadow:none!important}
 
 .info-box{
   padding:var(--space-6)!important;
   border:1px solid var(--line,rgba(52,62,44,.14))!important;
 }
 
-/* Images stay square and visually restrained. */
 .image-wide,
 .page-feature,
 .card-image,
@@ -395,9 +337,7 @@ main.page .lead,
 .space-photo-gallery figure,
 .room-gallery figure,
 .site-map-canvas,
-.room-map-canvas{
-  overflow:hidden!important;
-}
+.room-map-canvas{overflow:hidden!important}
 
 .card-image img,
 .product-image img,
@@ -409,17 +349,10 @@ main.page .lead,
 .card:hover img,
 .visual-product:hover .product-image img,
 .experience-card:hover .experience-image img,
-.gallery-item:hover img{
-  transform:scale(1.015)!important;
-}
+.gallery-item:hover img{transform:scale(1.015)!important}
 
-/* --------------------------------------------------------------------------
-   Lists / data rhythm
-   -------------------------------------------------------------------------- */
 .number-list,
-.flow-list{
-  border-top:1px solid var(--green,rgba(52,62,44,.72))!important;
-}
+.flow-list{border-top:1px solid var(--green,rgba(52,62,44,.72))!important}
 
 .number-row{
   gap:var(--space-7)!important;
@@ -428,13 +361,8 @@ main.page .lead,
 }
 
 .flow-list li,
-.space-guide-list>div{
-  border-bottom:1px solid var(--line,rgba(52,62,44,.14))!important;
-}
+.space-guide-list>div{border-bottom:1px solid var(--line,rgba(52,62,44,.14))!important}
 
-/* --------------------------------------------------------------------------
-   Buttons / links
-   -------------------------------------------------------------------------- */
 .button,
 .community-button,
 .location-map-button,
@@ -474,13 +402,8 @@ main.page .lead,
   transition:gap var(--motion-fast) var(--ease-standard),opacity var(--motion-fast) var(--ease-standard)!important;
 }
 
-.link-arrow:hover{
-  gap:var(--space-7)!important;
-}
+.link-arrow:hover{gap:var(--space-7)!important}
 
-/* --------------------------------------------------------------------------
-   Forms
-   -------------------------------------------------------------------------- */
 input:not([type="checkbox"]):not([type="radio"]),
 select,
 textarea,
@@ -494,9 +417,7 @@ textarea,
   transition:border-color var(--motion-fast) var(--ease-standard),box-shadow var(--motion-fast) var(--ease-standard)!important;
 }
 
-textarea{
-  padding-block:var(--space-4)!important;
-}
+textarea{padding-block:var(--space-4)!important}
 
 input:focus,
 select:focus,
@@ -509,16 +430,9 @@ textarea:focus{
 input:disabled,
 select:disabled,
 textarea:disabled,
-button:disabled{
-  cursor:not-allowed!important;
-}
+button:disabled{cursor:not-allowed!important}
 
-/* --------------------------------------------------------------------------
-   FAQ / gallery / footer
-   -------------------------------------------------------------------------- */
-.faq-item{
-  border-bottom:1px solid var(--line,rgba(52,62,44,.14))!important;
-}
+.faq-item{border-bottom:1px solid var(--line,rgba(52,62,44,.14))!important}
 
 .faq-question{
   min-height:56px!important;
@@ -532,17 +446,9 @@ button:disabled{
   line-height:1.75!important;
 }
 
-.gallery-grid{
-  column-gap:var(--space-5)!important;
-}
-
-.gallery-item{
-  margin-bottom:var(--space-5)!important;
-}
-
-.cta-band{
-  padding:var(--section-sm) 0!important;
-}
+.gallery-grid{column-gap:var(--space-5)!important}
+.gallery-item{margin-bottom:var(--space-5)!important}
+.cta-band{padding:var(--section-sm) 0!important}
 
 .site-footer{
   border-top:1px solid var(--line,rgba(52,62,44,.14))!important;
@@ -574,23 +480,13 @@ button:disabled{
   line-height:1.6!important;
 }
 
-/* --------------------------------------------------------------------------
-   Accessibility / state
-   -------------------------------------------------------------------------- */
 :where(a,button,input,select,textarea,[tabindex]):focus-visible{
   outline:1px solid currentColor!important;
   outline-offset:4px!important;
 }
 
-button,
-a,
-[role="button"]{
-  touch-action:manipulation;
-}
+button,a,[role="button"]{touch-action:manipulation}
 
-/* --------------------------------------------------------------------------
-   Responsive behavior
-   -------------------------------------------------------------------------- */
 @media(max-width:1279px){
   :root{
     --gutter:24px;
@@ -600,14 +496,10 @@ a,
 }
 
 @media(max-width:900px){
-  :root{
-    --gutter:24px;
-  }
+  :root{--gutter:24px}
 
   .site-header,
-  .header-inner{
-    height:68px!important;
-  }
+  .header-inner{height:68px!important}
 
   .nav{
     top:68px!important;
@@ -631,9 +523,7 @@ a,
     gap:var(--space-5)!important;
   }
 
-  .cards{
-    grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  }
+  .cards{grid-template-columns:repeat(2,minmax(0,1fr))!important}
 }
 
 @media(max-width:767px){
@@ -653,36 +543,25 @@ a,
     --section-xl:88px;
   }
 
-  body{
-    font-size:16px!important;
-    line-height:1.7!important;
-  }
+  body{font-size:16px!important;line-height:1.7!important}
 
   .page-hero,
-  .community-hero{
-    padding:80px 0 var(--space-9)!important;
-  }
+  .community-hero{padding:80px 0 var(--space-9)!important}
 
-  .section{
-    padding-block:var(--section-lg)!important;
-  }
+  .section{padding-block:var(--section-lg)!important}
 
   .section-head,
   .quick-guide-head,
   .space-photo-head,
   .collected-review-head,
-  .relim-moments-head{
-    margin-bottom:var(--space-8)!important;
-  }
+  .relim-moments-head{margin-bottom:var(--space-8)!important}
 
   .cards,
   .product-grid,
   .experience-grid,
   .info-grid,
   .portrait-pair,
-  .space-photo-gallery{
-    grid-template-columns:1fr!important;
-  }
+  .space-photo-gallery{grid-template-columns:1fr!important}
 
   .cards{
     gap:var(--space-9)!important;
@@ -690,9 +569,7 @@ a,
   }
 
   .product-grid,
-  .experience-grid{
-    gap:var(--space-9)!important;
-  }
+  .experience-grid{gap:var(--space-9)!important}
 
   .image-wide{
     margin-top:var(--space-9)!important;
@@ -705,21 +582,15 @@ a,
     padding:var(--space-6) 0!important;
   }
 
-  .number-row p{
-    grid-column:2!important;
-  }
+  .number-row p{grid-column:2!important}
 
   .button,
   .community-button,
   .location-map-button,
   .auth-primary-button,
-  .google-login-button{
-    min-height:44px!important;
-  }
+  .google-login-button{min-height:44px!important}
 
-  .cta-band{
-    padding:var(--section-sm) 0!important;
-  }
+  .cta-band{padding:var(--section-sm) 0!important}
 
   .footer-main{
     grid-template-columns:1fr!important;
@@ -729,24 +600,13 @@ a,
 }
 
 @media(max-width:479px){
-  :root{
-    --gutter:16px;
-  }
-
-  .brand-logo{
-    width:112px!important;
-  }
-
-  .header-book{
-    display:none!important;
-  }
+  :root{--gutter:16px}
+  .brand-logo{width:112px!important}
+  .header-book{display:none!important}
 }
 
 @media(prefers-reduced-motion:reduce){
-  html{
-    scroll-behavior:auto!important;
-  }
-
+  html{scroll-behavior:auto!important}
   *,*::before,*::after{
     animation-duration:.01ms!important;
     animation-iteration-count:1!important;
