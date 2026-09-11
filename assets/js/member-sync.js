@@ -1,3 +1,5 @@
+import('./site-cms-v2.js?v=20260911-cms2').catch((error) => console.warn('[RE:LIM CMS LOAD]', error));
+
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
 import { doc, getDoc, getFirestore, setDoc, Timestamp } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js';

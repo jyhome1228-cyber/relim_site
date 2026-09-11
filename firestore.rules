@@ -16,36 +16,10 @@ service cloud.firestore {
         && request.auth.token.email in ['planus253@naver.com', 'penury@naver.com'];
     }
 
-    function validReviewFields() {
-      return request.resource.data.rating is int
-        && request.resource.data.rating >= 1
-        && request.resource.data.rating <= 5
-        && request.resource.data.title is string
-        && request.resource.data.title.size() >= 2
-        && request.resource.data.title.size() <= 60
-        && request.resource.data.content is string
-        && request.resource.data.content.size() >= 5
-        && request.resource.data.content.size() <= 2000
-        && request.resource.data.imageDataUrl is string
-        && request.resource.data.imageDataUrl.size() <= 850000;
-    }
-
-    function validReviewCreate() {
-      return signedIn()
-        && request.resource.data.userId == request.auth.uid
-        && validReviewFields();
-    }
-
-    function validReviewOwnerUpdate() {
-      return signedIn()
-        && resource.data.userId == request.auth.uid
-        && request.resource.data.userId == resource.data.userId
-        && request.resource.data.userName == resource.data.userName
-        && request.resource.data.createdAt == resource.data.createdAt
-        && validReviewFields()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-          'rating', 'title', 'content', 'imageDataUrl', 'updatedAt'
-        ]);
+    // 사이트 CMS: 공개 사이트는 읽기만, 수정은 관리자만 허용한다.
+    match /siteConfig/{configId} {
+      allow read: if configId == 'public';
+      allow create, update, delete: if isAdmin();
     }
 
     match /users/{userId} {
@@ -58,14 +32,12 @@ service cloud.firestore {
       }
     }
 
+    // 리뷰 기능은 사이트 운영 범위에서 제외한다.
     match /reviews/{reviewId} {
-      allow read: if true;
-      allow create: if validReviewCreate();
-      allow update: if validReviewOwnerUpdate();
-      allow delete: if signedIn() && resource.data.userId == request.auth.uid;
+      allow read, write: if false;
     }
 
-    // 새 문의게시판: 제목/구분/작성자/날짜/상태만 공개한다.
+    // 문의게시판: 제목/구분/작성자/날짜/상태만 공개한다.
     match /questions/{questionId} {
       allow read: if true;
 
