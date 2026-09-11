@@ -1,4 +1,6 @@
 import('./site-cms-v2.js?v=20260911-cms2').catch((error) => console.warn('[RE:LIM CMS LOAD]', error));
+import('./site-audit-fixes.js?v=20260911-audit1').catch((error) => console.warn('[RE:LIM SITE AUDIT]', error));
+import('./traffic-attribution.js?v=20260911-attribution1').catch((error) => console.warn('[RE:LIM ATTRIBUTION LOAD]', error));
 
 import { initializeApp, getApps } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js';
