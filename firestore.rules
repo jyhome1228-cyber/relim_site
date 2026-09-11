@@ -115,6 +115,45 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // 유입경로는 개인식별정보 없이 일자/소스/랜딩 단위로 집계한다.
+    match /trafficAttribution/{entryId} {
+      allow read: if isAdmin();
+
+      allow create: if entryId.matches('^\\d{4}-\\d{2}-\\d{2}_[0-9a-f]{16}$')
+        && request.resource.data.keys().hasOnly([
+          'dayKey', 'channel', 'source', 'medium', 'campaign', 'referrerHost',
+          'landingPath', 'device', 'browser', 'count', 'createdAt', 'updatedAt'
+        ])
+        && request.resource.data.dayKey is string
+        && request.resource.data.dayKey.matches('^\\d{4}-\\d{2}-\\d{2}$')
+        && request.resource.data.channel is string
+        && request.resource.data.channel.size() <= 40
+        && request.resource.data.source is string
+        && request.resource.data.source.size() <= 100
+        && request.resource.data.medium is string
+        && request.resource.data.medium.size() <= 80
+        && request.resource.data.campaign is string
+        && request.resource.data.campaign.size() <= 120
+        && request.resource.data.referrerHost is string
+        && request.resource.data.referrerHost.size() <= 140
+        && request.resource.data.landingPath is string
+        && request.resource.data.landingPath.size() <= 240
+        && request.resource.data.device is string
+        && request.resource.data.device.size() <= 20
+        && request.resource.data.browser is string
+        && request.resource.data.browser.size() <= 40
+        && request.resource.data.count == 1
+        && request.resource.data.createdAt is timestamp
+        && request.resource.data.updatedAt is timestamp;
+
+      allow update: if entryId.matches('^\\d{4}-\\d{2}-\\d{2}_[0-9a-f]{16}$')
+        && request.resource.data.count == resource.data.count + 1
+        && request.resource.data.updatedAt is timestamp
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['count', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
     // 이전 문의 구조는 마이그레이션 전 데이터 보호를 위해 비공개 유지.
     match /inquiryIndex/{inquiryId} {
       allow read: if true;
