@@ -6,83 +6,299 @@
   <meta name="robots" content="noindex,nofollow">
   <title>RE:LIM Admin</title>
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
-  <link rel="stylesheet" href="assets/css/admin.css">
-  <link rel="stylesheet" href="assets/css/admin-compact.css?v=20260812-1">
+  <link rel="stylesheet" href="assets/css/admin-cms.css?v=20260911-1">
 </head>
 <body class="admin-body">
-  <div class="admin-shell">
-    <header class="admin-topbar">
-      <div class="admin-brand"><img src="assets/images/relim-logo.svg" alt="RE:LIM"><span>ADMIN</span></div>
-      <div class="admin-top-actions"><a class="admin-link" href="index.html">사이트 보기</a><button class="admin-logout" type="button" data-admin-logout>로그아웃</button></div>
-    </header>
+  <div class="admin-app">
+    <aside class="admin-sidebar">
+      <a class="admin-logo" href="index.html" aria-label="리림 사이트 보기">
+        <img src="assets/images/relim-logo.svg" alt="RE:LIM">
+        <span>ADMIN</span>
+      </a>
 
-    <main class="admin-main">
-      <section data-admin-loading class="admin-state">
-        <h2>관리자 데이터를 불러오고 있습니다.</h2>
-        <p>방문자, 문의, 리뷰 정보를 확인하고 있습니다.</p>
-      </section>
+      <nav class="admin-nav" aria-label="관리자 메뉴">
+        <button class="admin-nav-item is-active" type="button" data-admin-tab="dashboard"><span>01</span>Dashboard</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="homepage"><span>02</span>홈페이지 관리</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="operation"><span>03</span>운영정보</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="content"><span>04</span>콘텐츠</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="customer"><span>05</span>고객관리</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="settings"><span>06</span>사이트 설정</button>
+      </nav>
 
-      <section data-admin-denied class="admin-state" hidden>
-        <h2>관리자 권한이 필요합니다.</h2>
-        <p>문의 본문과 운영 데이터에는 개인정보가 포함될 수 있어 관리자 계정에서만 열람할 수 있습니다.</p>
-        <a class="admin-link" href="login.html?return=admin.html">관리자 계정으로 로그인</a>
-      </section>
+      <div class="admin-sidebar-foot">
+        <a href="index.html" target="_blank" rel="noopener">사이트 보기 ↗</a>
+        <button type="button" data-admin-logout>로그아웃</button>
+      </div>
+    </aside>
 
-      <div data-admin-dashboard hidden>
-        <section class="admin-hero">
-          <div><p class="admin-eyebrow">RE:LIM OPERATIONS</p><h1>Admin Dashboard</h1><p>방문자 통계와 문의, 리뷰를 한 화면에서 확인합니다. 문의는 상세 내용을 열고 관리자 답변까지 등록할 수 있습니다.</p></div>
-          <div class="admin-session" data-admin-session></div>
+    <div class="admin-workspace">
+      <header class="admin-mobile-head">
+        <div class="admin-mobile-brand"><img src="assets/images/relim-logo.svg" alt="RE:LIM"><span>ADMIN</span></div>
+        <button class="admin-mobile-menu" type="button" data-admin-menu aria-label="관리자 메뉴 열기">MENU</button>
+      </header>
+
+      <main class="admin-main">
+        <section class="admin-state" data-admin-loading>
+          <span class="admin-loader" aria-hidden="true"></span>
+          <h1>관리자 데이터를 불러오고 있습니다.</h1>
+          <p>사이트 설정과 운영 데이터를 확인하고 있습니다.</p>
         </section>
 
-        <section class="admin-traffic-section" aria-labelledby="trafficTitle">
-          <div class="admin-section-heading">
-            <div><p class="admin-eyebrow">VISITOR ANALYTICS</p><h2 id="trafficTitle">방문자 현황</h2></div>
-            <span class="admin-traffic-note" data-traffic-note>오늘부터 집계됩니다.</span>
-          </div>
-          <div class="admin-traffic-grid">
-            <article class="admin-stat admin-stat-traffic"><span>TODAY</span><strong data-stat-traffic-today>0</strong><small>오늘 방문자</small></article>
-            <article class="admin-stat admin-stat-traffic"><span>LAST 7 DAYS</span><strong data-stat-traffic-week>0</strong><small>최근 7일 방문자</small></article>
-            <article class="admin-stat admin-stat-traffic"><span>TOTAL</span><strong data-stat-traffic-total>0</strong><small>전체 방문자</small></article>
-          </div>
+        <section class="admin-state" data-admin-denied hidden>
+          <h1>관리자 권한이 필요합니다.</h1>
+          <p>관리자 계정으로 로그인한 뒤 다시 접속해 주세요.</p>
+          <a class="admin-button primary" href="login.html?return=admin.html">관리자 로그인</a>
         </section>
 
-        <section class="admin-summary admin-summary-compact">
-          <article class="admin-stat"><span>INQUIRIES</span><strong data-stat-inquiries>0</strong></article>
-          <article class="admin-stat"><span>WAITING</span><strong data-stat-waiting>0</strong></article>
-          <article class="admin-stat"><span>REVIEWS</span><strong data-stat-reviews>0</strong></article>
-        </section>
-
-        <div class="admin-grid">
-          <section class="admin-panel">
-            <div class="admin-panel-head"><div><h2>문의</h2><p>문의 내용은 관리자와 작성자만 열람할 수 있습니다.</p></div><span class="admin-count" data-inquiry-count>0건</span></div>
-            <div class="admin-table-wrap">
-              <table class="admin-table">
-                <thead><tr><th>상태</th><th>구분</th><th>제목</th><th>작성자</th><th>작성일</th><th></th></tr></thead>
-                <tbody data-inquiry-table></tbody>
-              </table>
+        <div data-admin-dashboard hidden>
+          <header class="admin-page-head">
+            <div>
+              <p class="admin-eyebrow">RE:LIM OPERATIONS</p>
+              <h1 data-page-title>Dashboard</h1>
+              <p data-page-description>오늘의 리림 운영 현황과 사이트 상태를 확인합니다.</p>
             </div>
-            <div class="admin-empty" data-inquiry-empty hidden>등록된 문의가 없습니다.</div>
+            <div class="admin-session" data-admin-session></div>
+          </header>
+
+          <!-- DASHBOARD -->
+          <section class="admin-view is-active" data-admin-view="dashboard">
+            <div class="admin-stat-grid traffic">
+              <article class="admin-stat-card"><span>TODAY</span><strong data-stat-traffic-today>0</strong><small>오늘 방문자</small></article>
+              <article class="admin-stat-card"><span>LAST 7 DAYS</span><strong data-stat-traffic-week>0</strong><small>최근 7일 방문자</small></article>
+              <article class="admin-stat-card"><span>TOTAL</span><strong data-stat-traffic-total>0</strong><small>전체 방문자</small></article>
+            </div>
+            <p class="admin-traffic-note" data-traffic-note>방문자 데이터를 불러오는 중입니다.</p>
+
+            <div class="admin-stat-grid compact">
+              <article class="admin-stat-card"><span>INQUIRIES</span><strong data-stat-inquiries>0</strong><small>전체 문의</small></article>
+              <article class="admin-stat-card"><span>WAITING</span><strong data-stat-waiting>0</strong><small>미처리 문의</small></article>
+              <article class="admin-stat-card"><span>MEMBERS</span><strong data-stat-members>0</strong><small>전체 회원</small></article>
+              <article class="admin-stat-card"><span>NOTICE</span><strong data-stat-notices>0</strong><small>등록 공지</small></article>
+            </div>
+
+            <section class="admin-panel">
+              <div class="admin-panel-head">
+                <div><p class="admin-eyebrow">QUICK CONTROL</p><h2>빠른 관리</h2></div>
+              </div>
+              <div class="admin-quick-grid">
+                <button type="button" data-admin-jump="homepage">메인 콘텐츠 수정<span>→</span></button>
+                <button type="button" data-admin-jump="operation">운영시간 · 요금 수정<span>→</span></button>
+                <button type="button" data-admin-jump="content" data-content-focus="notice">공지 등록<span>→</span></button>
+                <button type="button" data-admin-jump="content" data-content-focus="popup">팝업 설정<span>→</span></button>
+              </div>
+            </section>
+
+            <section class="admin-panel">
+              <div class="admin-panel-head">
+                <div><p class="admin-eyebrow">RECENT INQUIRIES</p><h2>최근 문의</h2></div>
+                <button class="admin-text-button" type="button" data-admin-jump="customer">전체 보기</button>
+              </div>
+              <div class="admin-table-wrap">
+                <table class="admin-table">
+                  <thead><tr><th>상태</th><th>구분</th><th>제목</th><th>작성자</th><th>작성일</th><th></th></tr></thead>
+                  <tbody data-dashboard-inquiry-table></tbody>
+                </table>
+              </div>
+              <div class="admin-empty" data-dashboard-inquiry-empty hidden>등록된 문의가 없습니다.</div>
+            </section>
           </section>
 
-          <section class="admin-panel">
-            <div class="admin-panel-head"><div><h2>리뷰</h2><p>등록된 리뷰와 별점, 작성자를 확인합니다.</p></div><span class="admin-count" data-review-count>0건</span></div>
-            <div class="admin-table-wrap">
-              <table class="admin-table">
-                <thead><tr><th>이미지</th><th>별점</th><th>제목</th><th>작성자</th><th>작성일</th></tr></thead>
-                <tbody data-review-table></tbody>
-              </table>
+          <!-- HOMEPAGE -->
+          <section class="admin-view" data-admin-view="homepage">
+            <form class="admin-form" data-form="homepage">
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">MAIN VISUAL</p><h2>메인 콘텐츠</h2><p>홈 첫 화면에 노출되는 핵심 문구와 버튼을 수정합니다.</p></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field"><span>상단 영문</span><input name="homeEyebrow" maxlength="80" placeholder="RE:LIM IN YONGIN"></label>
+                  <label class="admin-field"><span>메인 제목</span><input name="homeTitle" maxlength="120" placeholder="다시, 숲으로"></label>
+                  <label class="admin-field full"><span>설명 문구</span><textarea name="homeDescription" rows="4" maxlength="500"></textarea></label>
+                  <label class="admin-field"><span>예약 버튼 문구</span><input name="reservationLabel" maxlength="30" placeholder="예약하기"></label>
+                  <label class="admin-field"><span>보조 버튼 문구</span><input name="aboutLabel" maxlength="30" placeholder="리림 알아보기"></label>
+                </div>
+              </section>
+
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">MAIN IMAGE</p><h2>대표 이미지</h2><p>메인 슬라이드 첫 이미지에 적용됩니다. 권장 3000×2000px.</p></div></div>
+                <div class="admin-media-editor">
+                  <div class="admin-media-preview" data-preview="hero"><span>등록된 이미지가 없습니다.</span></div>
+                  <div class="admin-media-actions">
+                    <label class="admin-field"><span>이미지 URL</span><input name="heroImageUrl" type="url" placeholder="https://..."></label>
+                    <label class="admin-upload"><input type="file" accept="image/*" data-upload="hero"><span>이미지 업로드</span><small>JPG, PNG, WEBP · 10MB 이하</small></label>
+                    <p class="admin-upload-status" data-upload-status="hero"></p>
+                  </div>
+                </div>
+              </section>
+
+              <div class="admin-savebar"><p>수정 후 저장하면 사이트에 반영됩니다.</p><button class="admin-button primary" type="submit">홈페이지 저장</button></div>
+            </form>
+          </section>
+
+          <!-- OPERATION -->
+          <section class="admin-view" data-admin-view="operation">
+            <form class="admin-form" data-form="operation">
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">BASIC INFORMATION</p><h2>기본 정보</h2></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field"><span>시설명</span><input name="facilityName" placeholder="리림"></label>
+                  <label class="admin-field"><span>대표 연락처</span><input name="phone" placeholder="010-5794-8823"></label>
+                  <label class="admin-field full"><span>주소</span><input name="address" placeholder="경기도 용인시 처인구 원삼면 ..."></label>
+                  <label class="admin-field"><span>이메일</span><input name="email" type="email"></label>
+                  <label class="admin-field"><span>휴무 / 운영 안내</span><input name="holidayNote" placeholder="연중 운영 · 시즌별 별도 공지"></label>
+                </div>
+              </section>
+
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">HOURS & PRICE</p><h2>운영시간 · 이용요금</h2></div></div>
+                <div class="admin-form-grid three">
+                  <label class="admin-field"><span>오전 운영</span><input name="morningHours" placeholder="10:00 ~ 15:00"></label>
+                  <label class="admin-field"><span>오후 운영</span><input name="afternoonHours" placeholder="16:00 ~ 21:00"></label>
+                  <label class="admin-field"><span>최대 인원</span><input name="maxPeople" placeholder="10인"></label>
+                  <label class="admin-field"><span>1인 이용료</span><input name="basePrice" placeholder="25,000원"></label>
+                  <label class="admin-field"><span>쉘터 이용료</span><input name="shelterPrice" placeholder="150,000원"></label>
+                  <label class="admin-field"><span>추가요금 안내</span><input name="extraPrice" placeholder="필요 시 입력"></label>
+                </div>
+              </section>
+
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">RESERVATION</p><h2>예약 정보</h2></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field full"><span>예약 URL</span><input name="reservationUrl" type="url" placeholder="https://camfit.co.kr/..."></label>
+                  <label class="admin-field"><span>예약 상태</span><select name="reservationStatus"><option value="open">예약 가능</option><option value="paused">예약 일시 중단</option></select></label>
+                  <label class="admin-field"><span>예약 버튼 문구</span><input name="reservationButtonLabel" maxlength="30" placeholder="예약하기"></label>
+                  <label class="admin-field full"><span>예약 안내 문구</span><textarea name="reservationNote" rows="3" maxlength="500"></textarea></label>
+                </div>
+              </section>
+
+              <div class="admin-savebar"><p>운영 정보는 안내 페이지와 공통 링크에 적용됩니다.</p><button class="admin-button primary" type="submit">운영정보 저장</button></div>
+            </form>
+          </section>
+
+          <!-- CONTENT -->
+          <section class="admin-view" data-admin-view="content">
+            <div class="admin-subtabs" role="tablist">
+              <button class="is-active" type="button" data-content-tab="notice">공지사항</button>
+              <button type="button" data-content-tab="popup">팝업 · 띠배너</button>
+              <button type="button" data-content-tab="faq">FAQ</button>
             </div>
-            <div class="admin-empty" data-review-empty hidden>등록된 리뷰가 없습니다.</div>
+
+            <div class="admin-content-view is-active" data-content-view="notice">
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">NOTICE</p><h2>공지사항</h2><p>사이트 공지 페이지에 노출할 내용을 관리합니다.</p></div><button class="admin-button" type="button" data-notice-add>+ 공지 등록</button></div>
+                <div class="admin-list" data-notice-list></div>
+                <div class="admin-empty" data-notice-empty>등록된 공지가 없습니다.</div>
+              </section>
+            </div>
+
+            <div class="admin-content-view" data-content-view="popup">
+              <form class="admin-form" data-form="popup">
+                <section class="admin-panel">
+                  <div class="admin-panel-head"><div><p class="admin-eyebrow">ANNOUNCEMENT</p><h2>팝업 · 띠배너</h2><p>현재 사이트 상단 예약 안내 배너의 내용을 직접 관리합니다.</p></div><label class="admin-switch"><input type="checkbox" name="announcementEnabled"><span></span><b>노출</b></label></div>
+                  <div class="admin-form-grid two">
+                    <label class="admin-field"><span>영문 제목</span><input name="announcementTitle" maxlength="80" placeholder="WELCOME TO RE:LIM"></label>
+                    <label class="admin-field"><span>버튼 문구</span><input name="announcementButton" maxlength="30" placeholder="예약하러 가기"></label>
+                    <label class="admin-field full"><span>안내 문구</span><textarea name="announcementText" rows="3" maxlength="300"></textarea></label>
+                    <label class="admin-field full"><span>연결 URL</span><input name="announcementUrl" type="url"></label>
+                    <label class="admin-field"><span>시작일</span><input name="announcementStart" type="date"></label>
+                    <label class="admin-field"><span>종료일</span><input name="announcementEnd" type="date"></label>
+                  </div>
+                </section>
+                <div class="admin-savebar"><p>노출 OFF 또는 게시기간 밖에서는 자동으로 숨겨집니다.</p><button class="admin-button primary" type="submit">팝업 설정 저장</button></div>
+              </form>
+            </div>
+
+            <div class="admin-content-view" data-content-view="faq">
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">FAQ MANAGER</p><h2>FAQ</h2><p>질문과 답변을 등록·수정·삭제하고 순서를 관리합니다.</p></div><button class="admin-button" type="button" data-faq-add>+ FAQ 등록</button></div>
+                <div class="admin-list" data-faq-admin-list></div>
+                <div class="admin-empty" data-faq-admin-empty>관리자 FAQ가 아직 없습니다. 기존 사이트 FAQ는 그대로 유지됩니다.</div>
+              </section>
+            </div>
+          </section>
+
+          <!-- CUSTOMER -->
+          <section class="admin-view" data-admin-view="customer">
+            <div class="admin-subtabs" role="tablist">
+              <button class="is-active" type="button" data-customer-tab="inquiries">문의</button>
+              <button type="button" data-customer-tab="members">회원</button>
+            </div>
+
+            <div class="admin-content-view is-active" data-customer-view="inquiries">
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">INQUIRIES</p><h2>문의 관리</h2><p>문의 내용을 확인하고 관리자 답변을 등록합니다.</p></div><span class="admin-count" data-inquiry-count>0건</span></div>
+                <div class="admin-table-wrap">
+                  <table class="admin-table">
+                    <thead><tr><th>상태</th><th>구분</th><th>제목</th><th>작성자</th><th>작성일</th><th></th></tr></thead>
+                    <tbody data-inquiry-table></tbody>
+                  </table>
+                </div>
+                <div class="admin-empty" data-inquiry-empty hidden>등록된 문의가 없습니다.</div>
+              </section>
+            </div>
+
+            <div class="admin-content-view" data-customer-view="members">
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">MEMBERS</p><h2>회원 관리</h2><p>가입 회원과 최근 로그인 정보를 확인합니다.</p></div><span class="admin-count" data-member-count>0명</span></div>
+                <div class="admin-table-wrap">
+                  <table class="admin-table">
+                    <thead><tr><th>이름</th><th>이메일</th><th>가입 방식</th><th>가입일</th><th>최근 로그인</th></tr></thead>
+                    <tbody data-member-table></tbody>
+                  </table>
+                </div>
+                <div class="admin-empty" data-member-empty hidden>등록된 회원이 없습니다.</div>
+              </section>
+            </div>
+          </section>
+
+          <!-- SETTINGS -->
+          <section class="admin-view" data-admin-view="settings">
+            <form class="admin-form" data-form="settings">
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">SEO</p><h2>검색 · 공유 설정</h2><p>사이트 기본 메타정보와 공유 이미지를 관리합니다.</p></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field full"><span>사이트 제목</span><input name="seoTitle" maxlength="120"></label>
+                  <label class="admin-field full"><span>사이트 설명</span><textarea name="seoDescription" rows="3" maxlength="300"></textarea></label>
+                  <label class="admin-field full"><span>검색 키워드</span><input name="seoKeywords" maxlength="500" placeholder="리림, 용인 캠핑장, ..."></label>
+                  <label class="admin-field full"><span>OG 이미지 URL</span><input name="ogImage" type="url"></label>
+                </div>
+              </section>
+
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">LINKS</p><h2>SNS · 외부 링크</h2></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field"><span>Instagram</span><input name="instagramUrl" type="url"></label>
+                  <label class="admin-field"><span>네이버 지도</span><input name="naverMapUrl" type="url"></label>
+                </div>
+              </section>
+
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">BUSINESS</p><h2>사업자 정보</h2></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field"><span>상호명</span><input name="company"></label>
+                  <label class="admin-field"><span>대표자</span><input name="representative"></label>
+                  <label class="admin-field"><span>사업자등록번호</span><input name="businessNumber"></label>
+                  <label class="admin-field"><span>관광사업 등록번호</span><input name="tourismNumber"></label>
+                  <label class="admin-field full"><span>사업자 주소</span><input name="businessAddress"></label>
+                  <label class="admin-field full"><span>이메일</span><input name="businessEmail" type="email"></label>
+                </div>
+              </section>
+
+              <section class="admin-panel muted-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">ADMIN ACCOUNT</p><h2>관리자 계정</h2><p>현재 등록된 관리자 계정입니다. 권한 변경은 보안 규칙에서 관리합니다.</p></div></div>
+                <div class="admin-admin-accounts"><span>planus253@naver.com</span><span>penury@naver.com</span></div>
+              </section>
+
+              <div class="admin-savebar"><p>검색 메타정보는 브라우저 렌더링 시 공통 적용됩니다.</p><button class="admin-button primary" type="submit">사이트 설정 저장</button></div>
+            </form>
           </section>
         </div>
-      </div>
-    </main>
+      </main>
+    </div>
   </div>
 
   <div class="admin-modal" id="adminInquiryModal" role="dialog" aria-modal="true" aria-label="문의 상세">
     <div class="admin-modal-panel">
       <button class="admin-modal-close" type="button" data-admin-close aria-label="닫기">×</button>
-      <p class="admin-eyebrow" data-admin-inquiry-category>Q&A</p>
+      <p class="admin-eyebrow" data-admin-inquiry-category>문의</p>
       <h2 data-admin-inquiry-title>문의 제목</h2>
       <div class="admin-modal-meta" data-admin-inquiry-meta></div>
       <div class="admin-content" data-admin-inquiry-content></div>
@@ -91,14 +307,51 @@
         <h3>관리자 답변</h3>
         <form data-admin-answer-form>
           <textarea name="answer" maxlength="3000" placeholder="문의에 대한 답변을 입력해 주세요." required></textarea>
-          <p class="admin-status" data-admin-answer-status hidden></p>
-          <div class="admin-reply-actions"><a class="admin-link" data-admin-open-inquiry href="inquiry.html">문의 페이지에서 보기</a><button class="admin-logout" type="submit">답변 저장</button></div>
+          <p class="admin-inline-status" data-admin-answer-status hidden></p>
+          <div class="admin-reply-actions"><a class="admin-button" data-admin-open-inquiry href="inquiry.html">문의 페이지 보기</a><button class="admin-button primary" type="submit">답변 저장</button></div>
         </form>
       </section>
     </div>
   </div>
 
-  <script type="module" src="assets/js/admin.js"></script>
-  <script type="module" src="assets/js/admin-traffic.js"></script>
+  <div class="admin-modal" id="noticeEditorModal" role="dialog" aria-modal="true" aria-label="공지 편집">
+    <div class="admin-modal-panel compact">
+      <button class="admin-modal-close" type="button" data-admin-close aria-label="닫기">×</button>
+      <p class="admin-eyebrow">NOTICE EDITOR</p><h2 data-notice-modal-title>공지 등록</h2>
+      <form class="admin-modal-form" data-notice-form>
+        <input type="hidden" name="id">
+        <label class="admin-field"><span>제목</span><input name="title" maxlength="100" required></label>
+        <label class="admin-field"><span>내용</span><textarea name="content" rows="7" maxlength="3000" required></textarea></label>
+        <div class="admin-form-grid two">
+          <label class="admin-field"><span>게시 시작일</span><input name="startDate" type="date"></label>
+          <label class="admin-field"><span>게시 종료일</span><input name="endDate" type="date"></label>
+        </div>
+        <label class="admin-check"><input name="pinned" type="checkbox"> 상단 고정</label>
+        <label class="admin-check"><input name="enabled" type="checkbox" checked> 사이트 노출</label>
+        <div class="admin-reply-actions"><button class="admin-button" type="button" data-admin-close>취소</button><button class="admin-button primary" type="submit">저장</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-modal" id="faqEditorModal" role="dialog" aria-modal="true" aria-label="FAQ 편집">
+    <div class="admin-modal-panel compact">
+      <button class="admin-modal-close" type="button" data-admin-close aria-label="닫기">×</button>
+      <p class="admin-eyebrow">FAQ EDITOR</p><h2 data-faq-modal-title>FAQ 등록</h2>
+      <form class="admin-modal-form" data-faq-form>
+        <input type="hidden" name="id">
+        <label class="admin-field"><span>카테고리</span><input name="category" maxlength="40" placeholder="예약 / 이용 / 시설" required></label>
+        <label class="admin-field"><span>질문</span><input name="question" maxlength="180" required></label>
+        <label class="admin-field"><span>답변</span><textarea name="answer" rows="7" maxlength="4000" required></textarea></label>
+        <label class="admin-field"><span>검색 키워드</span><input name="keywords" maxlength="300" placeholder="쉼표로 구분"></label>
+        <label class="admin-check"><input name="enabled" type="checkbox" checked> 사이트 노출</label>
+        <div class="admin-reply-actions"><button class="admin-button" type="button" data-admin-close>취소</button><button class="admin-button primary" type="submit">저장</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-toast" data-admin-toast role="status" aria-live="polite"></div>
+
+  <script type="module" src="assets/js/admin.js?v=20260911-1"></script>
+  <script type="module" src="assets/js/admin-traffic.js?v=20260911-1"></script>
 </body>
 </html>
