@@ -1,7 +1,7 @@
 import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
 import('./traffic.js').catch((error) => console.warn('[RE:LIM TRAFFIC LOAD]', error));
 import('./motion.js?v=20260831-system2').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
-import('./home-signup-banner.js?v=20260813-mobilefix1').catch((error) => console.warn('[RE:LIM ANNOUNCEMENT BANNER]', error));
+// reservation announcement banner disabled during redesign
 
 if (document.querySelector('[data-reviews-page]')) {
   import('./collected-reviews.js?v=20260812-1').catch((error) => console.warn('[RE:LIM COLLECTED REVIEWS]', error));
@@ -157,121 +157,50 @@ function createMobileActions(nav) {
 
 function initRelimNavigation() {
   normalizeReservationLinks();
-  ensureNavStyles();
   ensureFooterBusinessInfo();
   ensureFooterLegalLinks();
 
   const nav = document.querySelector('.nav');
   const menuButton = document.querySelector('.menu-toggle');
-  if (!nav || nav.dataset.relimNavReady === 'true') return;
+  if (!nav || !menuButton || nav.dataset.relimNavReady === 'true') return;
 
   nav.dataset.relimNavReady = 'true';
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-
-  const about = createNavLink('리림 소개', 'about.html');
-  const gallery = createNavLink('갤러리', 'gallery.html');
-  const faq = createNavLink('자주 묻는 질문', 'faq.html');
-  const inquiry = createNavLink('문의하기', 'inquiry.html');
-  const location = createNavLink('오시는 길', 'location.html', 'nav-location');
-
-  const dropdown = document.createElement('div');
-  dropdown.className = 'nav-dropdown';
-
-  const dropdownButton = document.createElement('button');
-  dropdownButton.type = 'button';
-  dropdownButton.className = 'nav-dropdown-toggle';
-  dropdownButton.setAttribute('aria-expanded', 'false');
-  dropdownButton.innerHTML = '<span>안내</span><span class="nav-dropdown-arrow" aria-hidden="true"></span>';
-
-  const dropdownMenu = document.createElement('div');
-  dropdownMenu.className = 'nav-dropdown-menu';
-  dropdownMenu.setAttribute('aria-label', '안내 메뉴');
-
-  const guideLinks = [
-    createNavLink('공간 안내', 'space.html'),
-    createNavLink('이용 안내', 'guide.html'),
-    createNavLink('예약 안내', 'reservation.html')
-  ];
-  guideLinks.forEach((link) => dropdownMenu.append(link));
-  dropdown.append(dropdownButton, dropdownMenu);
-
-  nav.replaceChildren(about, dropdown, gallery, faq, inquiry, location);
-  const mobileActions = createMobileActions(nav);
-
-  const allLinks = [...nav.querySelectorAll('a')];
-  allLinks.forEach((link) => {
-    if (link.getAttribute('href') === currentPage) link.setAttribute('aria-current', 'page');
-  });
-
-  if (guideLinks.some((link) => link.getAttribute('href') === currentPage)) {
-    dropdownButton.classList.add('is-current');
-    dropdownButton.setAttribute('aria-current', 'page');
-  }
-
-  const setDropdown = (open) => {
-    dropdown.classList.toggle('is-open', open);
-    dropdownButton.setAttribute('aria-expanded', String(open));
-  };
 
   const syncMobileOpenState = () => {
-    if (!menuButton) return;
     const open = menuButton.getAttribute('aria-expanded') === 'true';
     document.body.classList.toggle('mobile-nav-open', open && window.matchMedia('(max-width: 900px)').matches);
-    if (open) mobileActions.sync();
   };
 
-  menuButton?.addEventListener('click', () => {
-    window.requestAnimationFrame(syncMobileOpenState);
+  menuButton.addEventListener('click', () => {
+    const open = nav.classList.toggle('is-open');
+    menuButton.setAttribute('aria-expanded', String(open));
+    syncMobileOpenState();
   });
 
-  dropdownButton.addEventListener('click', (event) => {
-    event.stopPropagation();
-    setDropdown(!dropdown.classList.contains('is-open'));
-  });
-
-  dropdown.addEventListener('mouseenter', () => {
-    if (window.matchMedia('(min-width: 901px)').matches) setDropdown(true);
-  });
-  dropdown.addEventListener('mouseleave', () => {
-    if (window.matchMedia('(min-width: 901px)').matches) setDropdown(false);
-  });
-
-  allLinks.forEach((link) => {
+  nav.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
-      setDropdown(false);
-      if (window.matchMedia('(max-width: 900px)').matches) {
-        nav.classList.remove('is-open');
-        menuButton?.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('mobile-nav-open');
-      }
+      if (!window.matchMedia('(max-width: 900px)').matches) return;
+      nav.classList.remove('is-open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('mobile-nav-open');
     });
-  });
-
-  document.addEventListener('click', (event) => {
-    if (!dropdown.contains(event.target)) setDropdown(false);
   });
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
-    setDropdown(false);
-    dropdownButton.blur();
-    if (window.matchMedia('(max-width: 900px)').matches) {
-      nav.classList.remove('is-open');
-      menuButton?.setAttribute('aria-expanded', 'false');
-      document.body.classList.remove('mobile-nav-open');
-    }
+    nav.classList.remove('is-open');
+    menuButton.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('mobile-nav-open');
   });
 
   window.addEventListener('resize', () => {
     if (window.innerWidth > 900) {
       nav.classList.remove('is-open');
-      menuButton?.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-expanded', 'false');
       document.body.classList.remove('mobile-nav-open');
-      setDropdown(false);
     }
   }, { passive: true });
 }
-
 initRelimNavigation();
 
 /* Brand naming normalization: display every '용인 리림' occurrence simply as '리림'. */
