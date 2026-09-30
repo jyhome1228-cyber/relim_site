@@ -1,5 +1,5 @@
 .nav{flex:1;justify-content:center;min-width:0;margin:0 clamp(18px,2.4vw,38px);gap:clamp(25px,2.75vw,46px)!important}
-.nav>a,.nav-dropdown-toggle{position:relative;display:inline-flex;align-items:center;gap:8px;padding:27px 0 24px;border:0;background:transparent;color:var(--green);font:inherit;font-size:15px;font-weight:600;line-height:1;white-space:nowrap;cursor:pointer}
+.nav>a,.nav-dropdown-toggle{position:relative;display:inline-flex;align-items:center;gap:8px;padding:27px 0 24px;border:0;background:transparent;color:var(--green);font:inherit;font-size:16px;font-weight:600;line-height:1;white-space:nowrap;cursor:pointer}
 .nav-dropdown{position:relative;display:flex;align-self:stretch;align-items:center}
 .nav-dropdown-toggle::after{content:"";position:absolute;right:0;bottom:20px;left:0;height:1px;background:var(--green);transform:scaleX(0);transition:transform .25s ease}
 .nav-dropdown-toggle:hover::after,.nav-dropdown-toggle.is-current::after,.nav-dropdown-toggle[aria-current="page"]::after{transform:scaleX(1)}
@@ -211,4 +211,15 @@
   .nav-mobile-account{min-height:50px;padding:0 32px 0 14px;font-size:13px}
   .nav-mobile-reservation span:last-child,
   .nav-mobile-account span:last-child{right:12px;font-size:14px}
+}
+
+/* 2026-10 shared desktop header sizing */
+@media(min-width:901px){
+  .site-header,.header-inner{height:82px!important}
+  .brand-logo{width:132px!important}
+  .header-inner{gap:clamp(18px,2vw,30px)!important}
+  .nav{gap:clamp(24px,2.45vw,42px)!important;margin:0 clamp(16px,2vw,34px)!important}
+  .nav>a,.nav-dropdown-toggle{padding:29px 0 27px!important;font-size:16px!important;font-weight:600!important}
+  .header-book{min-width:132px!important;min-height:42px!important;padding:0 18px!important;font-size:14px!important}
+  .nav-dropdown-menu{top:calc(100% - 8px)!important}
 }
