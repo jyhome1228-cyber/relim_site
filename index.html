@@ -63,6 +63,18 @@
  .relim-fullpage-home .relim-header .nav.is-open{display:flex!important}
  .relim-fullpage-home .relim-header .nav>a{width:100%!important;height:auto!important;padding:18px 0!important;border-bottom:1px solid rgba(255,255,255,.15)!important;font-size:15px!important;color:#fff!important}
 }
+
+/* 2026-10 Dalbot-scale homepage typography + right scene navigation */
+.relim-fullpage-home .relim-scene-copy{width:min(720px,calc(100% - 56px))!important}
+.relim-fullpage-home .relim-kicker{margin-bottom:13px!important;font-size:10px!important;font-weight:600!important;letter-spacing:.16em!important}
+.relim-fullpage-home .relim-scene h1,.relim-fullpage-home .relim-scene h2{font-size:clamp(30px,2.45vw,46px)!important;font-weight:600!important;line-height:1.18!important;letter-spacing:-.04em!important;text-shadow:0 2px 18px rgba(0,0,0,.26)!important}
+.relim-fullpage-home .relim-scene p{max-width:560px!important;margin-top:18px!important;font-size:13px!important;line-height:1.75!important}
+.relim-fullpage-home .relim-scene-link{margin-top:23px!important;padding:8px 0!important;font-size:10px!important;letter-spacing:.07em!important}
+.relim-fullpage-home .relim-index{right:24px!important;top:50%!important;gap:11px!important}
+.relim-fullpage-home .relim-index button{position:relative!important;width:9px!important;height:9px!important;padding:0!important;border:1px solid rgba(255,255,255,.9)!important;border-radius:50%!important;background:transparent!important;box-shadow:0 1px 8px rgba(0,0,0,.22)!important;transform:none!important;transition:background .2s ease,transform .2s ease!important}
+.relim-fullpage-home .relim-index button.is-active{background:#fff!important;transform:scale(1.05)!important}
+.relim-fullpage-home .relim-index button:hover{background:rgba(255,255,255,.55)!important}
+@media(max-width:820px){.relim-fullpage-home .relim-scene-copy{width:calc(100% - 44px)!important}.relim-fullpage-home .relim-kicker{font-size:9px!important}.relim-fullpage-home .relim-scene h1,.relim-fullpage-home .relim-scene h2{font-size:clamp(29px,8.2vw,38px)!important;line-height:1.2!important}.relim-fullpage-home .relim-scene p{font-size:13px!important;line-height:1.7!important}.relim-fullpage-home .relim-index{display:none!important}}
 </style>
 </head>
 <body class="relim-fullpage-home">
