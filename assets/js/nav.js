@@ -36,7 +36,7 @@ function initGoogleAnalytics() {
 
 initGoogleAnalytics();
 
-const NAV_STYLE_VERSION = '20260813-mobilefix1';
+const NAV_STYLE_VERSION = '20261001-headerfix2';
 const TITLE_STYLE_VERSION = '20260825-typography1';
 const TYPOGRAPHY_STYLE_VERSION = '20260825-typography1';
 
@@ -171,7 +171,6 @@ function initRelimNavigation() {
   const about = createNavLink('리림 소개', 'about.html');
   const gallery = createNavLink('갤러리', 'gallery.html');
   const faq = createNavLink('자주 묻는 질문', 'faq.html');
-  const reviews = createNavLink('리뷰', 'reviews.html');
   const inquiry = createNavLink('문의하기', 'inquiry.html');
   const location = createNavLink('오시는 길', 'location.html', 'nav-location');
 
@@ -196,7 +195,7 @@ function initRelimNavigation() {
   guideLinks.forEach((link) => dropdownMenu.append(link));
   dropdown.append(dropdownButton, dropdownMenu);
 
-  nav.replaceChildren(about, dropdown, gallery, faq, reviews, inquiry, location);
+  nav.replaceChildren(about, dropdown, gallery, faq, inquiry, location);
   const mobileActions = createMobileActions(nav);
 
   const allLinks = [...nav.querySelectorAll('a')];
