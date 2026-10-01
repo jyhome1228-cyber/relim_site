@@ -117,7 +117,9 @@ async function init() {
   try {
     const snapshot = await getDoc(doc(db, 'siteConfig', 'public'));
     if (!snapshot.exists()) return;
-    const data = merge(structuredClone(DEFAULT_ABOUT), snapshot.data()?.aboutStory || {});
+    const incoming = snapshot.data()?.aboutStory;
+    if (!incoming || typeof incoming !== 'object') return;
+    const data = merge(JSON.parse(JSON.stringify(DEFAULT_ABOUT)), incoming);
     applyChapter(document.querySelector('#story-relim'), data.chapter1);
     applyChapter(document.querySelector('#story-beginning'), data.chapter2);
     applyChapter(document.querySelector('#story-growth'), data.chapter3);
