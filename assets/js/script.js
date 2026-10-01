@@ -74,6 +74,39 @@ function initSiteMap() {
 
 initSiteMap();
 
+function initFullMapModal() {
+  const modal = document.querySelector('[data-full-map-modal]');
+  const openButtons = [...document.querySelectorAll('[data-full-map-open]')];
+  const closeButtons = modal ? [...modal.querySelectorAll('[data-full-map-close]')] : [];
+  let lastTrigger = null;
+
+  if (!modal || !openButtons.length) return;
+
+  const closeModal = () => {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    lastTrigger?.focus();
+  };
+
+  const openModal = (trigger) => {
+    lastTrigger = trigger;
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    modal.querySelector('.full-map-close')?.focus();
+  };
+
+  openButtons.forEach((button) => button.addEventListener('click', () => openModal(button)));
+  closeButtons.forEach((button) => button.addEventListener('click', closeModal));
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+}
+
+initFullMapModal();
+
 function initRoomGuide() {
   const modal = document.querySelector('[data-room-modal]');
   const openButtons = [...document.querySelectorAll('[data-room-open]')];
