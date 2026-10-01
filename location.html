@@ -31,29 +31,41 @@
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"리림","item":"https://re-lim.com/"},{"@type":"ListItem","position":2,"name":"용인 리림 오시는 길","item":"https://re-lim.com/location.html"}]},{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://re-lim.com/#business","name":"리림","alternateName":["RE:LIM","용인 리림"],"url":"https://re-lim.com/","logo":"https://re-lim.com/assets/images/relim-logo.svg","image":"https://re-lim.com/assets/images/relim-2026/F1ST2355.webp","telephone":"+82-10-5794-8823","description":"경기도 용인시 처인구 원삼면에서 수영장, 유수풀, 개별 쉘터와 바베큐를 즐기는 프라이빗 캠프닉 아웃도어 공간 리림입니다.","address":{"@type":"PostalAddress","streetAddress":"보개원삼로1372번길 45","addressLocality":"용인시 처인구 원삼면","addressRegion":"경기도","postalCode":"17170","addressCountry":"KR"},"geo":{"@type":"GeoCoordinates","latitude":37.1184942,"longitude":127.3131001},"hasMap":"https://map.naver.com/p/entry/place/30821021","sameAs":["https://www.instagram.com/relimofficial/"],"contactPoint":{"@type":"ContactPoint","telephone":"+82-10-5794-8823","contactType":"customer service","availableLanguage":"Korean"},"areaServed":[{"@type":"City","name":"용인시"},{"@type":"AdministrativeArea","name":"경기도"}]}]</script><link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg"><link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/nav-dropdown.css?v=20261001-headerfinal">
   <style>
-    .location-overview{padding-top:clamp(70px,7vw,104px);padding-bottom:clamp(78px,8vw,118px)}
-    .location-overview .split{grid-template-columns:minmax(320px,.82fr) minmax(0,1.58fr);gap:clamp(52px,7vw,112px);align-items:center}
+    .location-overview{padding-top:clamp(64px,6vw,92px);padding-bottom:clamp(76px,8vw,116px)}
+    .location-overview .split{grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:clamp(48px,6.5vw,96px);align-items:start}
     .location-overview .split>div:first-child{width:100%}
-    .location-overview .split>div:first-child img{width:100%;height:clamp(440px,44vw,650px)!important;max-height:none!important;aspect-ratio:4/5;object-fit:cover;border-radius:2px}
-    .location-info{max-width:900px}
-    .location-info h2{max-width:780px;margin-bottom:24px;font-size:clamp(32px,3vw,46px);font-weight:700;line-height:1.16;letter-spacing:-.055em}
-    .location-description{max-width:760px;line-height:1.8}
-    .location-map-button{margin-top:38px}
-    .location-contacts{margin-top:14px}
+    .location-overview .split>div:first-child img{width:100%;height:auto!important;max-height:none!important;aspect-ratio:4/3;object-fit:cover;object-position:center;border-radius:10px}
+    .location-info{max-width:680px;padding-top:clamp(12px,2vw,28px)}
+    .location-info .eyebrow{margin-bottom:16px}
+    .location-info h2{max-width:650px;margin-bottom:24px;font-size:clamp(31px,2.55vw,40px);font-weight:650;line-height:1.2;letter-spacing:-.05em}
+    .location-description{max-width:620px;color:var(--muted);font-size:15px;line-height:1.85}
+    .location-map-button{width:max-content!important;min-width:250px;margin-top:34px!important;justify-content:space-between;padding:0 18px!important;border-radius:0!important}
+    .location-contacts{grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin-top:30px;border-top:1px solid var(--green)}
+    .location-contact{min-height:118px;padding:18px 20px 16px 0;border:0;border-bottom:1px solid var(--line);background:transparent}
+    .location-contact+ .location-contact{padding-left:22px;border-left:1px solid var(--line)}
+    .location-contact:hover{background:transparent;border-color:var(--line);opacity:.72}
+    .location-contact-label{margin-bottom:12px;font-size:11px}
+    .location-contact strong{font-size:clamp(18px,1.35vw,22px)}
+    .location-contact-note{margin-top:16px;font-size:12px}
     @media(max-width:900px){
-      .location-overview .split{grid-template-columns:1fr;gap:34px}
-      .location-overview .split>div:first-child img{height:auto!important;aspect-ratio:16/10}
+      .location-overview .split{grid-template-columns:1fr;gap:38px}
+      .location-info{max-width:none;padding-top:0}
+      .location-overview .split>div:first-child img{aspect-ratio:16/10}
     }
     @media(max-width:620px){
-      .location-overview{padding-top:48px;padding-bottom:64px}
-      .location-info h2{font-size:30px}
-      .location-overview .split>div:first-child img{aspect-ratio:4/3}
+      .location-overview{padding-top:44px;padding-bottom:64px}
+      .location-info h2{font-size:28px}
+      .location-overview .split>div:first-child img{aspect-ratio:4/3;border-radius:8px}
+      .location-map-button{width:100%!important;min-width:0}
+      .location-contacts{grid-template-columns:1fr}
+      .location-contact{min-height:102px;padding:16px 0}
+      .location-contact+ .location-contact{padding-left:0;border-left:0}
     }
   </style>
 </head><body>
 <header class="site-header"><div class="container header-inner"><a class="brand brand-logo" href="index.html" aria-label="리림 홈"><img src="assets/images/relim-logo.svg" alt="RE:LIM 리림"></a><button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav"><a href="about.html">리림 소개</a><div class="nav-dropdown"><button type="button" class="nav-dropdown-toggle" aria-expanded="false"><span>안내</span><span class="nav-dropdown-arrow" aria-hidden="true"></span></button><div class="nav-dropdown-menu" aria-label="안내 메뉴"><a href="space.html">공간 안내</a><a href="guide.html">이용 안내</a><a href="reservation.html">예약 안내</a></div></div><a href="gallery.html">갤러리</a><a href="faq.html">자주 묻는 질문</a><a href="inquiry.html">문의하기</a><a href="location.html" aria-current="page">오시는 길</a></nav><a class="header-book" href="https://camfit.co.kr/camp/6a6b276b521182001db33430?keyword=%EB%A6%AC%EB%A6%BC&amp;adultCnt=2" target="_blank" rel="noopener">예약하기</a></div></header>
 <main class="page"><section class="page-hero"><div class="container"><h1>용인 리림 오시는 길</h1><p class="lead">경기도 용인시 처인구 원삼면 리림의 주소와 주차·입장 동선을 방문 전에 확인해 주세요.</p></div></section>
-<section class="section location-overview"><div class="container split"><div><img src="https://raw.githubusercontent.com/jyhome1228-cyber/relim_site/fc7b2826cbced0f618744acb53c6bb1433997a24/public/images/main-building.webp" alt="경기도 용인시 처인구 원삼면 리림 메인동" style="max-height:720px;object-fit:cover"></div><div class="location-info"><p class="eyebrow">Address</p><h2>경기도 용인시 처인구 원삼면<br>보개원삼로1372번길 45</h2><p class="location-description">자가용 방문을 권장합니다. 현장에 도착하면 안내 표지에 따라 주차한 뒤 메인동 또는 입장 안내 구역으로 이동해 주세요. 원활한 이용 준비를 위해 예약 시간에 맞춰 방문해 주세요.</p><a class="button location-map-button" href="https://map.naver.com/p/entry/place/30821021?lng=127.3131001&amp;lat=37.1184942&amp;placePath=%2Fhome&amp;entry=plt&amp;searchType=place" target="_blank" rel="noopener"><span>네이버 지도에서 길찾기</span><span aria-hidden="true">↗</span></a><div class="location-contacts" aria-label="리림 문의 채널"><a class="location-contact" href="tel:01057948823"><span class="location-contact-label">고객센터</span><strong>010-5794-8823</strong><span class="location-contact-action">전화 연결 ↗</span></a><a class="location-contact" href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener"><span class="location-contact-label">예약·이용 문의</span><strong>@relimofficial</strong><span class="location-contact-action">Instagram DM ↗</span></a></div><p class="location-contact-note">당일 예약과 별도 이용 문의는 공식 인스타그램 DM을 이용해 주세요.</p><p><a class="link-arrow" href="reservation.html">용인 리림 예약 안내 보기</a></p></div></div></section>
+<section class="section location-overview"><div class="container split"><div><img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20260929-224909-3003e126-4fb9-4066-853b-5b3710015b3a-1-ba2f9b59.webp" alt="가을 숲과 수영장이 함께 보이는 리림 전경" width="1536" height="1024" loading="eager" decoding="async"></div><div class="location-info"><p class="eyebrow">Address</p><h2>경기도 용인시 처인구 원삼면<br>보개원삼로1372번길 45</h2><p class="location-description">자가용 방문을 권장합니다. 현장에 도착하면 안내 표지에 따라 주차한 뒤 메인동 또는 입장 안내 구역으로 이동해 주세요. 원활한 이용 준비를 위해 예약 시간에 맞춰 방문해 주세요.</p><a class="button location-map-button" href="https://map.naver.com/p/entry/place/30821021?lng=127.3131001&amp;lat=37.1184942&amp;placePath=%2Fhome&amp;entry=plt&amp;searchType=place" target="_blank" rel="noopener"><span>네이버 지도에서 길찾기</span><span aria-hidden="true">↗</span></a><div class="location-contacts" aria-label="리림 문의 채널"><a class="location-contact" href="tel:01057948823"><span class="location-contact-label">고객센터</span><strong>010-5794-8823</strong><span class="location-contact-action">전화 연결 ↗</span></a><a class="location-contact" href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener"><span class="location-contact-label">예약·이용 문의</span><strong>@relimofficial</strong><span class="location-contact-action">Instagram DM ↗</span></a></div><p class="location-contact-note">당일 예약과 별도 이용 문의는 공식 인스타그램 DM을 이용해 주세요.</p><p><a class="link-arrow" href="reservation.html">리림 예약 안내 보기</a></p></div></div></section>
 <section class="section"><div class="container"><p class="eyebrow">Arrival Flow</p><div class="number-list"><div class="number-row"><span class="num">01</span><h3>주소 확인</h3><p>내비게이션에 전체 도로명 주소를 입력하고 등록된 장소명이 리림인지 확인합니다.</p></div><div class="number-row"><span class="num">02</span><h3>입구 진입</h3><p>현장 표지와 안내 동선을 따라 천천히 진입합니다.</p></div><div class="number-row"><span class="num">03</span><h3>주차</h3><p>지정된 주차 구역에 주차하고 차량 내 귀중품과 개인 물품을 확인합니다.</p></div><div class="number-row"><span class="num">04</span><h3>입장 안내</h3><p>메인동 안내 구역에서 예약 정보를 확인한 뒤 배정된 공간으로 이동합니다.</p></div></div></div></section></main>
 <footer class="site-footer">
   <div class="container footer-main">
