@@ -66,7 +66,7 @@ function ensureNavStyles() {
     document.head.append(typographyLink);
   }
 
-  if (!document.querySelector('[data-relim-nav-style]')) {
+  if (!document.querySelector('[data-relim-nav-style], link[href*="nav-dropdown.css"]')) {
     const navLink = document.createElement('link');
     navLink.rel = 'stylesheet';
     navLink.href = `assets/css/nav-dropdown.css?v=${NAV_STYLE_VERSION}`;
