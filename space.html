@@ -40,15 +40,15 @@
 <style>
 /* RE:LIM dual map gallery */
 .room-section{padding-top:clamp(54px,6vw,86px)!important}
-.space-map-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.space-map-grid{display:grid;grid-template-columns:1fr;gap:clamp(64px,8vw,110px);max-width:1240px;margin:0 auto}
 .space-map-card{display:block;width:100%;padding:0;border:0;background:transparent;color:var(--green);text-align:left;cursor:zoom-in}
 .space-map-card-head{display:grid;grid-template-columns:1fr auto;grid-template-areas:"kicker action" "title action";align-items:end;gap:4px 20px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--green)}
 .space-map-card-head>span{grid-area:kicker;color:var(--muted);font-size:10px;font-style:normal;font-weight:700;letter-spacing:.15em}
 .space-map-card-head>strong{grid-area:title;font-size:16px;font-weight:650;letter-spacing:-.02em}
 .space-map-card-head>em{grid-area:action;align-self:center;color:var(--green-soft);font-size:11px;font-style:normal;font-weight:600;white-space:nowrap}
 .space-map-card-image{display:block;overflow:hidden;border-radius:10px;background:#f2f5ee}
-.space-map-card-image img{display:block;width:100%;aspect-ratio:1670/942;object-fit:contain;background:#eef4e9;transition:transform .35s ease}
-.space-map-card-image--full img{aspect-ratio:1670/942;object-fit:contain;background:#f6f7f3}
+.space-map-card-image img{display:block;width:100%;height:auto;object-fit:contain;background:#eef4e9;transition:transform .35s ease}
+.space-map-card-image--full img{height:auto;object-fit:contain;background:#f6f7f3}
 .space-map-card:hover .space-map-card-image img{transform:scale(1.01)}
 .space-map-card:hover .space-map-card-head em{opacity:.58}
 
@@ -66,13 +66,13 @@
 .map-lightbox-image-wrap{width:100%;max-height:calc(100dvh - 220px);overflow:auto;border:1px solid var(--line);background:#f6f7f3}
 .map-lightbox-image-wrap img{display:block;width:100%;height:auto;min-width:900px}
 @media(max-width:900px){
-  .space-map-grid{grid-template-columns:1fr}
+  .space-map-grid{grid-template-columns:1fr;max-width:none}
   .map-lightbox-head{align-items:flex-start;flex-direction:column;padding-right:52px}
   .map-lightbox-image-wrap img{min-width:760px}
 }
 @media(max-width:620px){
   .room-section{padding-top:34px!important}
-  .space-map-grid{gap:42px}
+  .space-map-grid{gap:58px}
   .space-map-card-head{margin-bottom:12px}
   .space-map-card-image{border-radius:8px}
   .map-lightbox{padding:0}
