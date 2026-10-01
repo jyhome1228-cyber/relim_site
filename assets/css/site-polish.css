@@ -331,3 +331,33 @@ main.page img:not(.home-focus-image):not(.auth-visual>img),
 
 /* Header button follows the shared square reservation style. */
 .header-book{border-radius:0!important}
+
+/* 2026-10 final hierarchy QA */
+main.page>.page-hero{
+  display:block!important;
+  padding:clamp(46px,5vw,72px) 0 36px!important;
+  border-bottom:1px solid var(--line)!important;
+}
+main.page>.page-hero h1{
+  margin-bottom:12px!important;
+  font-size:clamp(30px,2.6vw,38px)!important;
+  line-height:1.2!important;
+}
+main.page>.page-hero .lead{
+  max-width:760px!important;
+  margin-bottom:0!important;
+  font-size:16px!important;
+  line-height:1.7!important;
+}
+.site-footer h3{color:var(--green)!important}
+@media(max-width:900px){
+  .space-guide{grid-template-columns:1fr!important;gap:28px!important}
+  .space-photo-head{grid-template-columns:1fr!important;gap:14px!important}
+  main.page>.page-hero{padding:38px 0 28px!important}
+  main.page>.page-hero h1{font-size:29px!important}
+  main.page>.page-hero .lead{font-size:15px!important}
+}
+@media(max-width:620px){
+  main.page>.page-hero{padding:32px 0 24px!important}
+  main.page>.page-hero h1{font-size:26px!important}
+}
