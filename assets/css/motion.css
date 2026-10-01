@@ -111,30 +111,30 @@ body {
 
 /* Header: slightly more compact and architectural */
 .site-header {
-  height: 72px;
+  height: 82px;
   border-bottom-color: rgba(52, 62, 44, .11);
   background: rgba(255, 255, 255, .94);
   backdrop-filter: blur(16px) saturate(120%);
 }
 
 .header-inner {
-  height: 72px;
+  height: 82px;
 }
 
 .brand-logo {
-  width: 122px;
+  width: 132px;
 }
 
 .nav a,
 .nav-dropdown-toggle {
-  font-size: 13px;
+  font-size: 16px;
   letter-spacing: -.015em;
 }
 
 .header-book {
-  min-height: 36px;
+  min-height: 42px;
   padding-inline: 15px;
-  font-size: 12px;
+  font-size: 14px;
   transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 }
 
