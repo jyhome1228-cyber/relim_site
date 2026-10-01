@@ -1,15 +1,5 @@
 import('./nav.js').catch((error) => console.error('[RE:LIM NAV]', error));
 
-const menuButton = document.querySelector('.menu-toggle');
-const nav = document.querySelector('.nav');
-
-if (menuButton && nav) {
-  menuButton.addEventListener('click', () => {
-    const open = nav.classList.toggle('is-open');
-    menuButton.setAttribute('aria-expanded', String(open));
-  });
-}
-
 const slides = [...document.querySelectorAll('.hero-slide')];
 const dots = [...document.querySelectorAll('.hero-dot')];
 let currentSlide = 0;
