@@ -61,3 +61,15 @@
   .auth-privacy-summary{margin-left:0}
   .auth-privacy-summary dl{grid-template-columns:70px 1fr}
 }
+
+/* 2026-10 mobile containment */
+.legal-layout,.legal-content,.legal-block,.legal-table-wrap,.legal-contact{min-width:0;max-width:100%}
+.legal-table-wrap{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.legal-contact strong,.legal-block p,.legal-block li{overflow-wrap:anywhere}
+@media(max-width:620px){
+  .legal-page{max-width:100%;overflow-x:hidden}
+  .legal-page .container{width:calc(100% - 40px);max-width:100%}
+  .legal-table{min-width:620px}
+  .legal-aside nav{max-width:100%;overflow-x:auto;flex-wrap:nowrap;padding-bottom:6px}
+  .legal-aside nav a{flex:0 0 auto}
+}
