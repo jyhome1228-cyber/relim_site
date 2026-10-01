@@ -19,10 +19,11 @@
       <nav class="admin-nav" aria-label="관리자 메뉴">
         <button class="admin-nav-item is-active" type="button" data-admin-tab="dashboard"><span>01</span>Dashboard</button>
         <button class="admin-nav-item" type="button" data-admin-tab="homepage"><span>02</span>홈페이지 관리</button>
-        <button class="admin-nav-item" type="button" data-admin-tab="operation"><span>03</span>운영정보</button>
-        <button class="admin-nav-item" type="button" data-admin-tab="content"><span>04</span>콘텐츠</button>
-        <button class="admin-nav-item" type="button" data-admin-tab="customer"><span>05</span>고객관리</button>
-        <button class="admin-nav-item" type="button" data-admin-tab="settings"><span>06</span>사이트 설정</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="about"><span>03</span>어바웃 관리</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="operation"><span>04</span>운영정보</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="content"><span>05</span>콘텐츠</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="customer"><span>06</span>고객관리</button>
+        <button class="admin-nav-item" type="button" data-admin-tab="settings"><span>07</span>사이트 설정</button>
       </nav>
 
       <div class="admin-sidebar-foot">
@@ -82,6 +83,7 @@
               </div>
               <div class="admin-quick-grid">
                 <button type="button" data-admin-jump="homepage">메인 콘텐츠 수정<span>→</span></button>
+                <button type="button" data-admin-jump="about">어바웃 스토리 수정<span>→</span></button>
                 <button type="button" data-admin-jump="operation">운영시간 · 요금 수정<span>→</span></button>
                 <button type="button" data-admin-jump="content" data-content-focus="notice">공지 등록<span>→</span></button>
                 <button type="button" data-admin-jump="content" data-content-focus="popup">팝업 설정<span>→</span></button>
@@ -130,6 +132,112 @@
               </section>
 
               <div class="admin-savebar"><p>수정 후 저장하면 사이트에 반영됩니다.</p><button class="admin-button primary" type="submit">홈페이지 저장</button></div>
+            </form>
+          </section>
+
+
+          <!-- ABOUT STORY -->
+          <section class="admin-view" data-admin-view="about">
+            <form class="admin-form" data-form="about">
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">ABOUT STORY CMS</p><h2>어바웃 페이지</h2><p>리림 소개 페이지의 5개 스토리 챕터 문구와 이미지를 수정합니다. 제목과 본문에서 줄바꿈한 위치는 사이트에도 그대로 반영됩니다.</p></div><a class="admin-button" href="about.html" target="_blank" rel="noopener">어바웃 보기 ↗</a></div>
+              </section>
+              
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">ABOUT CHAPTER 01</p><h2>ABOUT RE:LIM</h2></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field"><span>영문 라벨</span><input name="about1Eyebrow" maxlength="80"></label>
+                  <label class="admin-field full"><span>제목</span><textarea name="about1Title" rows="2" maxlength="180"></textarea></label>
+                  <label class="admin-field full"><span>본문 1</span><textarea name="about1Body1" rows="4" maxlength="700"></textarea></label>
+                  <label class="admin-field full"><span>본문 2</span><textarea name="about1Body2" rows="4" maxlength="700"></textarea></label>
+                  
+                </div>
+                <div class="admin-media-editor">
+                  <div class="admin-media-preview" data-preview="about1"><span>등록된 이미지를 불러오는 중입니다.</span></div>
+                  <div class="admin-media-actions">
+                    <label class="admin-field"><span>이미지 URL</span><input name="about1ImageUrl" type="url" placeholder="https://..."></label>
+                    <label class="admin-upload"><input type="file" accept="image/*" data-upload="about1"><span>이미지 업로드</span><small>JPG, PNG, WEBP · 10MB 이하</small></label>
+                    <p class="admin-upload-status" data-upload-status="about1"></p>
+                  </div>
+                </div>
+              </section>
+              
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">ABOUT CHAPTER 02</p><h2>THE BEGINNING</h2><p>이미지를 등록하지 않으면 NINE HILLS 기본 타이포 카드가 유지됩니다.</p></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field"><span>영문 라벨</span><input name="about2Eyebrow" maxlength="80"></label>
+                  <label class="admin-field full"><span>제목</span><textarea name="about2Title" rows="2" maxlength="180"></textarea></label>
+                  <label class="admin-field full"><span>본문 1</span><textarea name="about2Body1" rows="4" maxlength="700"></textarea></label>
+                  <label class="admin-field full"><span>본문 2</span><textarea name="about2Body2" rows="4" maxlength="700"></textarea></label>
+                  
+                </div>
+                <div class="admin-media-editor">
+                  <div class="admin-media-preview" data-preview="about2"><span>이미지 미등록 시 현재 기본 타이포 카드가 표시됩니다.</span></div>
+                  <div class="admin-media-actions">
+                    <label class="admin-field"><span>이미지 URL</span><input name="about2ImageUrl" type="url" placeholder="https://..."></label>
+                    <label class="admin-upload"><input type="file" accept="image/*" data-upload="about2"><span>이미지 업로드</span><small>JPG, PNG, WEBP · 10MB 이하</small></label>
+                    <p class="admin-upload-status" data-upload-status="about2"></p>
+                  </div>
+                </div>
+              </section>
+              
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">ABOUT CHAPTER 03</p><h2>GROWING TOGETHER</h2></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field"><span>영문 라벨</span><input name="about3Eyebrow" maxlength="80"></label>
+                  <label class="admin-field full"><span>제목</span><textarea name="about3Title" rows="2" maxlength="180"></textarea></label>
+                  <label class="admin-field full"><span>본문 1</span><textarea name="about3Body1" rows="4" maxlength="700"></textarea></label>
+                  <label class="admin-field full"><span>본문 2</span><textarea name="about3Body2" rows="4" maxlength="700"></textarea></label>
+                  
+                </div>
+                <div class="admin-media-editor">
+                  <div class="admin-media-preview" data-preview="about3"><span>등록된 이미지를 불러오는 중입니다.</span></div>
+                  <div class="admin-media-actions">
+                    <label class="admin-field"><span>이미지 URL</span><input name="about3ImageUrl" type="url" placeholder="https://..."></label>
+                    <label class="admin-upload"><input type="file" accept="image/*" data-upload="about3"><span>이미지 업로드</span><small>JPG, PNG, WEBP · 10MB 이하</small></label>
+                    <p class="admin-upload-status" data-upload-status="about3"></p>
+                  </div>
+                </div>
+              </section>
+              
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">ABOUT CHAPTER 04</p><h2>THE SECOND FOREST</h2><p>이미지를 등록하지 않으면 LAZY CAMP 기본 타이포 카드가 유지됩니다.</p></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field"><span>영문 라벨</span><input name="about4Eyebrow" maxlength="80"></label>
+                  <label class="admin-field full"><span>제목</span><textarea name="about4Title" rows="2" maxlength="180"></textarea></label>
+                  <label class="admin-field full"><span>본문 1</span><textarea name="about4Body1" rows="4" maxlength="700"></textarea></label>
+                  <label class="admin-field full"><span>본문 2</span><textarea name="about4Body2" rows="4" maxlength="700"></textarea></label>
+                  
+                </div>
+                <div class="admin-media-editor">
+                  <div class="admin-media-preview" data-preview="about4"><span>이미지 미등록 시 현재 기본 타이포 카드가 표시됩니다.</span></div>
+                  <div class="admin-media-actions">
+                    <label class="admin-field"><span>이미지 URL</span><input name="about4ImageUrl" type="url" placeholder="https://..."></label>
+                    <label class="admin-upload"><input type="file" accept="image/*" data-upload="about4"><span>이미지 업로드</span><small>JPG, PNG, WEBP · 10MB 이하</small></label>
+                    <p class="admin-upload-status" data-upload-status="about4"></p>
+                  </div>
+                </div>
+              </section>
+              
+              <section class="admin-panel">
+                <div class="admin-panel-head"><div><p class="admin-eyebrow">ABOUT CHAPTER 05</p><h2>WHY RE:LIM</h2></div></div>
+                <div class="admin-form-grid two">
+                  <label class="admin-field"><span>영문 라벨</span><input name="about5Eyebrow" maxlength="80"></label>
+                  <label class="admin-field full"><span>제목</span><textarea name="about5Title" rows="2" maxlength="180"></textarea></label>
+                  <label class="admin-field full"><span>본문 1</span><textarea name="about5Body1" rows="4" maxlength="700"></textarea></label>
+                  <label class="admin-field full"><span>본문 2</span><textarea name="about5Body2" rows="4" maxlength="700"></textarea></label>
+                  <label class="admin-field full"><span>마무리 문구</span><textarea name="about5Closing" rows="3" maxlength="400"></textarea></label>
+                </div>
+                <div class="admin-media-editor">
+                  <div class="admin-media-preview" data-preview="about5"><span>등록된 이미지를 불러오는 중입니다.</span></div>
+                  <div class="admin-media-actions">
+                    <label class="admin-field"><span>이미지 URL</span><input name="about5ImageUrl" type="url" placeholder="https://..."></label>
+                    <label class="admin-upload"><input type="file" accept="image/*" data-upload="about5"><span>이미지 업로드</span><small>JPG, PNG, WEBP · 10MB 이하</small></label>
+                    <p class="admin-upload-status" data-upload-status="about5"></p>
+                  </div>
+                </div>
+              </section>
+              <div class="admin-savebar"><p>저장 후 새로고침하면 어바웃 페이지에 바로 반영됩니다.</p><button class="admin-button primary" type="submit">어바웃 저장</button></div>
             </form>
           </section>
 
@@ -351,7 +459,7 @@
 
   <div class="admin-toast" data-admin-toast role="status" aria-live="polite"></div>
 
-  <script type="module" src="assets/js/admin.js?v=20260911-1"></script>
+  <script type="module" src="assets/js/admin.js?v=20261001-aboutcms1"></script>
   <script type="module" src="assets/js/admin-traffic.js?v=20260911-1"></script>
 </body>
 </html>
