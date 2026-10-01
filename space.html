@@ -38,47 +38,52 @@
   <link rel="stylesheet" href="assets/css/nav-dropdown.css?v=20261001-headerfinal">
 
 <style>
-/* RE:LIM map switcher */
-.space-map-block{margin-top:42px}
-.space-map-toolbar{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--green)}
-.space-map-toolbar>div{display:grid;gap:5px}
-.space-map-kicker{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.15em}
-.space-map-toolbar strong{font-size:16px;font-weight:650;letter-spacing:-.02em}
-.space-map-expand{display:inline-flex;align-items:center;gap:22px;min-height:42px;padding:0 0 5px;border:0;border-bottom:1px solid var(--green);background:transparent;color:var(--green);font-size:12px;font-weight:650;cursor:pointer}
-.space-map-expand:hover{opacity:.62}
-.space-map-block .room-map{overflow:hidden;border-radius:10px;background:#f4f6f1}
-.space-map-block .room-map-canvas img{display:block;width:100%;height:auto;aspect-ratio:1670/942;object-fit:contain;background:#eef4e9}
+/* RE:LIM dual map gallery */
+.room-section{padding-top:clamp(54px,6vw,86px)!important}
+.space-map-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.space-map-card{display:block;width:100%;padding:0;border:0;background:transparent;color:var(--green);text-align:left;cursor:zoom-in}
+.space-map-card-head{display:grid;grid-template-columns:1fr auto;grid-template-areas:"kicker action" "title action";align-items:end;gap:4px 20px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--green)}
+.space-map-card-head>span{grid-area:kicker;color:var(--muted);font-size:10px;font-style:normal;font-weight:700;letter-spacing:.15em}
+.space-map-card-head>strong{grid-area:title;font-size:16px;font-weight:650;letter-spacing:-.02em}
+.space-map-card-head>em{grid-area:action;align-self:center;color:var(--green-soft);font-size:11px;font-style:normal;font-weight:600;white-space:nowrap}
+.space-map-card-image{display:block;overflow:hidden;border-radius:10px;background:#f2f5ee}
+.space-map-card-image img{display:block;width:100%;aspect-ratio:1670/942;object-fit:contain;background:#eef4e9;transition:transform .35s ease}
+.space-map-card-image--full img{aspect-ratio:1670/942;object-fit:contain;background:#f6f7f3}
+.space-map-card:hover .space-map-card-image img{transform:scale(1.01)}
+.space-map-card:hover .space-map-card-head em{opacity:.58}
 
-.full-map-modal{position:fixed;z-index:260;inset:0;display:none;align-items:center;justify-content:center;padding:clamp(14px,3vw,42px)}
-.full-map-modal.is-open{display:flex}
-.full-map-backdrop{position:absolute;inset:0;background:rgba(18,24,17,.78);backdrop-filter:blur(8px)}
-.full-map-dialog{position:relative;z-index:1;width:min(1380px,100%);max-height:calc(100dvh - clamp(28px,6vw,84px));overflow:auto;padding:clamp(26px,3.2vw,48px);background:#fff;box-shadow:0 28px 90px rgba(0,0,0,.28)}
-.full-map-close{position:sticky;z-index:4;top:0;float:right;width:44px;height:44px;margin:-6px -6px 0 20px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--green);font-size:26px;font-weight:300;line-height:1;cursor:pointer}
-.full-map-close:hover{background:var(--green);color:#fff}
-.full-map-head{display:grid;grid-template-columns:minmax(220px,.55fr) minmax(320px,1fr);gap:clamp(36px,6vw,90px);align-items:end;margin-bottom:28px;padding-right:56px}
-.full-map-head h2{margin:0;font-size:clamp(26px,2.2vw,34px);font-weight:600}
-.full-map-head p:last-child{max-width:620px;margin:0;color:var(--muted);font-size:13px;line-height:1.75}
-.full-map-image-wrap{width:100%;overflow:auto;border:1px solid var(--line);background:#f7f8f5}
-.full-map-image-wrap img{display:block;width:100%;height:auto;min-width:900px}
-.full-map-footer{display:flex;justify-content:flex-end;margin-top:20px}
-
+.map-lightbox{position:fixed;z-index:270;inset:0;display:none;align-items:center;justify-content:center;padding:clamp(14px,3vw,42px)}
+.map-lightbox.is-open{display:flex}
+.map-lightbox-backdrop{position:absolute;inset:0;background:rgba(14,20,14,.82);backdrop-filter:blur(8px)}
+.map-lightbox-dialog{position:relative;z-index:1;width:min(1480px,100%);max-height:calc(100dvh - clamp(28px,6vw,84px));overflow:auto;padding:clamp(24px,3vw,44px);background:#fff;box-shadow:0 30px 90px rgba(0,0,0,.3)}
+.map-lightbox-close{position:sticky;z-index:5;top:0;float:right;width:44px;height:44px;margin:-4px -4px 0 18px;padding:0;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--green);font-size:26px;font-weight:300;line-height:1;cursor:pointer}
+.map-lightbox-close:hover{background:var(--green);color:#fff}
+.map-lightbox-head{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:10px;padding-right:58px}
+.map-lightbox-head h2{margin:0;font-size:clamp(25px,2.1vw,34px);font-weight:600}
+.map-lightbox-actions{display:flex;gap:8px;flex-wrap:wrap}
+.map-lightbox-actions .button{min-height:42px;border-radius:0;cursor:pointer}
+.map-lightbox-help{margin:0 0 22px;color:var(--muted);font-size:11px;line-height:1.65}
+.map-lightbox-image-wrap{width:100%;max-height:calc(100dvh - 220px);overflow:auto;border:1px solid var(--line);background:#f6f7f3}
+.map-lightbox-image-wrap img{display:block;width:100%;height:auto;min-width:900px}
 @media(max-width:900px){
-  .space-map-toolbar{align-items:flex-start}
-  .full-map-head{grid-template-columns:1fr;gap:12px}
-  .full-map-image-wrap img{min-width:760px}
+  .space-map-grid{grid-template-columns:1fr}
+  .map-lightbox-head{align-items:flex-start;flex-direction:column;padding-right:52px}
+  .map-lightbox-image-wrap img{min-width:760px}
 }
 @media(max-width:620px){
-  .space-map-block{margin-top:30px}
-  .space-map-toolbar{align-items:stretch;flex-direction:column;gap:14px}
-  .space-map-expand{align-self:flex-start}
-  .space-map-block .room-map{border-radius:8px}
-  .full-map-modal{padding:0}
-  .full-map-dialog{width:100%;height:100dvh;max-height:none;padding:22px 20px 28px}
-  .full-map-head{padding-right:0;margin-bottom:20px}
-  .full-map-close{position:sticky;top:0;margin:0 0 12px auto;float:none;display:block}
-  .full-map-image-wrap{max-height:calc(100dvh - 260px)}
-  .full-map-image-wrap img{min-width:720px}
-  .full-map-footer .button{width:100%}
+  .room-section{padding-top:34px!important}
+  .space-map-grid{gap:42px}
+  .space-map-card-head{margin-bottom:12px}
+  .space-map-card-image{border-radius:8px}
+  .map-lightbox{padding:0}
+  .map-lightbox-dialog{width:100%;height:100dvh;max-height:none;padding:20px 18px 24px}
+  .map-lightbox-close{position:sticky;top:0;float:none;display:block;margin:0 0 12px auto}
+  .map-lightbox-head{gap:16px;padding-right:0}
+  .map-lightbox-actions{display:grid;grid-template-columns:1fr 1fr;width:100%}
+  .map-lightbox-actions .button{width:100%;padding-inline:12px}
+  .map-lightbox-help{font-size:10px}
+  .map-lightbox-image-wrap{max-height:calc(100dvh - 250px)}
+  .map-lightbox-image-wrap img{min-width:720px}
 }
 </style>
 
@@ -90,20 +95,15 @@
 
 <section class="section room-section">
   <div class="container">
-    <div class="room-section-head">
-      <p class="eyebrow">RE:LIM SPACE MAP</p>
-      <h2>리림의 공간을<br>한눈에 살펴보세요.</h2>
-      <p>수영장과 유수풀을 중심으로 1–23번 개별 쉘터가 배치되어 있습니다. 모든 쉘터는 동일한 형태로 운영되며, 예약 확정 후 안내받은 번호의 위치를 지도에서 확인해 주세요.</p>
-    </div>
-    <div class="space-map-block">
-    <div class="space-map-toolbar">
-      <div><span class="space-map-kicker">RE:LIM MAP</span><strong>리림 시설 지도</strong></div>
-      <button class="space-map-expand" type="button" data-full-map-open>전체 지도 보기 <span aria-hidden="true">↗</span></button>
-    </div>
-    <div class="room-map" aria-label="리림 시설 안내 지도">
-      <div class="room-map-canvas">
-        <img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20261001-160731-f618a5ed-2eee-4e4c-a6da-370b95106208-9ebad318.webp" alt="리림 수영장과 개별 쉘터, 주요 동선이 표시된 시설 지도" width="1670" height="942" loading="eager" decoding="async">
-      </div>
+    <div class="space-map-grid" aria-label="리림과 나인힐스 지도">
+      <button class="space-map-card" type="button" data-map-lightbox-open data-map-src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20261001-160731-f618a5ed-2eee-4e4c-a6da-370b95106208-9ebad318.webp" data-map-title="리림 지도" data-map-filename="relim-map.webp">
+        <span class="space-map-card-head"><span>RE:LIM MAP</span><strong>리림 지도</strong><em>크게 보기 ↗</em></span>
+        <span class="space-map-card-image"><img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20261001-160731-f618a5ed-2eee-4e4c-a6da-370b95106208-9ebad318.webp" alt="리림 수영장과 개별 쉘터, 주요 동선이 표시된 시설 지도" width="1670" height="942" loading="eager" decoding="async"></span>
+      </button>
+      <button class="space-map-card" type="button" data-map-lightbox-open data-map-src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20261001-160732-image-cbb1ce75.webp" data-map-title="나인힐스 전체지도" data-map-filename="ninehills-full-map.webp">
+        <span class="space-map-card-head"><span>NINE HILLS MAP</span><strong>나인힐스 전체지도</strong><em>크게 보기 ↗</em></span>
+        <span class="space-map-card-image space-map-card-image--full"><img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20261001-160732-image-cbb1ce75.webp" alt="리림과 나인힐스 주변 시설이 함께 표시된 전체 지도" width="2543" height="2000" loading="lazy" decoding="async"></span>
+      </button>
     </div>
   </div>
     <div class="space-guide">
@@ -130,18 +130,21 @@
   </div>
 </section>
 
-<div class="full-map-modal" data-full-map-modal aria-hidden="true">
-  <div class="full-map-backdrop" data-full-map-close></div>
-  <div class="full-map-dialog" role="dialog" aria-modal="true" aria-labelledby="fullMapTitle">
-    <button class="full-map-close" type="button" data-full-map-close aria-label="전체 지도 닫기">×</button>
-    <div class="full-map-head">
-      <div><p class="eyebrow">FULL MAP</p><h2 id="fullMapTitle">전체 시설 지도</h2></div>
-      <p>리림과 주변 시설의 전체 배치를 확인할 수 있습니다. 모바일에서는 지도를 위아래로 이동하며 확인해 주세요.</p>
+<div class="map-lightbox" data-map-lightbox aria-hidden="true">
+  <div class="map-lightbox-backdrop" data-map-lightbox-close></div>
+  <div class="map-lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="mapLightboxTitle">
+    <button class="map-lightbox-close" type="button" data-map-lightbox-close aria-label="지도 닫기">×</button>
+    <div class="map-lightbox-head">
+      <div><p class="eyebrow">MAP VIEW</p><h2 id="mapLightboxTitle" data-map-lightbox-title>지도</h2></div>
+      <div class="map-lightbox-actions">
+        <button class="button" type="button" data-map-download>다운로드</button>
+        <button class="button primary" type="button" data-map-save-album>앨범에 저장</button>
+      </div>
     </div>
-    <div class="full-map-image-wrap">
-      <img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20261001-160732-image-cbb1ce75.webp" alt="리림과 주변 시설이 함께 표시된 전체 지도" width="2543" height="2000" loading="lazy" decoding="async">
+    <p class="map-lightbox-help">모바일의 ‘앨범에 저장’은 공유 메뉴를 열며, 사진 앱의 이미지 저장 기능을 선택할 수 있습니다.</p>
+    <div class="map-lightbox-image-wrap">
+      <img src="" alt="" data-map-lightbox-image>
     </div>
-    <div class="full-map-footer"><button class="button" type="button" data-full-map-close>닫기</button></div>
   </div>
 </div>
 
@@ -169,6 +172,6 @@
   </div>
   <div class="container footer-bottom"><span>© 2026 RE:LIM. All rights reserved.</span><span>사업자등록번호 220-86-50466</span></div>
 </footer>
-<script src="assets/js/script.js?v=20261002-map1"></script>
+<script src="assets/js/script.js?v=20261002-map2"></script>
 </body>
 </html>
