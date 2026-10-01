@@ -40,7 +40,7 @@ const DEFAULT_CONFIG = {
       title: '시작은 작은 숲이었습니다.',
       body1: '오랫동안 조용히 머물러 있던 숲에\n사람의 손길이 닿기 시작했습니다.',
       body2: '계절을 지나며 숲을 가꾸고 지키는 동안\n사람과 자연은 서로 관계를 맺었습니다.\n그 첫 번째 숲의 이름이 나인힐스였습니다.',
-      imageUrl: ''
+      imageUrl: 'https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20260929-224908-87cdfa62-5d6f-48c9-866e-af309973548e-6dc840fb.webp'
     },
     chapter3: {
       eyebrow: 'GROWING TOGETHER',
@@ -54,7 +54,7 @@ const DEFAULT_CONFIG = {
       title: '두 번째 숲에서\n쉼을 다시 생각했습니다.',
       body1: '숲에서 얻은 배움은\n또 다른 공간, 레이지캠프로 이어졌습니다.',
       body2: '조금 천천히 머물고,\n편안하게 자신에게 돌아오는 곳.\n두 번째 숲에는 느림과 회복을 담았습니다.',
-      imageUrl: ''
+      imageUrl: 'https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20260929-224914-f56fbdcb-7c70-4752-8b55-dc02c07918d5-be70425f.webp'
     },
     chapter5: {
       eyebrow: 'WHY RE:LIM',
@@ -354,7 +354,7 @@ function renderAboutPreviews() {
     const url = clean(state.config.aboutStory?.[`chapter${number}`]?.imageUrl);
     if (!url) {
       const span = document.createElement('span');
-      span.textContent = (number === 2 || number === 4) ? '이미지 미등록 시 기본 타이포 카드가 표시됩니다.' : '현재 사이트 기본 이미지를 사용합니다.';
+      span.textContent = (number === 2 || number === 4) ? '이미지를 변경하지 않으면 현재 기본 사진이 유지됩니다.' : '현재 사이트 기본 이미지를 사용합니다.';
       preview.append(span);
       return;
     }
