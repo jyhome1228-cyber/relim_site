@@ -1,4 +1,4 @@
-import('./admin-cms-v2.js?v=20261001-aboutcms1')
+import('./admin-cms-v2.js?v=20261001-aboutcms2')
   .then(() => Promise.all([
     import('./admin-cms-enhancements.js?v=20260911-enhance1'),
     import('./admin-attribution.js?v=20260911-attribution1')
