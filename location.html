@@ -31,42 +31,163 @@
   <script type="application/ld+json">[{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"리림","item":"https://re-lim.com/"},{"@type":"ListItem","position":2,"name":"용인 리림 오시는 길","item":"https://re-lim.com/location.html"}]},{"@context":"https://schema.org","@type":"LocalBusiness","@id":"https://re-lim.com/#business","name":"리림","alternateName":["RE:LIM","용인 리림"],"url":"https://re-lim.com/","logo":"https://re-lim.com/assets/images/relim-logo.svg","image":"https://re-lim.com/assets/images/relim-2026/F1ST2355.webp","telephone":"+82-10-5794-8823","description":"경기도 용인시 처인구 원삼면에서 수영장, 유수풀, 개별 쉘터와 바베큐를 즐기는 프라이빗 캠프닉 아웃도어 공간 리림입니다.","address":{"@type":"PostalAddress","streetAddress":"보개원삼로1372번길 45","addressLocality":"용인시 처인구 원삼면","addressRegion":"경기도","postalCode":"17170","addressCountry":"KR"},"geo":{"@type":"GeoCoordinates","latitude":37.1184942,"longitude":127.3131001},"hasMap":"https://map.naver.com/p/entry/place/30821021","sameAs":["https://www.instagram.com/relimofficial/"],"contactPoint":{"@type":"ContactPoint","telephone":"+82-10-5794-8823","contactType":"customer service","availableLanguage":"Korean"},"areaServed":[{"@type":"City","name":"용인시"},{"@type":"AdministrativeArea","name":"경기도"}]}]</script><link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg"><link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/nav-dropdown.css?v=20261001-headerfinal">
   <style>
-    .location-overview{padding-top:clamp(64px,6vw,92px);padding-bottom:clamp(76px,8vw,116px)}
-    .location-overview .split{grid-template-columns:minmax(0,1.06fr) minmax(0,.94fr);gap:clamp(48px,6.5vw,96px);align-items:start}
-    .location-overview .split>div:first-child{width:100%}
-    .location-overview .split>div:first-child img{width:100%;height:auto!important;max-height:none!important;aspect-ratio:4/3;object-fit:cover;object-position:center;border-radius:10px}
-    .location-info{max-width:680px;padding-top:clamp(12px,2vw,28px)}
-    .location-info .eyebrow{margin-bottom:16px}
-    .location-info h2{max-width:650px;margin-bottom:24px;font-size:clamp(31px,2.55vw,40px);font-weight:650;line-height:1.2;letter-spacing:-.05em}
-    .location-description{max-width:620px;color:var(--muted);font-size:15px;line-height:1.85}
-    .location-map-button{width:max-content!important;min-width:250px;margin-top:34px!important;justify-content:space-between;padding:0 18px!important;border-radius:0!important}
-    .location-contacts{grid-template-columns:repeat(2,minmax(0,1fr));gap:0;margin-top:30px;border-top:1px solid var(--green)}
-    .location-contact{min-height:118px;padding:18px 20px 16px 0;border:0;border-bottom:1px solid var(--line);background:transparent}
-    .location-contact+ .location-contact{padding-left:22px;border-left:1px solid var(--line)}
-    .location-contact:hover{background:transparent;border-color:var(--line);opacity:.72}
-    .location-contact-label{margin-bottom:12px;font-size:11px}
-    .location-contact strong{font-size:clamp(18px,1.35vw,22px)}
-    .location-contact-note{margin-top:16px;font-size:12px}
-    @media(max-width:900px){
-      .location-overview .split{grid-template-columns:1fr;gap:38px}
-      .location-info{max-width:none;padding-top:0}
-      .location-overview .split>div:first-child img{aspect-ratio:16/10}
-    }
-    @media(max-width:620px){
-      .location-overview{padding-top:44px;padding-bottom:64px}
-      .location-info h2{font-size:28px}
-      .location-overview .split>div:first-child img{aspect-ratio:4/3;border-radius:8px}
-      .location-map-button{width:100%!important;min-width:0}
-      .location-contacts{grid-template-columns:1fr}
-      .location-contact{min-height:102px;padding:16px 0}
-      .location-contact+ .location-contact{padding-left:0;border-left:0}
-    }
-  </style>
+  body{background:#fff}
+  .location-page{background:#fff}
+  .location-hero{padding:clamp(72px,8vw,118px) 0 clamp(54px,6vw,82px);border-bottom:1px solid var(--line)}
+  .location-kicker{margin:0 0 34px;color:#8b9387;font-size:10px;font-weight:600;letter-spacing:.18em}
+  .location-hero-grid{display:grid;grid-template-columns:minmax(260px,.78fr) minmax(0,1.22fr);gap:clamp(48px,8vw,128px);align-items:start}
+  .location-hero h1{margin:0;color:var(--green);font-size:clamp(34px,3.1vw,48px);font-weight:600;line-height:1.15;letter-spacing:-.05em}
+  .location-hero-copy{max-width:680px}
+  .location-hero-copy h2{margin:0 0 20px;font-size:clamp(26px,2.3vw,36px);font-weight:500;line-height:1.35;letter-spacing:-.04em}
+  .location-hero-copy p{max-width:600px;margin:0;color:var(--muted);font-size:15px;line-height:1.9}
+
+  .location-visual{padding:clamp(46px,5vw,72px) 0 0}
+  .location-visual figure{margin:0;overflow:hidden;border-radius:10px;background:#eef0eb}
+  .location-visual img{width:100%;aspect-ratio:2.25/1;object-fit:cover;object-position:center 54%}
+
+  .location-details{padding:clamp(72px,8vw,118px) 0}
+  .location-details-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:clamp(60px,9vw,140px);align-items:start}
+  .location-section-label{margin:0 0 18px;color:#8c9388;font-size:10px;font-weight:600;letter-spacing:.16em}
+  .location-address h2{max-width:720px;margin:0 0 22px;font-size:clamp(32px,3vw,46px);font-weight:550;line-height:1.22;letter-spacing:-.05em}
+  .location-address p{max-width:600px;margin:0;color:var(--muted);font-size:15px;line-height:1.85}
+  .location-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+  .location-actions .button{min-height:46px;border-radius:0;padding-inline:18px}
+  .location-actions .button.secondary{background:#fff}
+  .location-actions .button.secondary:hover{background:var(--green);color:#fff}
+
+  .location-side{padding-top:2px;border-top:1px solid var(--green)}
+  .location-side-row{display:grid;grid-template-columns:130px 1fr;gap:24px;padding:24px 0;border-bottom:1px solid var(--line)}
+  .location-side-row span{color:#8a9187;font-size:11px;font-weight:600;letter-spacing:.04em}
+  .location-side-row strong,.location-side-row a{color:var(--green);font-size:15px;font-weight:500;line-height:1.7}
+  .location-side-row a:hover{opacity:.65}
+  .location-side-note{margin:18px 0 0;color:var(--muted);font-size:12px;line-height:1.7}
+
+  .location-flow{padding:clamp(72px,8vw,112px) 0;background:#f6f7f3;border-top:1px solid #eceee9}
+  .location-flow-head{display:grid;grid-template-columns:minmax(220px,.65fr) minmax(0,1.35fr);gap:clamp(42px,7vw,110px);align-items:end;margin-bottom:50px}
+  .location-flow-head h2{margin:0;max-width:680px;font-size:clamp(28px,2.5vw,38px);font-weight:500;line-height:1.35;letter-spacing:-.045em}
+  .location-flow-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--green)}
+  .location-step{min-height:220px;padding:24px 26px 28px 0;border-right:1px solid #dfe4df}
+  .location-step+.location-step{padding-left:26px}
+  .location-step:last-child{border-right:0}
+  .location-step-no{display:block;margin-bottom:48px;color:#a6aca2;font-size:11px;letter-spacing:.12em}
+  .location-step h3{margin:0 0 10px;font-size:19px;font-weight:600;letter-spacing:-.03em}
+  .location-step p{margin:0;color:var(--muted);font-size:13px;line-height:1.75}
+
+  .location-ending{padding:clamp(72px,8vw,116px) 0}
+  .location-ending-card{position:relative;min-height:clamp(360px,42vw,580px);overflow:hidden;border-radius:10px;background:#1f281e}
+  .location-ending-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  .location-ending-card::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,20,14,.58),rgba(15,20,14,.18) 62%,rgba(15,20,14,.1))}
+  .location-ending-copy{position:absolute;z-index:2;left:clamp(28px,5vw,72px);bottom:clamp(32px,5vw,68px);max-width:560px;color:#fff}
+  .location-ending-copy .location-section-label{color:rgba(255,255,255,.72)}
+  .location-ending-copy h2{margin:0 0 16px;font-size:clamp(30px,3.2vw,46px);font-weight:500;line-height:1.25;letter-spacing:-.045em}
+  .location-ending-copy p{max-width:480px;margin:0 0 24px;color:rgba(255,255,255,.82);font-size:14px;line-height:1.8}
+  .location-ending-copy .button{border-color:#fff;color:#fff;border-radius:0;background:transparent}
+  .location-ending-copy .button:hover{background:#fff;color:var(--green)}
+
+  @media(max-width:900px){
+    .location-hero-grid,.location-details-grid,.location-flow-head{grid-template-columns:1fr;gap:28px}
+    .location-visual img{aspect-ratio:16/9}
+    .location-flow-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .location-step:nth-child(2){border-right:0}
+    .location-step:nth-child(n+3){border-top:1px solid #dfe4df}
+  }
+  @media(max-width:620px){
+    .location-hero{padding:48px 0 42px}
+    .location-kicker{margin-bottom:22px}
+    .location-hero h1{font-size:30px}
+    .location-hero-copy h2{font-size:25px}
+    .location-visual{padding-top:28px}
+    .location-visual figure{border-radius:8px}
+    .location-visual img{aspect-ratio:4/3}
+    .location-details{padding:54px 0 66px}
+    .location-address h2{font-size:29px}
+    .location-actions{flex-direction:column}
+    .location-actions .button{width:100%}
+    .location-side-row{grid-template-columns:100px 1fr;gap:14px;padding:19px 0}
+    .location-flow{padding:56px 0}
+    .location-flow-head{margin-bottom:34px}
+    .location-flow-grid{grid-template-columns:1fr}
+    .location-step,.location-step+.location-step{min-height:0;padding:22px 0 24px;border-right:0;border-top:1px solid #dfe4df}
+    .location-step:first-child{border-top:0}
+    .location-step-no{margin-bottom:22px}
+    .location-ending{padding:56px 0}
+    .location-ending-card{min-height:440px;border-radius:8px}
+    .location-ending-card::after{background:linear-gradient(180deg,rgba(15,20,14,.08),rgba(15,20,14,.62))}
+    .location-ending-copy{left:24px;right:24px;bottom:28px}
+    .location-ending-copy h2{font-size:30px}
+  }
+</style>
 </head><body>
 <header class="site-header"><div class="container header-inner"><a class="brand brand-logo" href="index.html" aria-label="리림 홈"><img src="assets/images/relim-logo.svg" alt="RE:LIM 리림"></a><button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav"><a href="about.html">리림 소개</a><div class="nav-dropdown"><button type="button" class="nav-dropdown-toggle" aria-expanded="false"><span>안내</span><span class="nav-dropdown-arrow" aria-hidden="true"></span></button><div class="nav-dropdown-menu" aria-label="안내 메뉴"><a href="space.html">공간 안내</a><a href="guide.html">이용 안내</a><a href="reservation.html">예약 안내</a></div></div><a href="gallery.html">갤러리</a><a href="faq.html">자주 묻는 질문</a><a href="inquiry.html">문의하기</a><a href="location.html" aria-current="page">오시는 길</a></nav><a class="header-book" href="https://camfit.co.kr/camp/6a6b276b521182001db33430?keyword=%EB%A6%AC%EB%A6%BC&amp;adultCnt=2" target="_blank" rel="noopener">예약하기</a></div></header>
-<main class="page"><section class="page-hero"><div class="container"><h1>용인 리림 오시는 길</h1><p class="lead">경기도 용인시 처인구 원삼면 리림의 주소와 주차·입장 동선을 방문 전에 확인해 주세요.</p></div></section>
-<section class="section location-overview"><div class="container split"><div><img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20260929-224909-3003e126-4fb9-4066-853b-5b3710015b3a-1-ba2f9b59.webp" alt="가을 숲과 수영장이 함께 보이는 리림 전경" width="1536" height="1024" loading="eager" decoding="async"></div><div class="location-info"><p class="eyebrow">Address</p><h2>경기도 용인시 처인구 원삼면<br>보개원삼로1372번길 45</h2><p class="location-description">자가용 방문을 권장합니다. 현장에 도착하면 안내 표지에 따라 주차한 뒤 메인동 또는 입장 안내 구역으로 이동해 주세요. 원활한 이용 준비를 위해 예약 시간에 맞춰 방문해 주세요.</p><a class="button location-map-button" href="https://map.naver.com/p/entry/place/30821021?lng=127.3131001&amp;lat=37.1184942&amp;placePath=%2Fhome&amp;entry=plt&amp;searchType=place" target="_blank" rel="noopener"><span>네이버 지도에서 길찾기</span><span aria-hidden="true">↗</span></a><div class="location-contacts" aria-label="리림 문의 채널"><a class="location-contact" href="tel:01057948823"><span class="location-contact-label">고객센터</span><strong>010-5794-8823</strong><span class="location-contact-action">전화 연결 ↗</span></a><a class="location-contact" href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener"><span class="location-contact-label">예약·이용 문의</span><strong>@relimofficial</strong><span class="location-contact-action">Instagram DM ↗</span></a></div><p class="location-contact-note">당일 예약과 별도 이용 문의는 공식 인스타그램 DM을 이용해 주세요.</p><p><a class="link-arrow" href="reservation.html">리림 예약 안내 보기</a></p></div></div></section>
-<section class="section"><div class="container"><p class="eyebrow">Arrival Flow</p><div class="number-list"><div class="number-row"><span class="num">01</span><h3>주소 확인</h3><p>내비게이션에 전체 도로명 주소를 입력하고 등록된 장소명이 리림인지 확인합니다.</p></div><div class="number-row"><span class="num">02</span><h3>입구 진입</h3><p>현장 표지와 안내 동선을 따라 천천히 진입합니다.</p></div><div class="number-row"><span class="num">03</span><h3>주차</h3><p>지정된 주차 구역에 주차하고 차량 내 귀중품과 개인 물품을 확인합니다.</p></div><div class="number-row"><span class="num">04</span><h3>입장 안내</h3><p>메인동 안내 구역에서 예약 정보를 확인한 뒤 배정된 공간으로 이동합니다.</p></div></div></div></section></main>
+<main class="page location-page">
+<section class="location-hero">
+  <div class="container">
+    <p class="location-kicker">LOCATION · RE:LIM</p>
+    <div class="location-hero-grid">
+      <h1>리림 오시는 길</h1>
+      <div class="location-hero-copy">
+        <h2>숲을 지나,<br>리림으로.</h2>
+        <p>경기도 용인시 처인구 원삼면. 자연 가까이에서 하루를 보내는 리림까지의 길을 안내합니다. 방문 전 주소와 주차·입장 동선을 확인해 주세요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="location-visual">
+  <div class="container">
+    <figure><img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20260929-224909-3003e126-4fb9-4066-853b-5b3710015b3a-1-ba2f9b59.webp" alt="가을 숲과 수영장이 함께 보이는 리림 전경" width="1536" height="1024" loading="eager" decoding="async"></figure>
+  </div>
+</section>
+
+<section class="location-details">
+  <div class="container location-details-grid">
+    <div class="location-address">
+      <p class="location-section-label">ADDRESS</p>
+      <h2>경기도 용인시 처인구 원삼면<br>보개원삼로1372번길 45</h2>
+      <p>자가용 방문을 권장합니다. 현장에 도착하면 안내 표지에 따라 주차한 뒤 메인동 또는 입장 안내 구역으로 이동해 주세요. 원활한 이용을 위해 예약 시간에 맞춰 방문해 주세요.</p>
+      <div class="location-actions">
+        <a class="button" href="https://map.naver.com/p/entry/place/30821021?lng=127.3131001&amp;lat=37.1184942&amp;placePath=%2Fhome&amp;entry=plt&amp;searchType=place" target="_blank" rel="noopener">네이버 지도에서 길찾기 ↗</a>
+        <a class="button secondary" href="reservation.html">예약 안내 보기 →</a>
+      </div>
+    </div>
+    <div class="location-side">
+      <div class="location-side-row"><span>PHONE</span><a href="tel:01057948823">010-5794-8823</a></div>
+      <div class="location-side-row"><span>INSTAGRAM</span><a href="https://www.instagram.com/relimofficial/" target="_blank" rel="noopener">@relimofficial ↗</a></div>
+      <div class="location-side-row"><span>ARRIVAL</span><strong>현장 안내 표지에 따라 주차 후 입장 안내 구역으로 이동</strong></div>
+      <p class="location-side-note">당일 예약과 별도 이용 문의는 공식 인스타그램 DM을 이용해 주세요.</p>
+    </div>
+  </div>
+</section>
+
+<section class="location-flow">
+  <div class="container">
+    <div class="location-flow-head">
+      <p class="location-section-label">ARRIVAL FLOW</p>
+      <h2>도착까지,<br>네 단계면 충분합니다.</h2>
+    </div>
+    <div class="location-flow-grid">
+      <article class="location-step"><span class="location-step-no">01</span><h3>주소 확인</h3><p>내비게이션에 전체 도로명 주소를 입력하고 등록된 장소명이 리림인지 확인합니다.</p></article>
+      <article class="location-step"><span class="location-step-no">02</span><h3>입구 진입</h3><p>현장 표지와 안내 동선을 따라 천천히 진입합니다.</p></article>
+      <article class="location-step"><span class="location-step-no">03</span><h3>주차</h3><p>지정된 주차 구역에 주차하고 차량 내 귀중품과 개인 물품을 확인합니다.</p></article>
+      <article class="location-step"><span class="location-step-no">04</span><h3>입장 안내</h3><p>메인동 안내 구역에서 예약 정보를 확인한 뒤 배정된 공간으로 이동합니다.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="location-ending">
+  <div class="container">
+    <div class="location-ending-card">
+      <img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20260929-224912-8875141e-a8ed-4138-bf68-a52ee7f4fd25-5c2574aa.webp" alt="숲과 산이 펼쳐지는 리림의 가을 전경" width="1536" height="1024" loading="lazy" decoding="async">
+      <div class="location-ending-copy">
+        <p class="location-section-label">ARRIVE AT RE:LIM</p>
+        <h2>도착한 뒤에는,<br>천천히 하루를 시작하세요.</h2>
+        <p>숲과 물 가까이에서 머무는 리림의 하루가 기다리고 있습니다.</p>
+        <a class="button" href="https://camfit.co.kr/camp/6a6b276b521182001db33430?keyword=%EB%A6%AC%EB%A6%BC&amp;adultCnt=2" target="_blank" rel="noopener">예약하기 ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
 <footer class="site-footer">
   <div class="container footer-main">
     <div class="footer-identity"><img class="footer-logo" src="assets/images/relim-logo.svg" alt="RE:LIM 리림"><p>수영장·유수풀·개별 쉘터·바비큐 공간과 카페를 함께 이용하는 용인 캠프닉 아웃도어 공간입니다.</p></div>
