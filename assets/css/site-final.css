@@ -1,0 +1,36 @@
+/* RE:LIM final shared QA layer — 2026-10-01 */
+@media (min-width:901px){
+  .site-header{height:82px!important}
+  .header-inner{height:82px!important;gap:clamp(18px,2vw,30px)!important}
+  .brand-logo{width:132px!important}
+  .nav{gap:clamp(24px,2.45vw,42px)!important;margin:0 clamp(16px,2vw,34px)!important}
+  .nav>a,.nav-dropdown-toggle{font-size:16px!important;font-weight:600!important}
+  .header-book{min-width:132px!important;min-height:42px!important;height:42px!important;padding:0 18px!important;border-radius:0!important;font-size:14px!important}
+}
+.site-footer{color:var(--green,#343e2c)}
+.site-footer h3{color:var(--green,#343e2c)!important}
+.site-footer .footer-main p,.site-footer .footer-main a{color:var(--green-soft,#59614f)!important}
+.site-footer .footer-bottom{color:var(--muted,#6b746f)!important}
+main.page>.page-hero{display:block!important;padding:clamp(46px,5vw,72px) 0 36px!important}
+main.page>.page-hero h1{font-size:clamp(30px,2.6vw,38px)!important;margin-bottom:12px!important}
+main.page>.page-hero .lead{font-size:16px!important;line-height:1.7!important;max-width:760px!important}
+@media(max-width:900px){
+  .site-header,.header-inner{height:68px!important}
+  .brand-logo{width:120px!important}
+  .header-inner>.header-book{display:none!important}
+  main.page>.page-hero{padding:38px 0 28px!important}
+  main.page>.page-hero h1{font-size:29px!important}
+  main.page>.page-hero .lead{font-size:15px!important}
+  .space-guide{grid-template-columns:1fr!important;gap:28px!important}
+  .space-photo-head{grid-template-columns:1fr!important;gap:14px!important}
+}
+@media(max-width:620px){
+  .site-header,.header-inner{height:66px!important}
+  .brand-logo{width:112px!important}
+  main.page>.page-hero{padding:32px 0 24px!important}
+  main.page>.page-hero h1{font-size:26px!important}
+  .legal-page,.legal-page .container{max-width:100%!important;overflow-x:hidden!important}
+  .legal-content,.legal-section,.legal-table-wrap{max-width:100%!important}
+  .legal-page table{min-width:640px}
+  .legal-table-wrap{overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
+}
