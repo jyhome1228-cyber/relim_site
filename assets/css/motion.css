@@ -140,9 +140,7 @@ body {
 
 /* The large generic title-only blocks on sub pages are intentionally removed.
    Actual page data/content now begins immediately below the global navigation. */
-main.page > .page-hero {
-  display: none !important;
-}
+main.page > .page-hero { display: block !important; }
 
 /* First content after the removed page hero */
 main.page > .page-hero + .section {
