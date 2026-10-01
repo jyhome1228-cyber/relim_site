@@ -74,13 +74,18 @@ function initSiteMap() {
 
 initSiteMap();
 
-function initFullMapModal() {
-  const modal = document.querySelector('[data-full-map-modal]');
-  const openButtons = [...document.querySelectorAll('[data-full-map-open]')];
-  const closeButtons = modal ? [...modal.querySelectorAll('[data-full-map-close]')] : [];
+function initMapLightbox() {
+  const modal = document.querySelector('[data-map-lightbox]');
+  const openButtons = [...document.querySelectorAll('[data-map-lightbox-open]')];
+  const closeButtons = modal ? [...modal.querySelectorAll('[data-map-lightbox-close]')] : [];
+  const image = modal?.querySelector('[data-map-lightbox-image]');
+  const title = modal?.querySelector('[data-map-lightbox-title]');
+  const downloadButton = modal?.querySelector('[data-map-download]');
+  const albumButton = modal?.querySelector('[data-map-save-album]');
   let lastTrigger = null;
+  let current = { src: '', title: '', filename: 'relim-map.webp' };
 
-  if (!modal || !openButtons.length) return;
+  if (!modal || !openButtons.length || !image || !title) return;
 
   const closeModal = () => {
     modal.classList.remove('is-open');
@@ -91,21 +96,77 @@ function initFullMapModal() {
 
   const openModal = (trigger) => {
     lastTrigger = trigger;
+    current = {
+      src: trigger.dataset.mapSrc || '',
+      title: trigger.dataset.mapTitle || '지도',
+      filename: trigger.dataset.mapFilename || 'relim-map.webp'
+    };
+    image.src = current.src;
+    image.alt = current.title;
+    title.textContent = current.title;
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
-    modal.querySelector('.full-map-close')?.focus();
+    modal.querySelector('.map-lightbox-close')?.focus();
+  };
+
+  const getFile = async () => {
+    const response = await fetch(current.src, { mode: 'cors', cache: 'no-store' });
+    if (!response.ok) throw new Error('이미지를 불러오지 못했습니다.');
+    const blob = await response.blob();
+    return new File([blob], current.filename, { type: blob.type || 'image/webp' });
+  };
+
+  const downloadCurrent = async () => {
+    try {
+      const file = await getFile();
+      const url = URL.createObjectURL(file);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = current.filename;
+      document.body.append(link);
+      link.click();
+      link.remove();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1500);
+    } catch (error) {
+      console.warn('[RE:LIM MAP DOWNLOAD]', error);
+      const link = document.createElement('a');
+      link.href = current.src;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.click();
+    }
+  };
+
+  const saveToAlbum = async () => {
+    try {
+      const file = await getFile();
+      if (navigator.share && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: current.title
+        });
+        return;
+      }
+      await downloadCurrent();
+    } catch (error) {
+      if (error?.name === 'AbortError') return;
+      console.warn('[RE:LIM MAP SAVE]', error);
+      await downloadCurrent();
+    }
   };
 
   openButtons.forEach((button) => button.addEventListener('click', () => openModal(button)));
   closeButtons.forEach((button) => button.addEventListener('click', closeModal));
+  downloadButton?.addEventListener('click', downloadCurrent);
+  albumButton?.addEventListener('click', saveToAlbum);
 
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
   });
 }
 
-initFullMapModal();
+initMapLightbox();
 
 function initRoomGuide() {
   const modal = document.querySelector('[data-room-modal]');
