@@ -18,7 +18,7 @@ const CONFIG_REF = ['siteConfig', 'public'];
 const RESERVATION_URL = 'https://camfit.co.kr/camp/6a6b276b521182001db33430?keyword=%EB%A6%AC%EB%A6%BC&adultCnt=2';
 
 const DEFAULT_CONFIG = {
-  version: 3,
+  version: 4,
   home: {
     eyebrow: 'RE:LIM IN YONGIN',
     title: '숲과 물, 쉼과 식사가 이어지는 하루',
@@ -26,6 +26,44 @@ const DEFAULT_CONFIG = {
     reservationLabel: '예약하기',
     aboutLabel: '공간 둘러보기',
     heroImageUrl: ''
+  },
+  aboutStory: {
+    chapter1: {
+      eyebrow: 'ABOUT RE:LIM',
+      title: '숲을 오래 바라본 끝에,\n우리는 산을 보게 되었습니다.',
+      body1: '하나의 숲을 가꾸며 쌓아온 경험은\n자연을 바라보는 우리의 시선을 바꾸었습니다.',
+      body2: '나무에서 숲으로, 숲에서 산으로.\n그렇게 넓어진 시선이 또 하나의 공간, RE:LIM으로 이어졌습니다.',
+      imageUrl: 'https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20260929-224912-1745365d-1672-405a-80b6-69113e806d63-39e829a0.webp'
+    },
+    chapter2: {
+      eyebrow: 'THE BEGINNING',
+      title: '시작은 작은 숲이었습니다.',
+      body1: '오랫동안 조용히 머물러 있던 숲에\n사람의 손길이 닿기 시작했습니다.',
+      body2: '계절을 지나며 숲을 가꾸고 지키는 동안\n사람과 자연은 서로 관계를 맺었습니다.\n그 첫 번째 숲의 이름이 나인힐스였습니다.',
+      imageUrl: ''
+    },
+    chapter3: {
+      eyebrow: 'GROWING TOGETHER',
+      title: '숲을 돌보는 동안,\n우리의 시선도 자랐습니다.',
+      body1: '처음에는 눈앞의 나무를 돌보는 법을 배웠습니다.\n시간이 흐르며 숲의 구조를 이해하고,\n그 너머로 이어지는 산을 바라보게 되었습니다.',
+      body2: '숲을 관리하던 시선은\n새로운 공간을 생각하는 시선으로 넓어졌습니다.',
+      imageUrl: 'https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20260929-224912-8875141e-a8ed-4138-bf68-a52ee7f4fd25-5c2574aa.webp'
+    },
+    chapter4: {
+      eyebrow: 'THE SECOND FOREST',
+      title: '두 번째 숲에서\n쉼을 다시 생각했습니다.',
+      body1: '숲에서 얻은 배움은\n또 다른 공간, 레이지캠프로 이어졌습니다.',
+      body2: '조금 천천히 머물고,\n편안하게 자신에게 돌아오는 곳.\n두 번째 숲에는 느림과 회복을 담았습니다.',
+      imageUrl: ''
+    },
+    chapter5: {
+      eyebrow: 'WHY RE:LIM',
+      title: '그래서 우리는\n또 하나의 공간을 만들었습니다.',
+      body1: '숲을 돌보며 배운 것들과, 두 번째 숲에서 생각한 쉼.\n그 경험을 바탕으로 숲과 산,\n그 안에 머무는 사람의 시간을 한자리에 담고 싶었습니다.',
+      body2: '',
+      closing: '숲의 깊이, 산의 호흡, 그리고 사람의 시간.\n그렇게 RE:LIM이 시작되었습니다.',
+      imageUrl: 'https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20260929-224913-c64ae6e0-96d1-4a58-8275-dde4954366bf-5bd6b565.webp'
+    }
   },
   operation: {
     facilityName: '리림',
@@ -100,6 +138,7 @@ const pageDescription = document.querySelector('[data-page-description]');
 const TAB_META = {
   dashboard: ['Dashboard', '오늘의 리림 운영 현황과 사이트 상태를 확인합니다.'],
   homepage: ['홈페이지 관리', '메인 문구와 대표 이미지처럼 자주 바뀌는 콘텐츠를 직접 수정합니다.'],
+  about: ['어바웃 관리', '리림 브랜드 스토리 5개 챕터의 문구와 이미지를 직접 수정합니다.'],
   operation: ['운영정보', '운영시간, 이용요금, 연락처와 예약 정보를 관리합니다.'],
   content: ['콘텐츠', '공지사항, 팝업과 FAQ를 등록하고 노출 상태를 관리합니다.'],
   customer: ['고객관리', '홈페이지 문의와 가입 회원을 확인합니다.'],
@@ -232,9 +271,15 @@ function fillForms() {
   const operationForm = document.querySelector('[data-form="operation"]');
   const popupForm = document.querySelector('[data-form="popup"]');
   const settingsForm = document.querySelector('[data-form="settings"]');
-  const { home, operation, announcement, seo, links, business } = state.config;
+  const aboutForm = document.querySelector('[data-form="about"]');
+  const { home, aboutStory, operation, announcement, seo, links, business } = state.config;
 
   [['homeEyebrow', home.eyebrow], ['homeTitle', home.title], ['homeDescription', home.description], ['reservationLabel', home.reservationLabel], ['aboutLabel', home.aboutLabel], ['heroImageUrl', home.heroImageUrl]].forEach(([name, value]) => setFormValue(homeForm, name, value));
+  [1,2,3,4,5].forEach((number) => {
+    const chapter = aboutStory?.[`chapter${number}`] || {};
+    [['Eyebrow','eyebrow'],['Title','title'],['Body1','body1'],['Body2','body2'],['ImageUrl','imageUrl']].forEach(([field,key]) => setFormValue(aboutForm, `about${number}${field}`, chapter[key]));
+    if (number === 5) setFormValue(aboutForm, 'about5Closing', chapter.closing);
+  });
   [
     ['facilityName', operation.facilityName], ['phone', operation.phone], ['address', operation.address], ['email', operation.email], ['holidayNote', operation.holidayNote],
     ['morningHours', operation.morningHours], ['afternoonHours', operation.afternoonHours], ['maxPeople', operation.maxPeople], ['basePrice', operation.basePrice], ['shelterPrice', operation.shelterPrice],
@@ -250,6 +295,7 @@ function fillForms() {
     ['businessNumber', business.businessNumber], ['tourismNumber', business.tourismNumber], ['businessAddress', business.address], ['businessEmail', business.email]
   ].forEach(([name, value]) => setFormValue(settingsForm, name, value));
   renderHeroPreview();
+  renderAboutPreviews();
 }
 
 async function loadConfig() {
@@ -269,7 +315,7 @@ async function loadConfig() {
 
 async function saveConfig(message) {
   if (!auth?.currentUser || !isAdmin(auth.currentUser)) throw new Error('관리자 권한이 없습니다.');
-  state.config.version = 3;
+  state.config.version = 4;
   state.config.updatedAt = Timestamp.now();
   state.config.updatedBy = auth.currentUser.email || '';
   await setDoc(doc(db, ...CONFIG_REF), state.config);
@@ -300,6 +346,32 @@ function renderHeroPreview() {
   preview.append(image);
 }
 
+function renderAboutPreviews() {
+  [1,2,3,4,5].forEach((number) => {
+    const preview = document.querySelector(`[data-preview="about${number}"]`);
+    if (!preview) return;
+    preview.replaceChildren();
+    const url = clean(state.config.aboutStory?.[`chapter${number}`]?.imageUrl);
+    if (!url) {
+      const span = document.createElement('span');
+      span.textContent = (number === 2 || number === 4) ? '이미지 미등록 시 기본 타이포 카드가 표시됩니다.' : '현재 사이트 기본 이미지를 사용합니다.';
+      preview.append(span);
+      return;
+    }
+    const image = document.createElement('img');
+    image.src = url;
+    image.alt = `어바웃 챕터 ${number} 이미지 미리보기`;
+    image.addEventListener('error', () => {
+      preview.replaceChildren();
+      const span = document.createElement('span');
+      span.textContent = '이미지를 불러오지 못했습니다.';
+      preview.append(span);
+    });
+    preview.append(image);
+  });
+}
+
+
 function bindForms() {
   document.querySelector('[data-form="homepage"]')?.addEventListener('submit', async (event) => {
     event.preventDefault();
@@ -316,6 +388,29 @@ function bindForms() {
     };
     await saveForm(form, '홈페이지 콘텐츠를 저장했습니다.');
     renderHeroPreview();
+  });
+
+
+  document.querySelector('[data-form="about"]')?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const next = { ...(state.config.aboutStory || {}) };
+    [1,2,3,4,5].forEach((number) => {
+      const current = next[`chapter${number}`] || {};
+      next[`chapter${number}`] = {
+        ...current,
+        eyebrow: clean(data.get(`about${number}Eyebrow`)),
+        title: clean(data.get(`about${number}Title`)),
+        body1: clean(data.get(`about${number}Body1`)),
+        body2: clean(data.get(`about${number}Body2`)),
+        imageUrl: clean(data.get(`about${number}ImageUrl`))
+      };
+      if (number === 5) next.chapter5.closing = clean(data.get('about5Closing'));
+    });
+    state.config.aboutStory = next;
+    await saveForm(form, '어바웃 콘텐츠를 저장했습니다.');
+    renderAboutPreviews();
   });
 
   document.querySelector('[data-form="operation"]')?.addEventListener('submit', async (event) => {
@@ -398,7 +493,8 @@ function bindUploads() {
     input.addEventListener('change', async () => {
       const file = input.files?.[0];
       if (!file) return;
-      const status = document.querySelector(`[data-upload-status="${input.dataset.upload}"]`);
+      const key = input.dataset.upload;
+      const status = document.querySelector(`[data-upload-status="${key}"]`);
       if (!file.type.startsWith('image/')) return void (status && (status.textContent = '이미지 파일만 업로드할 수 있습니다.'));
       if (file.size > 10 * 1024 * 1024) return void (status && (status.textContent = '이미지는 10MB 이하로 업로드해 주세요.'));
       if (!storage || !auth?.currentUser) return void (status && (status.textContent = 'Firebase Storage를 사용할 수 없습니다.'));
@@ -406,13 +502,25 @@ function bindUploads() {
       input.disabled = true;
       if (status) status.textContent = '이미지를 업로드하고 있습니다...';
       try {
-        const target = storageRef(storage, `cms/home/${safeFilename(file)}`);
+        const isHero = key === 'hero';
+        const aboutMatch = key.match(/^about([1-5])$/);
+        const folder = isHero ? 'cms/home' : (aboutMatch ? `cms/about/chapter${aboutMatch[1]}` : 'cms/misc');
+        const target = storageRef(storage, `${folder}/${safeFilename(file)}`);
         await uploadBytes(target, file, { contentType: file.type });
         const url = await getDownloadURL(target);
-        state.config.home.heroImageUrl = url;
-        setFormValue(document.querySelector('[data-form="homepage"]'), 'heroImageUrl', url);
-        renderHeroPreview();
-        if (status) status.textContent = '업로드 완료. 홈페이지 저장 버튼을 눌러 적용해 주세요.';
+
+        if (isHero) {
+          state.config.home.heroImageUrl = url;
+          setFormValue(document.querySelector('[data-form="homepage"]'), 'heroImageUrl', url);
+          renderHeroPreview();
+        } else if (aboutMatch) {
+          const number = Number(aboutMatch[1]);
+          state.config.aboutStory = state.config.aboutStory || {};
+          state.config.aboutStory[`chapter${number}`] = { ...(state.config.aboutStory[`chapter${number}`] || {}), imageUrl: url };
+          setFormValue(document.querySelector('[data-form="about"]'), `about${number}ImageUrl`, url);
+          renderAboutPreviews();
+        }
+        if (status) status.textContent = '업로드 완료. 저장 버튼을 눌러 사이트에 적용해 주세요.';
       } catch (error) {
         console.error('[RE:LIM CMS UPLOAD]', error);
         if (status) status.textContent = '업로드에 실패했습니다. Storage 규칙을 확인하거나 이미지 URL을 직접 입력해 주세요.';
