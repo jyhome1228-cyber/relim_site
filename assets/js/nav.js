@@ -172,6 +172,7 @@ function initRelimNavigation() {
   if (!nav || !menuButton || nav.dataset.relimNavReady === 'true') return;
 
   nav.dataset.relimNavReady = 'true';
+  if (!nav.querySelector('.nav-mobile-actions')) createMobileActions(nav);
 
   const syncMobileOpenState = () => {
     const open = menuButton.getAttribute('aria-expanded') === 'true';
