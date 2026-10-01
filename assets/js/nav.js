@@ -1,6 +1,13 @@
-import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
+// Editorial pages own their layout. Keep legacy CMS/motion DOM rewriting off
+// these pages while retaining the shared menu, footer helpers and analytics.
+const isEditorialLayout = document.body?.dataset.relimLayout === 'editorial';
+if (!isEditorialLayout) {
+  import('./member-sync.js').catch((error) => console.error('[RE:LIM MEMBER SYNC]', error));
+  import('./motion.js?v=20260831-system2').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
+} else {
+  import('./traffic-attribution.js?v=20260911-attribution1').catch((error) => console.warn('[RE:LIM ATTRIBUTION LOAD]', error));
+}
 import('./traffic.js').catch((error) => console.warn('[RE:LIM TRAFFIC LOAD]', error));
-import('./motion.js?v=20260831-system2').catch((error) => console.warn('[RE:LIM MOTION LOAD]', error));
 // reservation announcement banner disabled during redesign
 
 if (document.querySelector('[data-reviews-page]')) {
