@@ -36,6 +36,52 @@
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/nav-dropdown.css?v=20261001-headerfinal">
+
+<style>
+/* RE:LIM map switcher */
+.space-map-block{margin-top:42px}
+.space-map-toolbar{display:flex;align-items:end;justify-content:space-between;gap:28px;margin-bottom:18px;padding-bottom:16px;border-bottom:1px solid var(--green)}
+.space-map-toolbar>div{display:grid;gap:5px}
+.space-map-kicker{color:var(--muted);font-size:10px;font-weight:700;letter-spacing:.15em}
+.space-map-toolbar strong{font-size:16px;font-weight:650;letter-spacing:-.02em}
+.space-map-expand{display:inline-flex;align-items:center;gap:22px;min-height:42px;padding:0 0 5px;border:0;border-bottom:1px solid var(--green);background:transparent;color:var(--green);font-size:12px;font-weight:650;cursor:pointer}
+.space-map-expand:hover{opacity:.62}
+.space-map-block .room-map{overflow:hidden;border-radius:10px;background:#f4f6f1}
+.space-map-block .room-map-canvas img{display:block;width:100%;height:auto;aspect-ratio:1670/942;object-fit:contain;background:#eef4e9}
+
+.full-map-modal{position:fixed;z-index:260;inset:0;display:none;align-items:center;justify-content:center;padding:clamp(14px,3vw,42px)}
+.full-map-modal.is-open{display:flex}
+.full-map-backdrop{position:absolute;inset:0;background:rgba(18,24,17,.78);backdrop-filter:blur(8px)}
+.full-map-dialog{position:relative;z-index:1;width:min(1380px,100%);max-height:calc(100dvh - clamp(28px,6vw,84px));overflow:auto;padding:clamp(26px,3.2vw,48px);background:#fff;box-shadow:0 28px 90px rgba(0,0,0,.28)}
+.full-map-close{position:sticky;z-index:4;top:0;float:right;width:44px;height:44px;margin:-6px -6px 0 20px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--green);font-size:26px;font-weight:300;line-height:1;cursor:pointer}
+.full-map-close:hover{background:var(--green);color:#fff}
+.full-map-head{display:grid;grid-template-columns:minmax(220px,.55fr) minmax(320px,1fr);gap:clamp(36px,6vw,90px);align-items:end;margin-bottom:28px;padding-right:56px}
+.full-map-head h2{margin:0;font-size:clamp(26px,2.2vw,34px);font-weight:600}
+.full-map-head p:last-child{max-width:620px;margin:0;color:var(--muted);font-size:13px;line-height:1.75}
+.full-map-image-wrap{width:100%;overflow:auto;border:1px solid var(--line);background:#f7f8f5}
+.full-map-image-wrap img{display:block;width:100%;height:auto;min-width:900px}
+.full-map-footer{display:flex;justify-content:flex-end;margin-top:20px}
+
+@media(max-width:900px){
+  .space-map-toolbar{align-items:flex-start}
+  .full-map-head{grid-template-columns:1fr;gap:12px}
+  .full-map-image-wrap img{min-width:760px}
+}
+@media(max-width:620px){
+  .space-map-block{margin-top:30px}
+  .space-map-toolbar{align-items:stretch;flex-direction:column;gap:14px}
+  .space-map-expand{align-self:flex-start}
+  .space-map-block .room-map{border-radius:8px}
+  .full-map-modal{padding:0}
+  .full-map-dialog{width:100%;height:100dvh;max-height:none;padding:22px 20px 28px}
+  .full-map-head{padding-right:0;margin-bottom:20px}
+  .full-map-close{position:sticky;top:0;margin:0 0 12px auto;float:none;display:block}
+  .full-map-image-wrap{max-height:calc(100dvh - 260px)}
+  .full-map-image-wrap img{min-width:720px}
+  .full-map-footer .button{width:100%}
+}
+</style>
+
 </head>
 <body>
 <header class="site-header"><div class="container header-inner"><a class="brand brand-logo" href="index.html" aria-label="리림 홈"><img src="assets/images/relim-logo.svg" alt="RE:LIM 리림"></a><button class="menu-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button><nav class="nav"><a href="about.html">리림 소개</a><div class="nav-dropdown"><button type="button" class="nav-dropdown-toggle" aria-current="page" aria-expanded="false"><span>안내</span><span class="nav-dropdown-arrow" aria-hidden="true"></span></button><div class="nav-dropdown-menu" aria-label="안내 메뉴"><a href="space.html" aria-current="page">공간 안내</a><a href="guide.html">이용 안내</a><a href="reservation.html">예약 안내</a></div></div><a href="gallery.html">갤러리</a><a href="faq.html">자주 묻는 질문</a><a href="inquiry.html">문의하기</a><a href="location.html">오시는 길</a></nav><a class="header-book" href="https://camfit.co.kr/camp/6a6b276b521182001db33430?keyword=%EB%A6%AC%EB%A6%BC&amp;adultCnt=2" target="_blank" rel="noopener">예약하기</a></div></header>
@@ -49,7 +95,17 @@
       <h2>리림의 공간을<br>한눈에 살펴보세요.</h2>
       <p>수영장과 유수풀을 중심으로 1–23번 개별 쉘터가 배치되어 있습니다. 모든 쉘터는 동일한 형태로 운영되며, 예약 확정 후 안내받은 번호의 위치를 지도에서 확인해 주세요.</p>
     </div>
-    <div class="room-map" aria-label="용인 리림 쉘터 배치도"><div class="room-map-canvas"><img src="assets/images/relim-site-map-final.svg?v=20260731d" alt="용인 리림 수영장과 1번부터 23번까지 개별 쉘터 위치가 표시된 시설 안내도" width="2306" height="1272"></div></div>
+    <div class="space-map-block">
+    <div class="space-map-toolbar">
+      <div><span class="space-map-kicker">RE:LIM MAP</span><strong>리림 시설 지도</strong></div>
+      <button class="space-map-expand" type="button" data-full-map-open>전체 지도 보기 <span aria-hidden="true">↗</span></button>
+    </div>
+    <div class="room-map" aria-label="리림 시설 안내 지도">
+      <div class="room-map-canvas">
+        <img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20261001-160731-f618a5ed-2eee-4e4c-a6da-370b95106208-9ebad318.webp" alt="리림 수영장과 개별 쉘터, 주요 동선이 표시된 시설 지도" width="1670" height="942" loading="eager" decoding="async">
+      </div>
+    </div>
+  </div>
     <div class="space-guide">
       <div class="space-guide-copy"><p class="eyebrow">SPACE INFORMATION</p><h3>번호가 달라도,<br>쉘터의 구성은 같습니다.</h3><p>각 팀은 독립된 개별 쉘터를 이용하며, 물놀이와 바비큐, 휴식을 한 공간에서 편안하게 즐길 수 있습니다. 지도는 예약한 쉘터의 위치와 주요 시설의 동선을 확인하는 용도로 이용해 주세요.</p></div>
       <dl class="space-guide-list">
@@ -73,6 +129,21 @@
     </div>
   </div>
 </section>
+
+<div class="full-map-modal" data-full-map-modal aria-hidden="true">
+  <div class="full-map-backdrop" data-full-map-close></div>
+  <div class="full-map-dialog" role="dialog" aria-modal="true" aria-labelledby="fullMapTitle">
+    <button class="full-map-close" type="button" data-full-map-close aria-label="전체 지도 닫기">×</button>
+    <div class="full-map-head">
+      <div><p class="eyebrow">FULL MAP</p><h2 id="fullMapTitle">전체 시설 지도</h2></div>
+      <p>리림과 주변 시설의 전체 배치를 확인할 수 있습니다. 모바일에서는 지도를 위아래로 이동하며 확인해 주세요.</p>
+    </div>
+    <div class="full-map-image-wrap">
+      <img src="https://nineworksdatabase.planus253.workers.dev/cdn/uncategorized/20261001-160732-image-cbb1ce75.webp" alt="리림과 주변 시설이 함께 표시된 전체 지도" width="2543" height="2000" loading="lazy" decoding="async">
+    </div>
+    <div class="full-map-footer"><button class="button" type="button" data-full-map-close>닫기</button></div>
+  </div>
+</div>
 
 <div class="room-modal" data-room-modal aria-hidden="true">
   <div class="room-modal-backdrop" data-room-close></div>
