@@ -177,6 +177,27 @@ function initRelimNavigation() {
     syncMobileOpenState();
   });
 
+  const dropdown = nav.querySelector('.nav-dropdown');
+  const dropdownButton = nav.querySelector('.nav-dropdown-toggle');
+  const setDropdown = (open) => {
+    if (!dropdown || !dropdownButton) return;
+    dropdown.classList.toggle('is-open', open);
+    dropdownButton.setAttribute('aria-expanded', String(open));
+  };
+  dropdownButton?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    setDropdown(!dropdown.classList.contains('is-open'));
+  });
+  dropdown?.addEventListener('mouseenter', () => {
+    if (window.matchMedia('(min-width: 901px)').matches) setDropdown(true);
+  });
+  dropdown?.addEventListener('mouseleave', () => {
+    if (window.matchMedia('(min-width: 901px)').matches) setDropdown(false);
+  });
+  document.addEventListener('click', (event) => {
+    if (dropdown && !dropdown.contains(event.target)) setDropdown(false);
+  });
+
   nav.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       if (!window.matchMedia('(max-width: 900px)').matches) return;
@@ -188,6 +209,7 @@ function initRelimNavigation() {
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
+    setDropdown(false);
     nav.classList.remove('is-open');
     menuButton.setAttribute('aria-expanded', 'false');
     document.body.classList.remove('mobile-nav-open');
