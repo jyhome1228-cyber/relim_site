@@ -17,12 +17,19 @@ function stripReviewUi() {
 }
 
 function ensureNoticeLink() {
-  const dropdown = document.querySelector('.nav-dropdown-menu');
-  if (!dropdown || dropdown.querySelector('a[href="notice.html"]')) return;
+  const nav = document.querySelector('.nav');
+  if (!nav) return;
+
+  nav.querySelectorAll('.nav-dropdown-menu a[href="notice.html"]').forEach((link) => link.remove());
+
+  if (nav.querySelector(':scope > a[href="notice.html"]')) return;
+  const inquiry = nav.querySelector(':scope > a[href="inquiry.html"]');
   const link = document.createElement('a');
   link.href = 'notice.html';
   link.textContent = '공지사항';
-  dropdown.append(link);
+  if (inquiry?.nextSibling) nav.insertBefore(link, inquiry.nextSibling);
+  else if (inquiry) inquiry.after(link);
+  else nav.append(link);
 }
 
 function setMultiline(element, value) {
